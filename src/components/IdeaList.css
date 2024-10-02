@@ -1,0 +1,64 @@
+/* src/components/IdeaList.css */
+.idea-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .idea-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+ }
+ 
+ .idea-item:hover {
+    box-shadow: 0px 6px 12px rgba(0,0,0,0.15);
+ }
+  .idea-content {
+    flex-grow: 1;
+  }
+  
+  .button-container {
+    display: flex; /* Use flexbox to align buttons */
+    gap: 5px; /* Reduce space between buttons */
+  }
+  
+  .edit-btn, .delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 7px; /* Add padding for better click area */
+    border-radius: 3px; /* Slightly round the corners */
+  }
+  
+  .edit-btn {
+    color: #0000ff; /* Color for the edit button */
+  }
+  
+  .delete-btn {
+    color: #ff0000; /* Color for the delete button */
+  }
+  
+  /* Add hover effects */
+  .edit-btn:hover, .delete-btn:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+  }
+  
+  .edit-btn:hover {
+    color: #0000aa; /* Darker blue on hover */
+  }
+  
+  .delete-btn:hover {
+    color: #c00000; /* Darker red on hover */
+  }
+
+  h2 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 24px; /* Heading size */
+  }
+  
