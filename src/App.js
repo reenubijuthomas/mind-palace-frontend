@@ -74,9 +74,6 @@ const App = () => {
   return (
     <div>
       <h1>Mind Palace</h1>
-      {/* Pass editingIdea and onUpdateIdea to IdeaForm */}
-      <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
-      <h2>View Ideas</h2>
       {/* Search bar */}
       <div className="search-bar">
         <FontAwesomeIcon icon={faSearch} className="search-icon" />
@@ -87,6 +84,9 @@ const App = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      {/* Pass editingIdea and onUpdateIdea to IdeaForm */}
+      <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+      <h2>View Ideas</h2>
       {/* Pass handleEdit to IdeaList */}
       <IdeaList ideas={filteredIdeas} handleDelete={handleDelete} handleEdit={handleEdit} />
     </div>
