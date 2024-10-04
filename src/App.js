@@ -73,7 +73,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Mind Palace</h1>
+      <div class="header">Mind Palace</div>
       {/* Search bar */}
       <div className="search-bar">
         <FontAwesomeIcon icon={faSearch} className="search-icon" />
