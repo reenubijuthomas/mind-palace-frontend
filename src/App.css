@@ -1,81 +1,74 @@
 /* src/App.css */
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #F8F1F1;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  /* h1 {
-    text-align: center;
-    color: #343a40;
-  } */
-
-  .header {
-    background-color: #644684; /* Dark purple color */
-    color: white; /* White text color */
-    text-align: center; /* Center the text */
-    padding: 15px; /* Padding around the text */
-    font-size: 30px; /* Increase the font size */
-    font-weight: bold; /* Make the text bold */
-    border-radius: 8px; /* Rounded corners */
-    margin-bottom: 20px; /* Space below the header */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
-  }
-  
-  .header span {
-    font-family: 'Arial', sans-serif; /* Set the font family */
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  input,
-textarea {
-   margin: 5px 0;
-   padding: 12px;
-   border: 1px solid #ced4da;
-   border-radius: 8px;
-   box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-   font-size: 16px;
+  font-family: Arial, sans-serif;
+  background-color: #ffe6f0;
+  margin: 0;
+  padding: 20px;
 }
-  
+
+h1 {
+  text-align: center;
+  color: #343a40;
+}
+
+.header-container {
+  background-color:  #42337ed2; /* Background color for the header */
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  width: 100%; /* Full width */
+  margin-bottom: 20px; /* Space below the header */
+}
+
+.mind-palace-title {
+  color: white; /* Text color for the title */
+  margin: 0; /* Remove default margin */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+input,
+textarea {
+  margin: 5px 0;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
 button {
   padding: 12px 20px;
-  background-color: #644684;
+  background-color: #42337ed2;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #644686;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  background-color: #7666b7d2;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px 0;
-    background-color: white;
-  }
-  
-  /* src/App.css */
 
-/* src/App.css */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: white;
+}
 
 .search-bar {
   position: relative; /* Allows for absolute positioning of the icon */
@@ -98,6 +91,3 @@ button:hover {
   color: #888;
   font-size: 18px; /* Adjust size as needed */
 }
-
-
-
