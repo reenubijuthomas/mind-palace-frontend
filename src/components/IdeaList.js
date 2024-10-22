@@ -2,7 +2,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import './IdeaList.css'; // Create this CSS file to add custom styles
+import './IdeaList.css';
 
 const IdeaList = ({ ideas, handleDelete, handleEdit }) => {
   return (
@@ -15,11 +15,9 @@ const IdeaList = ({ ideas, handleDelete, handleEdit }) => {
               <p>{idea.description}</p>
             </div>
             <div className="idea-actions">
-              {/* Edit button with pencil icon */}
               <button className="edit-btn" onClick={() => handleEdit(idea)}>
                 <FontAwesomeIcon icon={faEdit} />
               </button>
-              {/* Delete button with trash icon */}
               <button className="delete-btn" onClick={() => handleDelete(idea.id)}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
