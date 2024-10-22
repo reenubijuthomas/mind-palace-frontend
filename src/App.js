@@ -29,12 +29,19 @@ const App = () => {
 
   const handleAddIdea = async (newIdea) => {
     try {
-      const response = await axios.post('http://localhost:5050/api/ideas', newIdea);
-      setIdeas((prevIdeas) => [...prevIdeas, response.data]);
+      const ideaWithCreator = { 
+        ...newIdea, 
+        createdBy: userId, // Add the userId here
+        username: username // Add the username here
+      };
+      const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
+      response.data.username = username
+      // Add the new idea to the beginning of the list
+      setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
-  };
+  };  
 
   const handleLogin = async (username, password) => {
     try {
@@ -42,6 +49,11 @@ const App = () => {
       console.log('Login response:', response.data); // Debugging line
       if (response.data.message === 'Login successful') {
         setIsAuthenticated(true);
+        
+        // Save userId and username in state
+        setUserId(response.data.userId); // Assuming you have a state for userId
+        setUsername(response.data.username); // Assuming you have a state for username
+        
         return true; // Indicate successful login
       }
     } catch (error) {
@@ -49,6 +61,10 @@ const App = () => {
       return false; // Indicate failed login
     }
   };
+  
+  // Add state for userId and username
+  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState('');
 
   const handleDelete = async (id) => {
     try {
@@ -68,6 +84,24 @@ const App = () => {
       setEditingIdea(null); // Reset editing state after update
     } catch (error) {
       console.error('Error updating idea:', error);
+    }
+  };
+
+  const handleLike = async (id) => {
+    try {
+      await axios.post(`http://localhost:5050/api/ideas/${id}/like`);
+      const response = await axios.get(`http://localhost:5050/api/ideas/${id}`);
+      
+      console.log('Updated Idea Data:', response.data); // Log the fetched updated data
+  
+      setIdeas((prevIdeas) => {
+        console.log('Previous Ideas:', prevIdeas); // Log the previous state
+        return prevIdeas.map((idea) =>
+          idea.id === id ? { ...idea, ...response.data } : idea
+        );
+      });
+    } catch (error) {
+      console.error('Error liking idea:', error);
     }
   };
 
@@ -106,7 +140,13 @@ const App = () => {
             <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
           </div>
           <h2>View Ideas</h2>
-          <IdeaList ideas={filteredIdeas} handleDelete={handleDelete} handleEdit={handleEdit} />
+          <IdeaList 
+            ideas={filteredIdeas} 
+            handleDelete={handleDelete} 
+            handleEdit={handleEdit} 
+            handleLike={handleLike} // Add this line
+          />
+        
           {/* Logout Button */}
           <button onClick={handleLogout} style={{ marginTop: '20px', padding: '10px', borderRadius: '8px', backgroundColor: '#dc3545', color: 'white', border: 'none' }}>
             Logout
