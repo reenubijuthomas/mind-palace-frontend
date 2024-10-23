@@ -201,6 +201,7 @@
 
 .delete-comment-btn:hover {
   color: #c00000; /* Darker red on hover */
+  background-color: #f0f0f0;
 }
 
 

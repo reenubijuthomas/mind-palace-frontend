@@ -76,12 +76,17 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
               <p>{idea.description}</p>
             </div>
             <div className="idea-actions">
-              <button className="edit-btn" onClick={() => handleEdit(idea)}>
-                <FontAwesomeIcon icon={faEdit} />
-              </button>
-              <button className="delete-btn" onClick={() => handleDelete(idea.id)}>
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
+              {/* Conditionally render the edit and delete buttons if the logged-in user is the creator */}
+              {userId === idea.createdBy && (
+                <>
+                  <button className="edit-btn" onClick={() => handleEdit(idea)}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button className="delete-btn" onClick={() => handleDelete(idea.id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Likes and Comments Section */}
@@ -120,9 +125,12 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
                     <li key={comment.id}>
                       <strong>{comment.username}</strong>: {comment.comment}
                       {/* Delete button for each comment */}
-                      <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment.id, idea.id)}>
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
+                      {/* Conditionally render the delete button if the logged-in user is the comment's creator */}
+                      {userId === comment.commentedBy && (
+                        <button className="delete-comment-btn" onClick={() => handleDeleteComment(comment.id, idea.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
