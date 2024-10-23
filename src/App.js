@@ -5,13 +5,16 @@ import IdeaList from './components/IdeaList';
 import Login from './components/Login'; // Import Login component
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUserCircle, faCog, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingIdea, setEditingIdea] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to manage authentication
+  const [userId, setUserId] = useState(null); // Add state for userId
+  const [username, setUsername] = useState(''); // Add state for username
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Add state for dropdown
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -35,7 +38,7 @@ const App = () => {
         username: username // Add the username here
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
-      response.data.username = username
+      response.data.username = username;
       // Add the new idea to the beginning of the list
       setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
     } catch (error) {
@@ -51,8 +54,8 @@ const App = () => {
         username: username // Add the username here
       };
       const response = await axios.put(`http://localhost:5050/api/ideas/${updatedIdea.id}`, ideaWithCreator);
-      response.data.username = username
-      console.log(response.data)
+      response.data.username = username;
+      console.log(response.data);
       setIdeas((prevIdeas) =>
         prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
       );
@@ -68,11 +71,9 @@ const App = () => {
       console.log('Login response:', response.data); // Debugging line
       if (response.data.message === 'Login successful') {
         setIsAuthenticated(true);
-        
         // Save userId and username in state
         setUserId(response.data.userId); // Assuming you have a state for userId
         setUsername(response.data.username); // Assuming you have a state for username
-        
         return true; // Indicate successful login
       }
     } catch (error) {
@@ -80,10 +81,6 @@ const App = () => {
       return false; // Indicate failed login
     }
   };
-  
-  // Add state for userId and username
-  const [userId, setUserId] = useState(null);
-  const [username, setUsername] = useState('');
 
   const handleDelete = async (id) => {
     try {
@@ -98,15 +95,11 @@ const App = () => {
     try {
       await axios.post(`http://localhost:5050/api/ideas/${id}/like`);
       const response = await axios.get(`http://localhost:5050/api/ideas/${id}`);
-      
-      console.log('Updated Idea Data:', response.data); // Log the fetched updated data
-  
-      setIdeas((prevIdeas) => {
-        console.log('Previous Ideas:', prevIdeas); // Log the previous state
-        return prevIdeas.map((idea) =>
+      setIdeas((prevIdeas) =>
+        prevIdeas.map((idea) =>
           idea.id === id ? { ...idea, ...response.data } : idea
-        );
-      });
+        )
+      );
     } catch (error) {
       console.error('Error liking idea:', error);
     }
@@ -127,13 +120,36 @@ const App = () => {
     setIsAuthenticated(false);
   };
 
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="app-container"> {/* Added class for styling */}
-      <div className="header-container"> {/* Added a container for the heading */}
-        <h1 className="mind-palace-title">Mind Palace</h1> {/* Added class for styling */}
-      </div>
       {isAuthenticated ? (
         <>
+          {/* Navigation Bar */}
+          <nav className="navbar">
+            <h1 className="navbar-title">Mind Palace</h1> {/* Centered title with white color */}
+            <div className="nav-user" onClick={toggleDropdown}> {/* Username and dropdown trigger */}
+              <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
+              <span>{username}</span>
+              {dropdownOpen && ( // Conditionally render dropdown
+                <div className="dropdown">
+                 
+                  <a href="#settings" className="dropdown-item">
+                    <FontAwesomeIcon icon={faCog} /> Settings
+                  </a>
+                  <a href="#help" className="dropdown-item">
+                    <FontAwesomeIcon icon={faQuestionCircle} /> Help
+                  </a>
+                  <button onClick={handleLogout} className="dropdown-logout-button">Logout</button>
+                </div>
+              )}
+            </div>
+          </nav>
+
           <div className="search-bar">
             <FontAwesomeIcon icon={faSearch} className="search-icon" />
             <input
@@ -143,9 +159,11 @@ const App = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+          
           <div className="input-container"> {/* Added container for IdeaForm */}
             <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
           </div>
+
           <h2>View Ideas</h2>
           <IdeaList 
             ideas={filteredIdeas} 
@@ -155,11 +173,6 @@ const App = () => {
             userId={userId} // Pass userId as a prop
             username={username} // Pass username as a prop
           />
-        
-          {/* Logout Button */}
-          <button onClick={handleLogout} style={{ marginTop: '20px', padding: '10px', borderRadius: '8px', backgroundColor: '#dc3545', color: 'white', border: 'none' }}>
-            Logout
-          </button>
         </>
       ) : (
         <Login onLogin={handleLogin} /> // Show the login component if not authenticated

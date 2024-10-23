@@ -8,7 +8,6 @@ body {
   overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-
 h1 {
   text-align: center;
   color: #343a40;
@@ -110,4 +109,111 @@ li {
   transform: translateY(-50%); /* Adjust for vertical centering */
   color: #888;
   font-size: 18px; /* Adjust size as needed */
+}
+
+.nav-item {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+
+.nav-user span {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+
+.dropdown p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.dropdown-logout-button {
+  margin-top: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdown-logout-button:hover {
+  background-color: #c82333;
+}
+
+/* App.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #42337ed2; /* Assuming this is your desired color */
+  padding: 0px;
+  font-size: 25px;
+}
+
+.navbar-title {
+  color: white; /* Change text color to white */
+  flex: 1; /* Allow the title to take up space */
+  text-align: center; /* Center align the title */
+}
+
+/* Add margin to the username in the navbar */
+.nav-user {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 0 15px; /* Add horizontal padding for natural spacing */
+  position: relative; /* Allow dropdown positioning */
+}
+
+/* Increase dropdown size */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%; /* Position below the user icon */
+  background: white; /* Background color for the dropdown */
+  border: 1px solid #ccc;
+  z-index: 1000; /* Ensure dropdown is above other elements */
+  font-size: 15px;
+  min-width: 150px; /* Minimum width to make it larger */
+  border-radius: 8px;
+}
+
+/* Center the logout button */
+.dropdown-logout-button {
+  margin-top: 15px; /* Increase the top margin */
+  margin-left: auto; /* Center it horizontally */
+  margin-right: auto; /* Center it horizontally */
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block; /* Make the button a block element */
+  text-align: center; /* Center text inside the button */
+}
+
+/* Adjust dropdown items for better spacing */
+.dropdown-item {
+  display: block; /* Stack items vertically */
+  padding: 10px;
+  color: black; /* Text color for dropdown items */
+  text-align: left; /* Align text to the left */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0; /* Highlight on hover */
 }
