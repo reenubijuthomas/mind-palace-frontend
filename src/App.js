@@ -41,7 +41,26 @@ const App = () => {
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
-  };  
+  }; 
+  
+  const handleUpdateIdea = async (updatedIdea) => {
+    try {
+      const ideaWithCreator = { 
+        ...updatedIdea, 
+        createdBy: userId, // Add the userId here
+        username: username // Add the username here
+      };
+      const response = await axios.put(`http://localhost:5050/api/ideas/${updatedIdea.id}`, ideaWithCreator);
+      response.data.username = username
+      console.log(response.data)
+      setIdeas((prevIdeas) =>
+        prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
+      );
+      setEditingIdea(null); // Reset editing state after update
+    } catch (error) {
+      console.error('Error updating idea:', error);
+    }
+  };
 
   const handleLogin = async (username, password) => {
     try {
@@ -72,18 +91,6 @@ const App = () => {
       setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
     } catch (error) {
       console.error('Error deleting idea:', error);
-    }
-  };
-
-  const handleUpdateIdea = async (updatedIdea) => {
-    try {
-      const response = await axios.put(`http://localhost:5050/api/ideas/${updatedIdea.id}`, updatedIdea);
-      setIdeas((prevIdeas) =>
-        prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
-      );
-      setEditingIdea(null); // Reset editing state after update
-    } catch (error) {
-      console.error('Error updating idea:', error);
     }
   };
 
@@ -144,7 +151,9 @@ const App = () => {
             ideas={filteredIdeas} 
             handleDelete={handleDelete} 
             handleEdit={handleEdit} 
-            handleLike={handleLike} // Add this line
+            handleLike={handleLike} 
+            userId={userId} // Pass userId as a prop
+            username={username} // Pass username as a prop
           />
         
           {/* Logout Button */}

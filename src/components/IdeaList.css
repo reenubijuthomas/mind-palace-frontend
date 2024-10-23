@@ -83,12 +83,38 @@
   color: #666; /* Softer color for the date */
 }
 
-.idea-likes {
+.idea-likes-comments {
   display: flex;
-  align-items: center; /* Center the like button vertically */
-  margin-top: 10px; /* Space above the likes section */
+  align-items: center;
 }
 
+.like-section {
+  margin-right: 10px;
+}
+
+.comment-toggle-section {
+  display: inline-block;
+}
+
+.comment-toggle-btn {
+  background-color: #f0f0f0; /* Same as the like button */
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.comment-toggle-btn:hover {
+  background-color: #d8d8d8;
+}
+
+.likes-count {
+  margin-left: 5px; /* Space between icon and count */
+  color: #555; /* Color for the likes count */
+  font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Hover effect for the like button */
 .like-btn {
   background: #f0f0f0; /* Light background for the button */
   border: none;
@@ -100,16 +126,82 @@
   align-items: center; /* Aligns the icon and count vertically */
   padding: 2px 5px; /* Reduced padding for a smaller button */
   height: 30px; /* Fixed height for the button */
-  width: 50px; /* Fixed width for a smaller button */
+  width: 43px; /* Fixed width for a smaller button */
 }
 
-.likes-count {
-  margin-left: 5px; /* Space between icon and count */
-  color: #555; /* Color for the likes count */
-  font-size: 14px; /* Adjust font size as needed */
-}
-
-/* Hover effect for the like button */
 .like-btn:hover {
   background-color: #e0e0e0; /* Darker background on hover */
 }
+
+.comments-section {
+  margin-top: 10px;
+}
+
+.comments-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.comments-list li {
+  margin-bottom: 5px;
+}
+
+.add-comment {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.add-comment input {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+/* Add this to your existing IdeaList.css */
+.add-comment-btn {
+  background-color: #42337ed2; /* Green color */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-comment-btn:hover {
+  background-color: #7666b7d2; /* Darker green on hover */
+}
+
+.comment-toggle-btn {
+  background-color: #f0f0f0; /* Same as the like button */
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  height: 30px; /* Match height of likes box container */
+}
+
+.comment-arrow {
+  color: black; /* Make the arrow black */
+  height: 20px; /* Adjust height if needed */
+  width: auto; /* Maintain aspect ratio */
+}
+
+.delete-comment-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ff0000; /* Red color for delete */
+  margin-left: 5px; /* Space between comment text and delete button */
+  padding: 7px;
+  border-radius: 3px;
+}
+
+.delete-comment-btn:hover {
+  color: #c00000; /* Darker red on hover */
+}
+
+
+
