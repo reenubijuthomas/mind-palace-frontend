@@ -137,30 +137,20 @@ li {
   font-weight: bold;
 }
 
-.dropdown-logout-button {
-  margin-top: 10px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
 
 .dropdown-logout-button:hover {
   background-color: #c82333;
 }
 
-/* App.css */
-
+/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 20px;
-  background-color: #42337ed2; /* Assuming this is your desired color */
-  padding: 0px;
-  font-size: 25px;
+  background-color: #42337ed2; /* Your desired color */
+  padding: 12px;
+  font-size: 30px;
 }
 
 .navbar-title {
@@ -193,9 +183,10 @@ li {
 
 /* Center the logout button */
 .dropdown-logout-button {
-  margin-top: 15px; /* Increase the top margin */
+  margin-top: 10px; /* Increase the top margin */
   margin-left: auto; /* Center it horizontally */
   margin-right: auto; /* Center it horizontally */
+  margin-bottom: 10px;
   background-color: #dc3545;
   color: white;
   border: none;
@@ -217,3 +208,108 @@ li {
 .dropdown-item:hover {
   background-color: #f0f0f0; /* Highlight on hover */
 }
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed; /* Fix the sidebar to the left */
+  top: 0;
+  left: 250px; /* Shift the sidebar to the right */
+  width: 250px; /* Width of the sidebar */
+  height: 100%;
+  background-color: white; /* Change sidebar color to white */
+  color: black; /* Change text color to black for contrast */
+  padding: 20px; /* Padding inside the sidebar */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+  z-index: 1000; /* Ensure it is above other elements */
+  display: none; /* Initially hide the sidebar */
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  cursor: pointer;
+  font-size: 24px; /* Size of the toggle button */
+  margin-bottom: 10px; /* Space below the toggle button */
+}
+
+/* Dropdown menu styles */
+.menu-options {
+  display: none; /* Initially hide the menu options */
+  margin-top: 10px; /* Space above the menu options */
+}
+
+.menu-options ul {
+  list-style: none; /* Remove default list styles */
+  padding: 0;
+}
+
+.menu-options li {
+  padding: 10px; /* Padding for each option */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3); /* Separator line */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.menu-options li:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Highlight on hover */
+}
+
+/* Style for showing the sidebar */
+.sidebar.active {
+  display: block; /* Show the sidebar when active */
+}
+
+.navbar-title {
+  color: white; /* Title color */
+  margin: 0;
+}
+
+.side-menu-icon {
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.side-menu {
+  position: fixed; /* Position sidebar */
+  top: 60px; /* Below the navbar */
+  left: 0;
+  width: 250px; /* Width of the sidebar */
+  background-color: white; /* Background color of the sidebar */
+  border-right: 1px solid #ccc; /* Right border */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+  padding: 20px; /* Padding */
+  z-index: 1000; /* Make sure it appears above other content */
+}
+
+.side-menu-item {
+  display: block; /* Block display for items */
+  padding: 10px; /* Padding for items */
+  color: black; /* Text color */
+  text-decoration: none; /* Remove underline */
+}
+
+.side-menu-item:hover {
+  background-color: #f0f0f0; /* Hover background color */
+}
+
+.dropdown {
+  position: absolute; /* Position dropdown relative to user icon */
+  right: 0;
+  top: 100%;
+  background-color: white; /* Background color of dropdown */
+  border: 1px solid #ccc; /* Border */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.dropdown-item {
+  display: block; /* Block display for items */
+  padding: 10px; /* Padding for items */
+  color: black; /* Text color */
+  text-decoration: none; /* Remove underline */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0; /* Hover background color */
+}
+
+
+

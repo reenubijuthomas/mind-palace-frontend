@@ -5,7 +5,7 @@ import IdeaList from './components/IdeaList';
 import Login from './components/Login'; // Import Login component
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faUserCircle, faCog, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -15,6 +15,7 @@ const App = () => {
   const [userId, setUserId] = useState(null); // Add state for userId
   const [username, setUsername] = useState(''); // Add state for username
   const [dropdownOpen, setDropdownOpen] = useState(false); // Add state for dropdown
+  const [menuOpen, setMenuOpen] = useState(false); // Add state for hamburger menu
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -125,19 +126,26 @@ const App = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  // Toggle hamburger menu visibility
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div className="app-container"> {/* Added class for styling */}
       {isAuthenticated ? (
         <>
           {/* Navigation Bar */}
           <nav className="navbar">
+            <div className="side-menu-icon" onClick={toggleMenu}> {/* Moved to the left */}
+              <FontAwesomeIcon icon={faBars} />
+            </div>
             <h1 className="navbar-title">Mind Palace</h1> {/* Centered title with white color */}
             <div className="nav-user" onClick={toggleDropdown}> {/* Username and dropdown trigger */}
               <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
               <span>{username}</span>
               {dropdownOpen && ( // Conditionally render dropdown
                 <div className="dropdown">
-                 
                   <a href="#settings" className="dropdown-item">
                     <FontAwesomeIcon icon={faCog} /> Settings
                   </a>
@@ -149,6 +157,18 @@ const App = () => {
               )}
             </div>
           </nav>
+
+          {/* Side Menu */}
+          {menuOpen && ( // Render side menu when hamburger menu is open
+            <div className="side-menu">
+              <a href="#home" className="side-menu-item">Home</a>
+              <a href="#approvals" className="side-menu-item">Approvals</a>
+              <a href="#my-ideas" className="side-menu-item">My Ideas</a>
+              <a href="#groups" className="side-menu-item">Groups</a>
+              <a href="#draft" className="side-menu-item">Draft</a>
+              <a href="#bin" className="side-menu-item">Bin</a>
+            </div>
+          )}
 
           <div className="search-bar">
             <FontAwesomeIcon icon={faSearch} className="search-icon" />
