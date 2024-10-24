@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Import Router and Route components
 import MyIdeas from './components/MyIdeas'; // Adjust the import path based on your file structure
+import Approvals from './components/Approvals'; 
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -198,7 +199,7 @@ const App = () => {
                 }
               />
               {/* Other Routes for Approvals, My Ideas, etc. */}
-              <Route path="/approvals" element={<div>Approvals Page</div>} />
+              <Route path="/approvals" element={<Approvals/>} />
               <Route path="/my-ideas" element={<MyIdeas userId={userId} handleDelete={handleDelete} handleEdit={handleEdit} handleLike={handleLike} />} />
               <Route path="/groups" element={<div>Groups Page</div>} />
               <Route path="/draft" element={<div>Draft Page</div>} />
