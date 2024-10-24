@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import IdeaForm from './components/IdeaForm';
 import IdeaList from './components/IdeaList';
-import Login from './components/Login'; // Import Login component
+import Login from './components/Login';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Import Router and Route components
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingIdea, setEditingIdea] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to manage authentication
-  const [userId, setUserId] = useState(null); // Add state for userId
-  const [username, setUsername] = useState(''); // Add state for username
-  const [dropdownOpen, setDropdownOpen] = useState(false); // Add state for dropdown
-  const [menuOpen, setMenuOpen] = useState(false); // Add state for hamburger menu
+  const [userId, setUserId] = useState(null); // State for userId
+  const [username, setUsername] = useState(''); // State for username
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown
+  const [menuOpen, setMenuOpen] = useState(false); // State for hamburger menu
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -40,23 +41,21 @@ const App = () => {
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
       response.data.username = username;
-      // Add the new idea to the beginning of the list
-      setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
+      setIdeas((prevIdeas) => [response.data, ...prevIdeas]); // Add the new idea to the beginning of the list
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
   }; 
-  
+
   const handleUpdateIdea = async (updatedIdea) => {
     try {
       const ideaWithCreator = { 
         ...updatedIdea, 
-        createdBy: userId, // Add the userId here
-        username: username // Add the username here
+        createdBy: userId,
+        username: username
       };
       const response = await axios.put(`http://localhost:5050/api/ideas/${updatedIdea.id}`, ideaWithCreator);
       response.data.username = username;
-      console.log(response.data);
       setIdeas((prevIdeas) =>
         prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
       );
@@ -69,12 +68,10 @@ const App = () => {
   const handleLogin = async (username, password) => {
     try {
       const response = await axios.post('http://localhost:5050/api/auth/login', { username, password });
-      console.log('Login response:', response.data); // Debugging line
       if (response.data.message === 'Login successful') {
         setIsAuthenticated(true);
-        // Save userId and username in state
-        setUserId(response.data.userId); // Assuming you have a state for userId
-        setUsername(response.data.username); // Assuming you have a state for username
+        setUserId(response.data.userId); // Set userId
+        setUsername(response.data.username); // Set username
         return true; // Indicate successful login
       }
     } catch (error) {
@@ -116,88 +113,103 @@ const App = () => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // New logout function
   const handleLogout = () => {
     setIsAuthenticated(false);
   };
 
-  // Toggle dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  // Toggle hamburger menu visibility
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
-    <div className="app-container"> {/* Added class for styling */}
-      {isAuthenticated ? (
-        <>
-          {/* Navigation Bar */}
-          <nav className="navbar">
-            <div className="side-menu-icon" onClick={toggleMenu}> {/* Moved to the left */}
-              <FontAwesomeIcon icon={faBars} />
-            </div>
-            <h1 className="navbar-title">Mind Palace</h1> {/* Centered title with white color */}
-            <div className="nav-user" onClick={toggleDropdown}> {/* Username and dropdown trigger */}
-              <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
-              <span>{username}</span>
-              {dropdownOpen && ( // Conditionally render dropdown
-                <div className="dropdown">
-                  <a href="#settings" className="dropdown-item">
-                    <FontAwesomeIcon icon={faCog} /> Settings
-                  </a>
-                  <a href="#help" className="dropdown-item">
-                    <FontAwesomeIcon icon={faQuestionCircle} /> Help
-                  </a>
-                  <button onClick={handleLogout} className="dropdown-logout-button">Logout</button>
-                </div>
-              )}
-            </div>
-          </nav>
+    <Router> {/* Wrap everything in Router */}
+      <div className="app-container">
+        {isAuthenticated ? (
+          <>
+            {/* Navigation Bar */}
+            <nav className="navbar">
+              <div className="side-menu-icon" onClick={toggleMenu}>
+                <FontAwesomeIcon icon={faBars} />
+              </div>
+              <h1 className="navbar-title">Mind Palace</h1>
+              <div className="nav-user" onClick={toggleDropdown}>
+                <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
+                <span>{username}</span>
+                {dropdownOpen && (
+                  <div className="dropdown">
+                    <a href="#settings" className="dropdown-item">
+                      <FontAwesomeIcon icon={faCog} /> Settings
+                    </a>
+                    <a href="#help" className="dropdown-item">
+                      <FontAwesomeIcon icon={faQuestionCircle} /> Help
+                    </a>
+                    <button onClick={handleLogout} className="dropdown-logout-button">Logout</button>
+                  </div>
+                )}
+              </div>
+            </nav>
 
-          {/* Side Menu */}
-          {menuOpen && ( // Render side menu when hamburger menu is open
-            <div className="side-menu">
-              <a href="#home" className="side-menu-item">Home</a>
-              <a href="#approvals" className="side-menu-item">Approvals</a>
-              <a href="#my-ideas" className="side-menu-item">My Ideas</a>
-              <a href="#groups" className="side-menu-item">Groups</a>
-              <a href="#draft" className="side-menu-item">Draft</a>
-              <a href="#bin" className="side-menu-item">Bin</a>
+            {/* Side Menu */}
+            {menuOpen && (
+              <div className="side-menu">
+                {/* Use Link component to navigate */}
+                <Link to="/" className="side-menu-item">Home</Link>
+                <Link to="/approvals" className="side-menu-item">Approvals</Link>
+                <Link to="/my-ideas" className="side-menu-item">My Ideas</Link>
+                <Link to="/groups" className="side-menu-item">Groups</Link>
+                <Link to="/draft" className="side-menu-item">Draft</Link>
+                <Link to="/bin" className="side-menu-item">Bin</Link>
+              </div>
+            )}
+
+            <div className="search-bar">
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search ideas..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-          )}
 
-          <div className="search-bar">
-            <FontAwesomeIcon icon={faSearch} className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search ideas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          <div className="input-container"> {/* Added container for IdeaForm */}
-            <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
-          </div>
+            <div className="input-container">
+              <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+            </div>
 
-          <h2>View Ideas</h2>
-          <IdeaList 
-            ideas={filteredIdeas} 
-            handleDelete={handleDelete} 
-            handleEdit={handleEdit} 
-            handleLike={handleLike} 
-            userId={userId} // Pass userId as a prop
-            username={username} // Pass username as a prop
-          />
-        </>
-      ) : (
-        <Login onLogin={handleLogin} /> // Show the login component if not authenticated
-      )}
-    </div>
+            <Routes> {/* Define routes for different pages */}
+              <Route
+                path="/"
+                element={
+                  <>
+                    <h2>View Ideas</h2>
+                    <IdeaList 
+                      ideas={filteredIdeas} 
+                      handleDelete={handleDelete} 
+                      handleEdit={handleEdit} 
+                      handleLike={handleLike} 
+                      userId={userId} // Pass userId as prop
+                      username={username} // Pass username as prop
+                    />
+                  </>
+                }
+              />
+              {/* Add other routes for approvals, my-ideas, etc. */}
+              <Route path="/approvals" element={<div>Approvals Page</div>} />
+              <Route path="/my-ideas" element={<div>My Ideas Page</div>} />
+              <Route path="/groups" element={<div>Groups Page</div>} />
+              <Route path="/draft" element={<div>Draft Page</div>} />
+              <Route path="/bin" element={<div>Bin Page</div>} />
+            </Routes>
+          </>
+        ) : (
+          <Login onLogin={handleLogin} /> // Show the login component if not authenticated
+        )}
+      </div>
+    </Router>
   );
 };
 
