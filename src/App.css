@@ -11,6 +11,7 @@ body {
 h1 {
   text-align: center;
   color: #343a40;
+  font-size: 35px;
 }
 
 .header-container {
@@ -127,8 +128,7 @@ li {
 
 
 .nav-user span {
-  margin-left: 10px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 
@@ -164,7 +164,7 @@ li {
   display: flex;
   align-items: center;
   color: white;
-  padding: 0 15px; /* Add horizontal padding for natural spacing */
+  padding: 0 10px 0 0; /* Add horizontal padding for natural spacing */
   position: relative; /* Allow dropdown positioning */
 }
 
@@ -264,6 +264,7 @@ li {
 }
 
 .side-menu-icon {
+  padding: 0 0 0 15px;
   cursor: pointer; /* Change cursor to pointer */
 }
 
