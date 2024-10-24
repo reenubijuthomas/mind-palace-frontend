@@ -166,25 +166,24 @@ const App = () => {
               </div>
             )}
 
-            <div className="search-bar">
-              <FontAwesomeIcon icon={faSearch} className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search ideas..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            <div className="input-container">
-              <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
-            </div>
-
             <Routes> {/* Define routes for different pages */}
+              {/* Home Route with IdeaForm and IdeaList */}
               <Route
                 path="/"
                 element={
                   <>
+                    <div className="search-bar">
+                      <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                      <input
+                        type="text"
+                        placeholder="Search ideas..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-container">
+                      <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+                    </div>
                     <h2>View Ideas</h2>
                     <IdeaList 
                       ideas={filteredIdeas} 
@@ -197,7 +196,7 @@ const App = () => {
                   </>
                 }
               />
-              {/* Add other routes for approvals, my-ideas, etc. */}
+              {/* Other Routes for Approvals, My Ideas, etc. */}
               <Route path="/approvals" element={<div>Approvals Page</div>} />
               <Route path="/my-ideas" element={<div>My Ideas Page</div>} />
               <Route path="/groups" element={<div>Groups Page</div>} />
