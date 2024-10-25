@@ -124,13 +124,25 @@ li {
 .user-icon {
   font-size: 24px;
   margin-right: 10px;
+  cursor: pointer;
+}
+
+.user-icon:hover {
+  color: lightgray;
 }
 
 
 .nav-user span {
   font-size: 16px;
+  cursor: pointer;
+  display: inline-block; /* Ensure the element can be transformed */
+  transition: transform 0.2s ease, color 0.2s ease; /* Smooth transition for the effect */
 }
 
+.nav-user span:hover {
+  color: lightgray;
+  transform: translateY(-2px);
+}
 
 .dropdown p {
   margin: 0;
