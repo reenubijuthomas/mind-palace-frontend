@@ -50,7 +50,7 @@ const Approvals = () => {
         placeholder="Search ideas..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar"
+        className="search-bar-new"
       />
       {filteredIdeas.length > 0 ? (
         <ul>
