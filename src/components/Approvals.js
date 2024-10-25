@@ -39,7 +39,8 @@ const Approvals = () => {
 
   // Filter ideas based on the search term
   const filteredIdeas = approvalIdeas.filter(idea =>
-    idea.title.toLowerCase().includes(searchTerm.toLowerCase())
+    idea.title.toLowerCase().includes(searchTerm.toLowerCase())||
+    idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
