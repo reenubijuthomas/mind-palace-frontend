@@ -1,5 +1,7 @@
 // src/components/IdeaForm.js
 import React, { useState, useEffect } from 'react';
+import ReactQuill from 'react-quill'; // Import React Quill
+import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
 const IdeaForm = ({ onAddIdea, onUpdateIdea, editingIdea }) => {
   const [title, setTitle] = useState('');
@@ -37,13 +39,28 @@ const IdeaForm = ({ onAddIdea, onUpdateIdea, editingIdea }) => {
         onChange={(e) => setTitle(e.target.value)}
         required
       />
-      <textarea
-        placeholder="Add your new idea here..."
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
-      <button type="submit" style={{ marginTop: '5px' }}>{editingIdea ? 'Update' : 'Submit'}</button>
+      <div className="textarea-idea">
+        <ReactQuill
+          value={description}
+          onChange={setDescription}
+          placeholder="Add your new idea here..."
+          modules={{
+            toolbar: [
+              [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+              ['bold', 'italic', 'underline'],
+              [{ 'align': [] }],
+              ['link'],
+              [{ 'color': [] }, { 'background': [] }],
+              ['blockquote'],
+              ['code-block'],
+            ],
+          }}
+        />
+      </div>
+      <button type="submit" style={{ marginTop: '5px' }}>
+        {editingIdea ? 'Update' : 'Submit'}
+      </button>
     </form>
   );
 };

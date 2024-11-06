@@ -54,7 +54,7 @@ const Approvals = () => {
         className="search-bar-new"
       />
       {filteredIdeas.length > 0 ? (
-        <ul>
+        <ul className="ul-approvals">
           {filteredIdeas.map((idea) => (
             <li key={idea.id} className="idea-card">
               <h3>{idea.title}</h3>
