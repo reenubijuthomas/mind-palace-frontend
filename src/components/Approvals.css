@@ -275,7 +275,6 @@ h2 {
 .modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .modal-body {
@@ -310,7 +309,6 @@ h2 {
   display: flex;
   justify-content: space-between; /* Ensure the username and date are spaced evenly */
   align-items: center; /* Vertically align both items */
-  margin-bottom: 10px; /* Space below the header */
 }
 
 .idea-username {
@@ -322,4 +320,28 @@ h2 {
   font-size: 0.9rem; /* Smaller text size for the date */
   color: #888; /* Lighter color for the date */
   margin-left: 10px; /* Space between the username and date */
+}
+
+.approve-btn{
+  background-color: green;
+  padding: 8px;
+}
+
+.reject-btn{
+  background-color: rgb(206, 28, 28);
+  padding: 8px;
+}
+
+.approve-btn:hover{
+  background-color: rgb(53, 117, 53);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.reject-btn:hover{
+  background-color: rgb(118, 57, 57);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.approval-submit-button{
+  padding: 8px;
 }

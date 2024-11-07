@@ -159,31 +159,33 @@ const Approvals = () => {
             {pendingIdeas.length > 0 ? (
               pendingIdeas.map((idea) => (
                 <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
-              <div className="creator-info">
-                <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                <span className="created-date">
-                  {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </span>
-              </div>
+                  <div className="creator-info">
+                    <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                    <span className="created-date">
+                      {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  <div className="idea-content">
               <h3>{idea.title}</h3>
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-              <div className="idea-likes">
-                <FaThumbsUp /> {idea.likes}
-              </div>
-              <div className="idea-status">
-                {idea.isApproved === null || idea.isApproved === 0 ? (
-                  <span className="status-box pending">Pending</span>
-                ) : idea.isApproved === 1 ? (
-                  <span className="status-box approved">Approved</span>
-                ) : (
-                  <span className="status-box rejected">Rejected</span>
-                )}
-              </div>
-            </li>
+            </div>
+                  <div className="idea-likes">
+                    <FaThumbsUp /> {idea.likes}
+                  </div>
+                  <div className="idea-status">
+                    {idea.isApproved === null || idea.isApproved === 0 ? (
+                      <span className="status-box pending">Pending</span>
+                    ) : idea.isApproved === 1 ? (
+                      <span className="status-box approved">Approved</span>
+                    ) : (
+                      <span className="status-box rejected">Rejected</span>
+                    )}
+                  </div>
+                </li>
               ))
             ) : (
               <p>No ideas pending approval.</p>
@@ -191,7 +193,7 @@ const Approvals = () => {
           </ul>
         )}
       </div>
-      
+
       {/* Approved/Rejected Ideas Section */}
       <div className="dropdown-section">
         <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
@@ -202,31 +204,33 @@ const Approvals = () => {
             {approvedRejectedIdeas.length > 0 ? (
               approvedRejectedIdeas.map((idea) => (
                 <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
-              <div className="creator-info">
-                <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                <span className="created-date">
-                  {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </span>
-              </div>
-              <h3>{idea.title}</h3>
-              <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-              <div className="idea-likes">
-                <FaThumbsUp /> {idea.likes}
-              </div>
-              <div className="idea-status">
-                {idea.isApproved === null || idea.isApproved === 0 ? (
-                  <span className="status-box pending">Pending</span>
-                ) : idea.isApproved === 1 ? (
-                  <span className="status-box approved">Approved</span>
-                ) : (
-                  <span className="status-box rejected">Rejected</span>
-                )}
-              </div>
-            </li>
+                  <div className="creator-info">
+                    <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                    <span className="created-date">
+                      {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  <div className="idea-content">
+                    <h3>{idea.title}</h3>
+                    <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
+                  </div>
+                  <div className="idea-likes">
+                    <FaThumbsUp /> {idea.likes}
+                  </div>
+                  <div className="idea-status">
+                    {idea.isApproved === null || idea.isApproved === 0 ? (
+                      <span className="status-box pending">Pending</span>
+                    ) : idea.isApproved === 1 ? (
+                      <span className="status-box approved">Approved</span>
+                    ) : (
+                      <span className="status-box rejected">Rejected</span>
+                    )}
+                  </div>
+                </li>
               ))
             ) : (
               <p>No approved or rejected ideas available.</p>
@@ -254,12 +258,11 @@ const Approvals = () => {
               </span>
               <p className="modal-status">
                 <span
-                  className={`status-box ${
-                    showModal.isApproved === 1 ? 'approved' : 
-                    showModal.isApproved === 2 ? 'rejected' : 'pending'
-                  }`}
+                  className={`status-box ${showModal.isApproved === 1 ? 'approved' :
+                      showModal.isApproved === 2 ? 'rejected' : 'pending'
+                    }`}
                 >
-                  {showModal.isApproved === 1 ? 'Approved' : 
+                  {showModal.isApproved === 1 ? 'Approved' :
                     showModal.isApproved === 2 ? 'Rejected' : 'Pending'}
                 </span>
               </p>
@@ -290,7 +293,7 @@ const Approvals = () => {
                 ))}
               </ul>
             )}
-            
+
             {showModal.isApproved === 0 && (
               <div className="modal-actions">
                 <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
@@ -309,7 +312,7 @@ const Approvals = () => {
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment"
               />
-              <button onClick={() => handleCommentSubmit(showModal.id)}>Submit</button>
+              <button onClick={() => handleCommentSubmit(showModal.id)}>Add</button>
             </div>
           </div>
         </div>
@@ -333,12 +336,11 @@ const Approvals = () => {
               </span>
               <p className="modal-status">
                 <span
-                  className={`status-box ${
-                    showModal.isApproved === 1 ? 'approved' : 
-                    showModal.isApproved === 2 ? 'rejected' : 'pending'
-                  }`}
+                  className={`status-box ${showModal.isApproved === 1 ? 'approved' :
+                      showModal.isApproved === 2 ? 'rejected' : 'pending'
+                    }`}
                 >
-                  {showModal.isApproved === 1 ? 'Approved' : 
+                  {showModal.isApproved === 1 ? 'Approved' :
                     showModal.isApproved === 2 ? 'Rejected' : 'Pending'}
                 </span>
               </p>
@@ -369,7 +371,7 @@ const Approvals = () => {
                 ))}
               </ul>
             )}
-            
+
             {showModal.isApproved === 0 && (
               <div className="modal-actions">
                 <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
@@ -388,7 +390,7 @@ const Approvals = () => {
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment"
               />
-              <button onClick={() => handleCommentSubmit(showModal.id)}>Submit</button>
+              <button class="approval-submit-button"onClick={() => handleCommentSubmit(showModal.id)}>Add</button>
             </div>
           </div>
         </div>

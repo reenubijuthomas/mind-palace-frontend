@@ -364,10 +364,6 @@
   position: relative;
 }
 
-.modal-title{
-  margin-top: 10px;
-}
-
 .close-modal-btn {
   position: absolute;
   top: 3px;
@@ -514,10 +510,6 @@
   resize: vertical;
   height: 70px; /* Set a minimum height for textarea */
   box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
-}
-
-.edit-input-title{
-  margin-top: 10px;
 }
 
 

@@ -269,7 +269,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             ) : (
               <>
                 <h3 className="modal-title">{showModal.title}</h3>
-                <p className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+                <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }}></div>
               </>
             )}
             <div className="modal-actions">
