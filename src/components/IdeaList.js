@@ -130,7 +130,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     setShowModal(idea);
     setIsEditMode(false);
   };
-  
+
   const closeModal = () => setShowModal(null);
 
   const handleEditClick = (idea) => {
@@ -148,7 +148,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     } catch (error) {
       console.error('Error updating idea:', error);
       showNotification('Failed to update idea');
-    }};
+    }
+  };
   // Function to get the approval status text
   const getApprovalStatus = (status) => {
     switch (status) {
@@ -177,13 +178,16 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   })}
                 </span>
               </div>
-              <div className="approval-status-container">
-                <span
-                  className={`approval-status ${idea.isApproved === 1 ? 'approved' : idea.isApproved === 0 ? 'pending' : 'rejected'}`}
-                >
-                  <strong>{getApprovalStatus(idea.isApproved)}</strong>
-                </span>
-              </div>
+              {!isBinPage && (
+                <div className="approval-status-container">
+                  <span
+                    className={`approval-status ${idea.isApproved === 1 ? 'approved' : idea.isApproved === 0 ? 'pending' : 'rejected'
+                      }`}
+                  >
+                    <strong>{getApprovalStatus(idea.isApproved)}</strong>
+                  </span>
+                </div>
+              )}
             </div>
             <div className="idea-content">
               <h3>{idea.title}</h3>
@@ -224,48 +228,51 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 })}
               </span>
 
-              <div className="approval-status-container">
-                <span
-                  className={`approval-status ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 0 ? 'pending' : 'rejected'}`}
-                >
-                  <strong>{getApprovalStatus(showModal.isApproved)}</strong>
-                </span>
-              </div>
+              {!isBinPage && (
+                <div className="approval-status-container">
+                  <span
+                    className={`approval-status ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 0 ? 'pending' : 'rejected'
+                      }`}
+                  >
+                    <strong>{getApprovalStatus(showModal.isApproved)}</strong>
+                  </span>
+                </div>
+              )}
             </div>
             {isEditMode ? (
               <div>
-              <div className="edit-input-group">
-                <label className="edit-input-title" htmlFor="editableTitle">Title:</label>
-                <input
-                  id="editableTitle"
-                  type="text"
-                  value={editableTitle}
-                  onChange={(e) => setEditableTitle(e.target.value)}
-                  placeholder="Enter idea title"
-                />
+                <div className="edit-input-group">
+                  <label className="edit-input-title" htmlFor="editableTitle">Title:</label>
+                  <input
+                    id="editableTitle"
+                    type="text"
+                    value={editableTitle}
+                    onChange={(e) => setEditableTitle(e.target.value)}
+                    placeholder="Enter idea title"
+                  />
+                </div>
+
+                <div className="edit-input-group">
+                  <label htmlFor="editableDescription">Description:</label>
+                  <ReactQuill
+                    value={editableDescription} // Use editableDescription for binding
+                    onChange={setEditableDescription} // Update editableDescription state
+                    placeholder="Enter idea description"
+                    modules={{
+                      toolbar: [
+                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['bold', 'italic', 'underline'],
+                        [{ 'align': [] }],
+                        ['link'],
+                        [{ 'color': [] }, { 'background': [] }],
+                        ['blockquote'],
+                        ['code-block'],
+                      ],
+                    }}
+                  />
+                </div>
               </div>
-          
-              <div className="edit-input-group">
-              <label htmlFor="editableDescription">Description:</label>
-              <ReactQuill
-                value={editableDescription} // Use editableDescription for binding
-                onChange={setEditableDescription} // Update editableDescription state
-                placeholder="Enter idea description"
-                modules={{
-                toolbar: [
-                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                  ['bold', 'italic', 'underline'],
-                  [{ 'align': [] }],
-                  ['link'],
-                  [{ 'color': [] }, { 'background': [] }],
-                  ['blockquote'],
-                  ['code-block'],
-                ],
-              }}
-            />
-            </div>
-            </div>
             ) : (
               <>
                 <h3 className="modal-title">{showModal.title}</h3>
@@ -273,7 +280,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </>
             )}
             <div className="modal-actions">
-             <button
+              <button
                 className="like-btn"
                 onClick={() => {
                   if (isBinPage) return;  // Prevent like action on BinPage
@@ -335,28 +342,28 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         </div>
       )}
 
-     {/* Delete confirmation popup */}
-     {showDeleteConfirm && (
-       <div className="confirmation-overlay">
-         <div className="confirmation-dialog">
-           <p>Are you sure you want to delete this idea?</p>
-           <button className="confirm-btn" onClick={confirmDelete}>Yes</button>
-           <button className="cancel-btn" onClick={cancelDelete}>No</button>
-         </div>
-       </div>
-     )}
-     {/* Comment delete confirmation modal */}
-     {showDeleteCommentConfirm && (
-       <div className="confirmation-overlay">
-         <div className="confirmation-dialog">
-           <p>Are you sure you want to delete this comment?</p>
-           <button className="confirm-btn" onClick={handleDeleteComment}>Yes</button>
-           <button className="cancel-btn" onClick={closeDeleteCommentConfirm}>No</button>
-         </div>
-       </div>
-     )}
-   </div>
- );
+      {/* Delete confirmation popup */}
+      {showDeleteConfirm && (
+        <div className="confirmation-overlay">
+          <div className="confirmation-dialog">
+            <p>Are you sure you want to delete this idea?</p>
+            <button className="confirm-btn" onClick={confirmDelete}>Yes</button>
+            <button className="cancel-btn" onClick={cancelDelete}>No</button>
+          </div>
+        </div>
+      )}
+      {/* Comment delete confirmation modal */}
+      {showDeleteCommentConfirm && (
+        <div className="confirmation-overlay">
+          <div className="confirmation-dialog">
+            <p>Are you sure you want to delete this comment?</p>
+            <button className="confirm-btn" onClick={handleDeleteComment}>Yes</button>
+            <button className="cancel-btn" onClick={closeDeleteCommentConfirm}>No</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default IdeaList;
