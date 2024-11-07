@@ -20,7 +20,6 @@ const BinPage = ({ userId, handleRestore, handleDelete, handleLike }) => {
         }
       } catch (error) {
         console.error('Error fetching deleted ideas:', error);
-        setMessage('Error fetching deleted ideas'); // Show error if request fails
       }
     };
 

@@ -175,16 +175,6 @@ h2 {
   margin: 5px;
 }
 
-.notification {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
 .status-box {
   padding: 5px 10px;
   border-radius: 5px;

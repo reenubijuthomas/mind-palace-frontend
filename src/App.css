@@ -18,17 +18,6 @@ h1 {
   font-size: 35px;
 }
 
-.header-container {
-  background-color: #42337ed2; /* Background color for the header */
-  padding: 15px;
-  border-radius: 8px; /* Rounded corners */
-  width: 100%;
-  max-width: 100%; /* Prevents the container from overflowing */
-  box-sizing: border-box; /* Ensure padding is included in the total width */
-  margin: 0 auto 20px auto; /* Center and give space below the header */
-  text-align: center; /* Center the title */
-}
-
 .drafts-container {
   padding: 20px;
   max-width: 1200px;
@@ -204,7 +193,6 @@ li {
   background-color: #c82333;
 }
 
-/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -331,15 +319,45 @@ li {
 }
 
 .side-menu {
-  position: fixed; /* Position sidebar */
-  top: 60px; /* Below the navbar */
+  position: fixed;
+  width: 200px;
+  height: 100%;
   left: 0;
-  width: 250px; /* Width of the sidebar */
-  background-color: white; /* Background color of the sidebar */
-  border-right: 1px solid #ccc; /* Right border */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-  padding: 20px; /* Padding */
-  z-index: 1000; /* Make sure it appears above other content */
+  top: 0;
+  background-color: #42337ed2; /* Solid color, without transparency */
+  color: white;
+  z-index: 1000;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+.side-menu a {
+  color: white; /* Ensures text within links is white */
+  text-decoration: none;
+  font-size: 18px;
+  margin: 10px 0;
+  transition: color 0.3s ease, background-color 0.3s ease; /* Adds smooth transition */
+}
+
+.side-menu a:hover {
+  color: white; /* Darker color on hover */
+  background-color: rgba(255, 255, 255, 0.2); /* Light background on hover for better visibility */
+  border-radius: 5px;
+}
+
+.side-menu a.active {
+  color: white; 
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+  margin-left: 250px; /* Adjust width based on the side menu width */
 }
 
 .side-menu-item {
