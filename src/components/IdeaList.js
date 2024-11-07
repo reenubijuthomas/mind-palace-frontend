@@ -3,6 +3,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import './IdeaList.css';
+import ReactQuill from 'react-quill'; // Import React Quill
+import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
 const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
   const [commentData, setCommentData] = useState({});
@@ -14,6 +16,11 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
   const [deleteIdeaId, setDeleteIdeaId] = useState(null);
   const [showDeleteCommentConfirm, setShowDeleteCommentConfirm] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState(null);
+
+  // New state for edit mode and editable fields
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editableTitle, setEditableTitle] = useState('');
+  const [editableDescription, setEditableDescription] = useState('');
 
   useEffect(() => {
     if (showModal) {
@@ -120,8 +127,30 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
   };
 
   // Open and close modal
-  const openModal = (idea) => setShowModal(idea);
+  const openModal = (idea) => {
+    setShowModal(idea);
+    setIsEditMode(false);
+  };
+  
   const closeModal = () => setShowModal(null);
+
+  const handleEditClick = (idea) => {
+    setEditableTitle(idea.title);
+    setEditableDescription(idea.description);
+    setIsEditMode(true);
+  };
+
+  const handleSave = async (id) => {
+    try {
+      await handleEdit({ id, title: editableTitle, description: editableDescription });
+      console.log("Title:", editableTitle)
+      setIsEditMode(false);
+      showNotification('Idea has been updated!');
+    } catch (error) {
+      console.error('Error updating idea:', error);
+      showNotification('Failed to update idea');
+    }
+  };
 
   return (
     <div>
@@ -169,21 +198,63 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
                 })}
               </span>
             </div>
-            <h3 className="modal-title">{showModal.title}</h3>
-            <p className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+            {isEditMode ? (
+              <div>
+              <div className="edit-input-group">
+                <label className="edit-input-title" htmlFor="editableTitle">Title:</label>
+                <input
+                  id="editableTitle"
+                  type="text"
+                  value={editableTitle}
+                  onChange={(e) => setEditableTitle(e.target.value)}
+                  placeholder="Enter idea title"
+                />
+              </div>
+          
+              <div className="edit-input-group">
+              <label htmlFor="editableDescription">Description:</label>
+              <ReactQuill
+                value={editableDescription} // Use editableDescription for binding
+                onChange={setEditableDescription} // Update editableDescription state
+                placeholder="Enter idea description"
+                modules={{
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline'],
+                  [{ 'align': [] }],
+                  ['link'],
+                  [{ 'color': [] }, { 'background': [] }],
+                  ['blockquote'],
+                  ['code-block'],
+                ],
+              }}
+            />
+            </div>
+            </div>
+            ) : (
+              <>
+                <h3 className="modal-title">{showModal.title}</h3>
+                <p className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+              </>
+            )}
             <div className="modal-actions">
               <button className="like-btn" onClick={() => handleLike(showModal.id)}>
                 <FontAwesomeIcon icon={faThumbsUp} />
                 <span className="likes-count">{showModal.likes}</span>
               </button>
               <button className="comment-toggle-btn" onClick={() => toggleComments(showModal.id)}>
-              <FontAwesomeIcon icon={showComments[showModal.id] ? faAngleUp : faAngleDown} />
-            </button>
+                <FontAwesomeIcon icon={showComments[showModal.id] ? faAngleUp : faAngleDown} />
+              </button>
               {userId === showModal.createdBy && (
                 <>
-                  <button className="edit-btn" onClick={() => handleEdit(showModal)}>
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
+                  {isEditMode ? (
+                    <button className="save-btn" onClick={() => handleSave(showModal.id)}>Save</button>
+                  ) : (
+                    <button className="edit-btn" onClick={() => handleEditClick(showModal)}>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  )}
                   <button className="delete-btn" onClick={() => handleDeleteClick(showModal.id)}>
                     <FontAwesomeIcon icon={faTrash} />
                   </button>

@@ -261,12 +261,17 @@
   border-radius: 3px;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn, .delete-btn, .save-btn {
   background: transparent;
   cursor: pointer;
   padding: 5px;
   border-radius: 3px;
   position: relative;
+}
+
+.save-btn {
+  background-color: #42337ed2;
+  color: white;
 }
 
 .edit-btn:hover::after {
@@ -422,4 +427,45 @@
 .confirmation-dialog .cancel-btn:hover {
   background-color: #d32f2f;
 }
+
+.edit-input-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.edit-input-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Input fields styling */
+.edit-input-group input,
+.edit-input-group textarea {
+  width: 100%; /* Ensures both input and textarea are the same width */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.edit-input-group input:focus,
+.edit-input-group textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Textarea specific styling */
+.edit-input-group textarea {
+  resize: vertical;
+  height: 70px; /* Set a minimum height for textarea */
+  box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+}
+
+.edit-input-title{
+  margin-top: 10px;
+}
+
 

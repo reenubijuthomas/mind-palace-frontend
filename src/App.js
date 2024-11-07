@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Import Router and Route components
 import MyIdeas from './components/MyIdeas'; // Adjust the import path based on your file structure
-import Approvals from './components/Approvals'; 
+import Approvals from './components/Approvals';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -36,8 +36,8 @@ const App = () => {
 
   const handleAddIdea = async (newIdea) => {
     try {
-      const ideaWithCreator = { 
-        ...newIdea, 
+      const ideaWithCreator = {
+        ...newIdea,
         createdBy: userId, // Add the userId here
         username: username // Add the username here
       };
@@ -47,12 +47,12 @@ const App = () => {
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
-  }; 
+  };
 
   const handleUpdateIdea = async (updatedIdea) => {
     try {
-      const ideaWithCreator = { 
-        ...updatedIdea, 
+      const ideaWithCreator = {
+        ...updatedIdea,
         createdBy: userId,
         username: username
       };
@@ -61,7 +61,9 @@ const App = () => {
       setIdeas((prevIdeas) =>
         prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
       );
-      setEditingIdea(null); // Reset editing state after update
+      setEditingIdea(null); 
+  
+      return response.data; 
     } catch (error) {
       console.error('Error updating idea:', error);
     }
@@ -103,10 +105,6 @@ const App = () => {
     } catch (error) {
       console.error('Error liking idea:', error);
     }
-  };
-
-  const handleEdit = (idea) => {
-    setEditingIdea(idea);
   };
 
   const filteredIdeas = ideas.filter(
@@ -169,29 +167,29 @@ const App = () => {
             )}
 
             <Routes> {/* Define routes for different pages */}
-               {/* Home Route with IdeaForm and IdeaList */}
+              {/* Home Route with IdeaForm and IdeaList */}
               <Route
                 path="/"
                 element={
                   <>
-            <div className="search-bar">
-              <FontAwesomeIcon icon={faSearch} className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search ideas..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="input-container">
-              <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
-            </div>
+                    <div className="search-bar">
+                      <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                      <input
+                        type="text"
+                        placeholder="Search ideas..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-container">
+                      <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+                    </div>
                     <h2>View Ideas</h2>
-                    <IdeaList 
-                      ideas={filteredIdeas} 
-                      handleDelete={handleDelete} 
-                      handleEdit={handleEdit} 
-                      handleLike={handleLike} 
+                    <IdeaList
+                      ideas={filteredIdeas}
+                      handleDelete={handleDelete}
+                      handleEdit={handleUpdateIdea}
+                      handleLike={handleLike}
                       userId={userId} // Pass userId as prop
                       username={username} // Pass username as prop
                     />
@@ -199,8 +197,8 @@ const App = () => {
                 }
               />
               {/* Other Routes for Approvals, My Ideas, etc. */}
-              <Route path="/approvals" element={<Approvals/>} />
-              <Route path="/my-ideas" element={<MyIdeas userId={userId} handleDelete={handleDelete} handleEdit={handleEdit} handleLike={handleLike} />} />
+              <Route path="/approvals" element={<Approvals />} />
+              <Route path="/my-ideas" element={<MyIdeas userId={userId} handleDelete={handleDelete} handleEdit={handleUpdateIdea} handleLike={handleLike} />} />
               <Route path="/groups" element={<div>Groups Page</div>} />
               <Route path="/draft" element={<div>Draft Page</div>} />
               <Route path="/bin" element={<div>Bin Page</div>} />

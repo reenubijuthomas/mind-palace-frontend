@@ -21,14 +21,39 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     fetchMyIdeas();
   }, [userId]); // Fetch ideas when userId changes
 
+  // Handle delete idea locally after success
+  const handleDeleteIdea = async (id) => {
+    try {
+      await handleDelete(id); // Call the handleDelete from App.js
+      // Remove the deleted idea from the local state (to update UI instantly)
+      setMyIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+    } catch (error) {
+      console.error('Error deleting idea:', error);
+    }
+  };
+
+  const handleEditIdea = async (updatedIdea) => {
+    try {
+      const savedIdea = await handleEdit(updatedIdea); // Call handleUpdateIdea in App.js
+      if (savedIdea) {
+        // Update the local state with the edited idea
+        setMyIdeas((prevIdeas) =>
+          prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
+        );
+      }
+    } catch (error) {
+      console.error('Error editing idea:', error);
+    }
+  };
+
   return (
     <div>
       <h2>My Ideas</h2>
       {myIdeas.length > 0 ? (
         <IdeaList
           ideas={myIdeas}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
+          handleDelete={handleDeleteIdea} // Use the local handleDeleteIdea function here
+          handleEdit={handleEditIdea}
           handleLike={handleLike}
           userId={userId}
         />
