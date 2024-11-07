@@ -13,6 +13,8 @@ const Approvals = () => {
   const [showConfirmation, setShowConfirmation] = useState(null);
   const [actionType, setActionType] = useState('');
   const [newComment, setNewComment] = useState('');
+  const [showPendingDropdown, setShowPendingDropdown] = useState(true);
+  const [showApprovedRejectedDropdown, setShowApprovedRejectedDropdown] = useState(true);
 
   useEffect(() => {
     const fetchApprovalIdeas = async () => {
@@ -49,6 +51,7 @@ const Approvals = () => {
         )
       );
       setShowConfirmation(null);
+      closeModal();
       showNotification('Idea approved successfully!');
     } catch (error) {
       console.error('Error approving idea:', error);
@@ -65,6 +68,7 @@ const Approvals = () => {
       );
       setShowConfirmation(null);
       showNotification('Idea rejected successfully!');
+      closeModal();
     } catch (error) {
       console.error('Error rejecting idea:', error);
     }
@@ -80,6 +84,17 @@ const Approvals = () => {
       idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
+
+  const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0 || idea.isApproved === null);
+  const approvedRejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1 || idea.isApproved === 2);
+
+  const togglePendingDropdown = () => setShowPendingDropdown((prev) => !prev);
+  const toggleApprovedRejectedDropdown = () => setShowApprovedRejectedDropdown((prev) => !prev);
+
+
+
 
   const openModal = (idea) => setShowModal(idea);
   const closeModal = () => setShowModal(null);
@@ -133,10 +148,17 @@ const Approvals = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-bar-new"
       />
-      {filteredIdeas.length > 0 ? (
-        <ul className="ul-approvals">
-          {filteredIdeas.map((idea) => (
-            <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
+
+      {/* Pending Approval Ideas Section */}
+      <div className="dropdown-section">
+        <h3 onClick={togglePendingDropdown} className="dropdown-title">
+          Pending Approval Ideas {showPendingDropdown ? <FaChevronUp /> : <FaChevronDown />}
+        </h3>
+        {showPendingDropdown && (
+          <ul className="ul-approvals">
+            {pendingIdeas.length > 0 ? (
+              pendingIdeas.map((idea) => (
+                <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
               <div className="creator-info">
                 <span className="creator-username"><strong>By: {idea.username}</strong></span>
                 <span className="created-date">
@@ -162,10 +184,135 @@ const Approvals = () => {
                 )}
               </div>
             </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No ideas pending approval.</p>
+              ))
+            ) : (
+              <p>No ideas pending approval.</p>
+            )}
+          </ul>
+        )}
+      </div>
+      
+      {/* Approved/Rejected Ideas Section */}
+      <div className="dropdown-section">
+        <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
+          Approved/Rejected Ideas {showApprovedRejectedDropdown ? <FaChevronUp /> : <FaChevronDown />}
+        </h3>
+        {showApprovedRejectedDropdown && (
+          <ul className="ul-approvals">
+            {approvedRejectedIdeas.length > 0 ? (
+              approvedRejectedIdeas.map((idea) => (
+                <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
+              <div className="creator-info">
+                <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                <span className="created-date">
+                  {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+              <h3>{idea.title}</h3>
+              <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
+              <div className="idea-likes">
+                <FaThumbsUp /> {idea.likes}
+              </div>
+              <div className="idea-status">
+                {idea.isApproved === null || idea.isApproved === 0 ? (
+                  <span className="status-box pending">Pending</span>
+                ) : idea.isApproved === 1 ? (
+                  <span className="status-box approved">Approved</span>
+                ) : (
+                  <span className="status-box rejected">Rejected</span>
+                )}
+              </div>
+            </li>
+              ))
+            ) : (
+              <p>No approved or rejected ideas available.</p>
+            )}
+          </ul>
+        )}
+      </div>
+
+
+      {showModal && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal-btn" onClick={closeModal}>
+              &times;
+            </button>
+            {/* Modal Header: Username, Date, and Status */}
+            <div className="modal-header">
+              <span className="creator-username"><strong>By: {showModal.username}</strong></span>
+              <span className="created-date">
+                {new Date(showModal.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
+              <p className="modal-status">
+                <span
+                  className={`status-box ${
+                    showModal.isApproved === 1 ? 'approved' : 
+                    showModal.isApproved === 2 ? 'rejected' : 'pending'
+                  }`}
+                >
+                  {showModal.isApproved === 1 ? 'Approved' : 
+                    showModal.isApproved === 2 ? 'Rejected' : 'Pending'}
+                </span>
+              </p>
+            </div>
+
+            {/* Modal Body */}
+            <h3 className="modal-title">{showModal.title}</h3>
+            <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+
+            <div className="modal-likes-comments">
+              <div className="modal-likes">
+                <FaThumbsUp /> {showModal.likes}
+              </div>
+              <div
+                className="comments-toggle"
+                onClick={() => toggleCommentsVisibility(showModal.id)}
+              >
+                Comments {commentVisibility[showModal.id] ? <FaChevronUp /> : <FaChevronDown />}
+              </div>
+            </div>
+
+            {commentVisibility[showModal.id] && (
+              <ul className="comments-list">
+                {comments[showModal.id]?.map((comment, idx) => (
+                  <li key={idx}>
+                    <strong>{comment.username}</strong>: {comment.comment}
+                  </li>
+                ))}
+              </ul>
+            )}
+            
+            {showModal.isApproved === 0 && (
+              <div className="modal-actions">
+                <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
+                  Approve
+                </button>
+                <button className="reject-btn" onClick={() => openConfirmation(showModal, 'reject')}>
+                  Reject
+                </button>
+              </div>
+            )}
+
+            <div className="add-comment">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment"
+              />
+              <button onClick={() => handleCommentSubmit(showModal.id)}>Submit</button>
+            </div>
+          </div>
+        </div>
       )}
 
       {showModal && (

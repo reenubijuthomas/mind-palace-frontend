@@ -20,7 +20,8 @@ const App = () => {
   const [username, setUsername] = useState(''); // State for username
   const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown
   const [menuOpen, setMenuOpen] = useState(false); // State for hamburger menu
-
+  const [roleId, setRole] = useState(null);  // Add state to store user role
+  
   useEffect(() => {
     const fetchIdeas = async () => {
       if (!isAuthenticated) return; // Prevent fetching ideas if not authenticated
@@ -32,7 +33,11 @@ const App = () => {
       }
     };
 
+    // Poll every 5 seconds for updated ideas
+    const interval = setInterval(fetchIdeas, 1000);
     fetchIdeas(); // Call fetchIdeas function
+    return () => clearInterval(interval); // Cleanup on component unmount
+
   }, [isAuthenticated]); // Fetch ideas when authentication state changes
 
   const handleAddIdea = async (newIdea) => {
@@ -77,6 +82,7 @@ const App = () => {
         setIsAuthenticated(true);
         setUserId(response.data.userId); // Set userId
         setUsername(response.data.username); // Set username
+        setRole(response.data.roleId);  // Store the user's role
         return true; // Indicate successful login
       }
     } catch (error) {
@@ -159,7 +165,12 @@ const App = () => {
               <div className="side-menu">
                 {/* Use Link component to navigate */}
                 <Link to="/" className="side-menu-item">Home</Link>
-                <Link to="/approvals" className="side-menu-item">Approvals</Link>
+                
+                {/* Only render the Approvals link if the user's role is 3 */}
+                {roleId === 3 && (
+                  <Link to="/approvals" className="side-menu-item">Approvals</Link>
+                )}
+                
                 <Link to="/my-ideas" className="side-menu-item">My Ideas</Link>
                 <Link to="/groups" className="side-menu-item">Groups</Link>
                 <Link to="/draft" className="side-menu-item">Draft</Link>
