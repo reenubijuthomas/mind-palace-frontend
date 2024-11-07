@@ -20,6 +20,7 @@ const App = () => {
   const [username, setUsername] = useState(''); // State for username
   const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown
   const [menuOpen, setMenuOpen] = useState(false); // State for hamburger menu
+  
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -32,7 +33,11 @@ const App = () => {
       }
     };
 
+    // Poll every 5 seconds for updated ideas
+    const interval = setInterval(fetchIdeas, 1000);
     fetchIdeas(); // Call fetchIdeas function
+    return () => clearInterval(interval); // Cleanup on component unmount
+
   }, [isAuthenticated]); // Fetch ideas when authentication state changes
 
   const handleAddIdea = async (newIdea) => {
