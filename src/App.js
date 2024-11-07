@@ -28,7 +28,7 @@ const App = () => {
     const fetchIdeas = async () => {
       if (!isAuthenticated) return; // Prevent fetching ideas if not authenticated
       try {
-        const response = await axios.get('http://localhost:5050/api/ideas');
+        const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false');
         setIdeas(response.data);
       } catch (error) {
         console.error('Error fetching ideas:', error);
@@ -136,8 +136,9 @@ const App = () => {
 
   const filteredIdeas = ideas.filter(
     (idea) =>
-      idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      idea.description.toLowerCase().includes(searchTerm.toLowerCase())
+      !idea.is_draft && 
+      (idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       idea.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleLogout = () => {
