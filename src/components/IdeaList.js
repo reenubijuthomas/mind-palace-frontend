@@ -27,8 +27,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       const updatedIdea = ideas.find((idea) => idea.id === showModal.id);
       if (updatedIdea) setShowModal(updatedIdea);
     }
-  }, [ideas, showModal]);  // Added 'showModal' as a dependency
-
+  }, [ideas, showModal]);
 
   // Fetch comments for a specific idea
   const fetchComments = async (ideaId) => {
@@ -149,6 +148,16 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     } catch (error) {
       console.error('Error updating idea:', error);
       showNotification('Failed to update idea');
+    }};
+  // Function to get the approval status text
+  const getApprovalStatus = (status) => {
+    switch (status) {
+      case 1:
+        return 'Approved';
+      case 2:
+        return 'Rejected';
+      default:
+        return "";
     }
   };
 
@@ -158,14 +167,23 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         {ideas.map((idea) => (
           <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
             <div className="idea-header">
-              <span className="creator-username"><strong>By: {idea.username}</strong></span>
-              <span className="created-date">
-                {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
+              <div className="creator-info">
+                <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                <span className="created-date">
+                  {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+              <div className="approval-status-container">
+                <span
+                  className={`approval-status ${idea.isApproved === 1 ? 'approved' : idea.isApproved === 0 ? 'pending' : 'rejected'}`}
+                >
+                  <strong>{getApprovalStatus(idea.isApproved)}</strong>
+                </span>
+              </div>
             </div>
             <div className="idea-content">
               <h3>{idea.title}</h3>
@@ -205,6 +223,14 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   day: 'numeric',
                 })}
               </span>
+
+              <div className="approval-status-container">
+                <span
+                  className={`approval-status ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 0 ? 'pending' : 'rejected'}`}
+                >
+                  <strong>{getApprovalStatus(showModal.isApproved)}</strong>
+                </span>
+              </div>
             </div>
             {isEditMode ? (
               <div>
@@ -309,28 +335,28 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         </div>
       )}
 
-      {/* Delete confirmation popup */}
-      {showDeleteConfirm && (
-        <div className="confirmation-overlay">
-          <div className="confirmation-dialog">
-            <p>Are you sure you want to delete this idea?</p>
-            <button className="confirm-btn" onClick={confirmDelete}>Yes</button>
-            <button className="cancel-btn" onClick={cancelDelete}>No</button>
-          </div>
-        </div>
-      )}
-      {/* Comment delete confirmation modal */}
-      {showDeleteCommentConfirm && (
-        <div className="confirmation-overlay">
-          <div className="confirmation-dialog">
-            <p>Are you sure you want to delete this comment?</p>
-            <button className="confirm-btn" onClick={handleDeleteComment}>Yes</button>
-            <button className="cancel-btn" onClick={closeDeleteCommentConfirm}>No</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+     {/* Delete confirmation popup */}
+     {showDeleteConfirm && (
+       <div className="confirmation-overlay">
+         <div className="confirmation-dialog">
+           <p>Are you sure you want to delete this idea?</p>
+           <button className="confirm-btn" onClick={confirmDelete}>Yes</button>
+           <button className="cancel-btn" onClick={cancelDelete}>No</button>
+         </div>
+       </div>
+     )}
+     {/* Comment delete confirmation modal */}
+     {showDeleteCommentConfirm && (
+       <div className="confirmation-overlay">
+         <div className="confirmation-dialog">
+           <p>Are you sure you want to delete this comment?</p>
+           <button className="confirm-btn" onClick={handleDeleteComment}>Yes</button>
+           <button className="cancel-btn" onClick={closeDeleteCommentConfirm}>No</button>
+         </div>
+       </div>
+     )}
+   </div>
+ );
 };
 
 export default IdeaList;
