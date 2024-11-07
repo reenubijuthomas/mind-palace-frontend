@@ -1,0 +1,33 @@
+/* Bin.css */
+.bin-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.ideas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.idea-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #ff7f7f;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #ff4f4f;
+}

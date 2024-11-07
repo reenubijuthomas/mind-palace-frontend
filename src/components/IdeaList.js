@@ -6,7 +6,7 @@ import './IdeaList.css';
 import ReactQuill from 'react-quill'; // Import React Quill
 import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -28,7 +28,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
       if (updatedIdea) setShowModal(updatedIdea);
     }
   }, [ideas, showModal]);  // Added 'showModal' as a dependency
-  
+
 
   // Fetch comments for a specific idea
   const fetchComments = async (ideaId) => {
@@ -172,7 +172,15 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
             <div className="idea-actions">
-              <button className="like-btn" onClick={(e) => { e.stopPropagation(); handleLike(idea.id); }}>
+              <button
+                className="like-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (isBinPage) return;  // Prevent like action on BinPage
+                  handleLike(idea.id);  // Proceed with like action on other pages
+                }}
+                disabled={isBinPage}  // Disable the button if it's on the BinPage
+              >
                 <FontAwesomeIcon icon={faThumbsUp} />
                 <span className="likes-count">{idea.likes}</span>
               </button>
@@ -185,9 +193,9 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <button className="close-modal-btn" onClick={closeModal}>
-            &times;
-          </button>
+            <button className="close-modal-btn" onClick={closeModal}>
+              &times;
+            </button>
             <div className="modal-header">
               <span className="creator-username"><strong>By: {showModal.username}</strong></span>
               <span className="created-date">
@@ -239,14 +247,21 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
               </>
             )}
             <div className="modal-actions">
-              <button className="like-btn" onClick={() => handleLike(showModal.id)}>
+             <button
+                className="like-btn"
+                onClick={() => {
+                  if (isBinPage) return;  // Prevent like action on BinPage
+                  handleLike(showModal.id);  // Proceed with like action on other pages
+                }}
+                disabled={isBinPage}  // Disable the button if it's on the BinPage
+              >
                 <FontAwesomeIcon icon={faThumbsUp} />
                 <span className="likes-count">{showModal.likes}</span>
               </button>
               <button className="comment-toggle-btn" onClick={() => toggleComments(showModal.id)}>
                 <FontAwesomeIcon icon={showComments[showModal.id] ? faAngleUp : faAngleDown} />
               </button>
-              {userId === showModal.createdBy && (
+              {userId === showModal.createdBy && !isBinPage && (
                 <>
                   {isEditMode ? (
                     <button className="save-btn" onClick={() => handleSave(showModal.id)}>Save</button>
@@ -275,9 +290,9 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
                 {commentData[showModal.id]?.map((comment) => (
                   <li className="comment-text" key={comment.id}>
                     <strong>{comment.username}</strong>: {comment.comment}
-                    {userId === comment.commentedBy && (
+                    {userId === comment.commentedBy && !isBinPage && (
                       <button className="delete-comment-btn" onClick={() => confirmDeleteComment(comment.id, showModal.id)}>
-                      <FontAwesomeIcon icon={faTrash} />
+                        <FontAwesomeIcon icon={faTrash} />
                       </button>
                     )}
                   </li>
@@ -287,8 +302,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId }) => {
           </div>
         </div>
       )}
-       {/* Notification */}
-       {notification && (
+      {/* Notification */}
+      {notification && (
         <div className="notification">
           {notification}
         </div>
