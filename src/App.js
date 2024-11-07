@@ -3,6 +3,7 @@ import axios from 'axios';
 import IdeaForm from './components/IdeaForm';
 import IdeaList from './components/IdeaList';
 import Login from './components/Login';
+import Drafts from './components/Drafts';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +14,7 @@ import BinPage from './components/BinPage';  // This import should be correct if
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
+  const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingIdea, setEditingIdea] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to manage authentication
@@ -45,13 +47,31 @@ const App = () => {
       const ideaWithCreator = {
         ...newIdea,
         createdBy: userId, // Add the userId here
-        username: username // Add the username here
+        username: username
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
       response.data.username = username;
       setIdeas((prevIdeas) => [response.data, ...prevIdeas]); // Add the new idea to the beginning of the list
     } catch (error) {
       console.error('Error adding new idea:', error);
+    }
+  };
+
+  const handleAddDraft = async (newDraft) => {
+    try {
+      const draftWithCreator = {
+        ...newDraft,
+        createdBy: userId,
+        username: username
+      };
+      const response = await axios.post('http://localhost:5050/api/ideas', draftWithCreator);
+      response.data.username = username;
+      
+      // Update drafts state instead of ideas state
+      setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
+  
+    } catch (error) {
+      console.error('Error saving draft:', error);
     }
   };
 
@@ -184,18 +204,18 @@ const App = () => {
                 path="/"
                 element={
                   <>
-                    <div className="search-bar">
-                      <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                      <input
-                        type="text"
-                        placeholder="Search ideas..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </div>
-                    <div className="input-container">
-                      <IdeaForm onAddIdea={handleAddIdea} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
-                    </div>
+            <div className="search-bar">
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search ideas..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="input-container">
+              <IdeaForm onAddIdea={handleAddIdea} onAddDraft={handleAddDraft} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+            </div>
                     <h2>View Ideas</h2>
                     <IdeaList
                       ideas={filteredIdeas}
@@ -209,10 +229,11 @@ const App = () => {
                 }
               />
               {/* Other Routes for Approvals, My Ideas, etc. */}
-              <Route path="/approvals" element={<Approvals />} />
+              <Route path="/approvals" element={<Approvals/>} />
+              <Route path="/draft" element={<Drafts drafts={drafts} setDrafts={setDrafts} userId={userId} username={username} handleDelete={handleDelete}
+                  handleEdit={handleUpdateIdea} /> } />
               <Route path="/my-ideas" element={<MyIdeas userId={userId} handleDelete={handleDelete} handleEdit={handleUpdateIdea} handleLike={handleLike} />} />
               <Route path="/groups" element={<div>Groups Page</div>} />
-              <Route path="/draft" element={<div>Draft Page</div>} />
               <Route path="/bin" element={<BinPage userId={userId}/>} />
             </Routes>
           </>

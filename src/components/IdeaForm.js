@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill'; // Import React Quill
 import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
-const IdeaForm = ({ onAddIdea, onUpdateIdea, editingIdea }) => {
+const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -26,6 +26,19 @@ const IdeaForm = ({ onAddIdea, onUpdateIdea, editingIdea }) => {
     } else {
       onAddIdea(newIdea); // Call add function
     }
+    setTitle('');
+    setDescription('');
+  };
+
+  const handleSaveAsDraft = async (e) => {
+    e.preventDefault();
+    const newDraft = {
+      title,
+      description,
+      is_draft: true // Set is_draft flag to true for drafts
+    };
+
+    await onAddDraft(newDraft);
     setTitle('');
     setDescription('');
   };
@@ -58,9 +71,21 @@ const IdeaForm = ({ onAddIdea, onUpdateIdea, editingIdea }) => {
           }}
         />
       </div>
-      <button type="submit" style={{ marginTop: '5px' }}>
-        {editingIdea ? 'Update' : 'Submit'}
-      </button>
+      <div className="action-buttons-container">
+        <button
+          type="submit"
+          className="action-button action-button-primary"
+        >
+          {editingIdea ? 'Update' : 'Submit'}
+        </button>
+        <button
+          type="button"
+          className="action-button action-button-secondary"
+          onClick={handleSaveAsDraft}
+        >
+          Save as Draft
+        </button>
+      </div>
     </form>
   );
 };
