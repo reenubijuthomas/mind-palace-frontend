@@ -252,12 +252,9 @@ h2 {
   margin-left: 10px;
 }
 
-
 .idea-status {
-  margin-top: auto; /* Pushes the status box to the bottom */
-  align-self: flex-end; /* Aligns status to the right */
-  display: flex;
-  gap: 10px; /* Space between status boxes */
+  margin-top: auto; 
+  align-self: flex-end; 
 }
 
 .status-box {
@@ -266,7 +263,6 @@ h2 {
   font-size: 0.9rem;
 }
 
-/* Ensures that the modal elements are properly spaced */
 .modal-content {
   display: flex;
   flex-direction: column;
