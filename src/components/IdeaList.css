@@ -83,12 +83,26 @@
 
 .idea-actions {
   position: absolute;
-  bottom: 10px;  /* Adjust this value as needed */
-  left: 10px;  /* Adjust this value as needed */
+  bottom: 10px; 
+  left: 10px;  
 }
 
 .idea-item:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.permanent-delete-btn {
+  width: 70px;
+  padding: 6px;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+  background-color: #d73939;
+}
+
+.permanent-delete-btn:hover{
+  background-color: #c00000;
+  transform: scale(1.05);
 }
 
 .idea-content h3 {

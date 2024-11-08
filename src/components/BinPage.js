@@ -3,7 +3,7 @@ import axios from 'axios';
 import IdeaList from './IdeaList'; // Reusing IdeaList component for displaying ideas
 import './BinPage.css'; // Optional: Add custom styles
 
-const BinPage = ({ userId, handleRestore, handleDelete, handleLike }) => {
+const BinPage = ({ userId, handleRestore, handleDelete }) => {
   const [deletedIdeas, setDeletedIdeas] = useState([]);
   const [message, setMessage] = useState('');
 
@@ -38,6 +38,7 @@ const BinPage = ({ userId, handleRestore, handleDelete, handleLike }) => {
           handleLike={null}
           userId={userId}  // Pass the userId for permissions
           isBinPage={true}
+          setDeletedIdeas={setDeletedIdeas}
         />
       ) : (
         <div className="no-ideas-container">

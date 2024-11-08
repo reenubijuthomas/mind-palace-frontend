@@ -6,7 +6,7 @@ import './IdeaList.css';
 import ReactQuill from 'react-quill'; // Import React Quill
 import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -97,6 +97,18 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       fetchComments(deleteIdeaId); // Re-fetch comments for the idea
     } catch (error) {
       console.error('Error deleting comment:', error);
+    }
+  };
+
+  const permanentDelete = async (ideaId) => {
+    try {
+      await axios.delete(`http://localhost:5050/api/bin/${ideaId}`);
+      showNotification('Idea has been permanently deleted!');
+      setDeletedIdeas((prevDeletedIdeas) => prevDeletedIdeas.filter((idea) => idea.id !== ideaId));
+      setShowDeleteConfirm(false);
+    } catch (error) {
+      console.error('Error deleting idea:', error);
+      showNotification('Failed to delete idea');
     }
   };
 
@@ -192,6 +204,17 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <h3>{idea.title}</h3>
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
+            {isBinPage && (
+              <button
+                className="permanent-delete-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteClick(idea.id); // Trigger delete confirmation
+                }}
+              >
+                Delete
+              </button>
+            )}
             {!isDraftPage && (
               <div className="idea-actions">
                 <button
@@ -348,7 +371,18 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         <div className="confirmation-overlay">
           <div className="confirmation-dialog">
             <p>Are you sure you want to delete this idea?</p>
-            <button className="confirm-btn" onClick={confirmDelete}>Yes</button>
+            <button
+              className="confirm-btn"
+              onClick={() => {
+                if (isBinPage) {
+                  permanentDelete(deleteIdeaId); 
+                } else {
+                  confirmDelete(); 
+                }
+              }}
+            >
+              Yes
+            </button>
             <button className="cancel-btn" onClick={cancelDelete}>No</button>
           </div>
         </div>
