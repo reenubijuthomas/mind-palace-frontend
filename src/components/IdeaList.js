@@ -3,8 +3,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import './IdeaList.css';
-import ReactQuill from 'react-quill'; // Import React Quill
-import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
+import ReactQuill from 'react-quill'; 
+import 'react-quill/dist/quill.snow.css'; 
 
 const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas }) => {
   const [commentData, setCommentData] = useState({});
@@ -17,7 +17,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   const [showDeleteCommentConfirm, setShowDeleteCommentConfirm] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState(null);
 
-  // New state for edit mode and editable fields
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableTitle, setEditableTitle] = useState('');
   const [editableDescription, setEditableDescription] = useState('');
@@ -29,7 +28,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   }, [ideas, showModal]);
 
-  // Fetch comments for a specific idea
   const fetchComments = async (ideaId) => {
     try {
       const response = await axios.get(`http://localhost:5050/api/comments/${ideaId}`);
@@ -39,7 +37,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
-  // Add a new comment
   const handleAddComment = async (ideaId) => {
     try {
       await axios.post(`http://localhost:5050/api/comments`, {
@@ -55,22 +52,19 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
-  // Show notification
   const showNotification = (message) => {
     setNotification(message);
-    setTimeout(() => setNotification(''), 3000); // Hide notification after 3 seconds
+    setTimeout(() => setNotification(''), 3000); 
   };
 
-  // Handle delete confirmation
   const handleDeleteClick = (ideaId) => {
     setDeleteIdeaId(ideaId);
-    setShowDeleteConfirm(true); // Show confirmation popup
+    setShowDeleteConfirm(true); 
   };
 
-  // Confirm delete
   const confirmDelete = async () => {
     try {
-      await handleDelete(deleteIdeaId); // Delete the idea
+      await handleDelete(deleteIdeaId); 
       setShowDeleteConfirm(false);
       setDeleteIdeaId(null);
       showNotification('Idea has been deleted!');
@@ -81,20 +75,18 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
-  // Cancel delete
   const cancelDelete = () => {
     setShowDeleteConfirm(false);
     setDeleteIdeaId(null);
   };
 
-  // Delete a comment
   const handleDeleteComment = async () => {
     try {
       await axios.delete(`http://localhost:5050/api/comments/${deleteCommentId}`);
       setShowDeleteCommentConfirm(false);
       setDeleteCommentId(null);
       showNotification('Comment has been deleted!');
-      fetchComments(deleteIdeaId); // Re-fetch comments for the idea
+      fetchComments(deleteIdeaId);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
@@ -125,21 +117,18 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
-  // Confirm delete comment
   const confirmDeleteComment = (commentId, ideaId) => {
     setDeleteCommentId(commentId);
     setDeleteIdeaId(ideaId);
     setShowDeleteCommentConfirm(true);
   };
 
-  // Close delete confirmation modal
   const closeDeleteCommentConfirm = () => {
     setShowDeleteCommentConfirm(false);
     setDeleteCommentId(null);
     setDeleteIdeaId(null);
   };
 
-  // Toggle comments in modal
   const toggleComments = (ideaId) => {
     if (!showComments[ideaId]) {
       fetchComments(ideaId);
@@ -150,7 +139,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }));
   };
 
-  // Open and close modal
   const openModal = (idea) => {
     setShowModal(idea);
     setIsEditMode(false);
@@ -174,7 +162,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       showNotification('Failed to update idea');
     }
   };
-  // Function to get the approval status text
+
+  
   const getApprovalStatus = (status) => {
     switch (status) {
       case 1:
@@ -223,16 +212,16 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   className="permanent-delete-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteClick(idea.id); // Trigger delete confirmation
+                    handleDeleteClick(idea.id); 
                   }}
                 >
                   Delete
                 </button>
                 <button
-                  className="restore-btn" // Add the Restore button here
+                  className="restore-btn" 
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleRestore(idea.id); // Call the restore function
+                    handleRestore(idea.id); 
                   }}
                 >
                   Restore
@@ -259,7 +248,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         ))}
       </ul>
 
-      {/* Modal for idea details */}
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -303,8 +291,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 <div className="edit-input-group">
                   <label htmlFor="editableDescription">Description:</label>
                   <ReactQuill
-                    value={editableDescription} // Use editableDescription for binding
-                    onChange={setEditableDescription} // Update editableDescription state
+                    value={editableDescription} 
+                    onChange={setEditableDescription} 
                     placeholder="Enter idea description"
                     modules={{
                       toolbar: [
@@ -331,10 +319,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <button
                 className="like-btn"
                 onClick={() => {
-                  if (isBinPage) return;  // Prevent like action on BinPage
-                  handleLike(showModal.id);  // Proceed with like action on other pages
+                  if (isBinPage) return; 
+                  handleLike(showModal.id); 
                 }}
-                disabled={isBinPage}  // Disable the button if it's on the BinPage
+                disabled={isBinPage}  
               >
                 <FontAwesomeIcon icon={faThumbsUp} />
                 <span className="likes-count">{showModal.likes}</span>

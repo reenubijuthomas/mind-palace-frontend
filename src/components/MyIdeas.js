@@ -1,9 +1,8 @@
-// MyIdeas.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import IdeaList from './IdeaList'; // Adjust the import path as needed
-import { Link } from 'react-router-dom'; // Import Link from React Router
-import './MyIdeas.css'; // Import CSS for styling
+import IdeaList from './IdeaList';
+import { Link } from 'react-router-dom'; 
+import './MyIdeas.css'; 
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   const [myIdeas, setMyIdeas] = useState([]);
@@ -19,13 +18,12 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     };
 
     fetchMyIdeas();
-  }, [userId]); // Fetch ideas when userId changes
+  }, [userId]); 
 
-  // Handle delete idea locally after success
+
   const handleDeleteIdea = async (id) => {
     try {
-      await handleDelete(id); // Call the handleDelete from App.js
-      // Remove the deleted idea from the local state (to update UI instantly)
+      await handleDelete(id); 
       setMyIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
     } catch (error) {
       console.error('Error deleting idea:', error);
@@ -34,9 +32,8 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
 
   const handleEditIdea = async (updatedIdea) => {
     try {
-      const savedIdea = await handleEdit(updatedIdea); // Call handleUpdateIdea in App.js
+      const savedIdea = await handleEdit(updatedIdea);
       if (savedIdea) {
-        // Update the local state with the edited idea
         setMyIdeas((prevIdeas) =>
           prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
         );

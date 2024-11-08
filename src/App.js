@@ -18,16 +18,16 @@ const App = () => {
   const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingIdea, setEditingIdea] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // State to manage authentication
-  const [userId, setUserId] = useState(null); // State for userId
-  const [username, setUsername] = useState(''); // State for username
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown
-  const [menuOpen, setMenuOpen] = useState(true); // State for hamburger menu
-  const [roleId, setRole] = useState(null);  // Add state to store user role
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
+  const [userId, setUserId] = useState(null); 
+  const [username, setUsername] = useState(''); 
+  const [dropdownOpen, setDropdownOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(true); 
+  const [roleId, setRole] = useState(null);  
 
   useEffect(() => {
     const fetchIdeas = async () => {
-      if (!isAuthenticated) return; // Prevent fetching ideas if not authenticated
+      if (!isAuthenticated) return; 
       try {
         const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false');
         setIdeas(response.data);
@@ -36,23 +36,23 @@ const App = () => {
       }
     };
 
-    // Poll every 5 seconds for updated ideas
+    
     const interval = setInterval(fetchIdeas, 800);
-    fetchIdeas(); // Call fetchIdeas function
-    return () => clearInterval(interval); // Cleanup on component unmount
+    fetchIdeas(); 
+    return () => clearInterval(interval); 
 
-  }, [isAuthenticated]); // Fetch ideas when authentication state changes
+  }, [isAuthenticated]); 
 
   const handleAddIdea = async (newIdea) => {
     try {
       const ideaWithCreator = {
         ...newIdea,
-        createdBy: userId, // Add the userId here
+        createdBy: userId, 
         username: username
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
       response.data.username = username;
-      setIdeas((prevIdeas) => [response.data, ...prevIdeas]); // Add the new idea to the beginning of the list
+      setIdeas((prevIdeas) => [response.data, ...prevIdeas]); 
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
@@ -68,7 +68,7 @@ const App = () => {
       const response = await axios.post('http://localhost:5050/api/ideas', draftWithCreator);
       response.data.username = username;
 
-      // Update drafts state instead of ideas state
+      
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
 
     } catch (error) {
@@ -101,14 +101,14 @@ const App = () => {
       const response = await axios.post('http://localhost:5050/api/auth/login', { username, password });
       if (response.data.message === 'Login successful') {
         setIsAuthenticated(true);
-        setUserId(response.data.userId); // Set userId
-        setUsername(response.data.username); // Set username
-        setRole(response.data.roleId);  // Store the user's role
-        return true; // Indicate successful login
+        setUserId(response.data.userId); 
+        setUsername(response.data.username); 
+        setRole(response.data.roleId);  
+        return true; 
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      return false; // Indicate failed login
+      return false; 
     }
   };
 
@@ -155,22 +155,17 @@ const App = () => {
   };
 
   return (
-    <Router> {/* Wrap everything in Router */}
+    <Router> 
       <div className="app-container">
         {isAuthenticated ? (
           <>
-
-            {/* Side Menu */}
             {menuOpen && (
               <div className="side-menu">
-                {/* Use Link component to navigate */}
                 <NavLink to="/" activeClassName="active" className="side-menu-item">Home</NavLink>
 
-                {/* Only render the Approvals link if the user's role is 3 */}
                 {(roleId === 3 || roleId === 1) && (
                   <NavLink to="/approvals" activeClassName="active" className="side-menu-item">Approvals</NavLink>
                 )}
-
 
                 <NavLink to="/my-ideas" activeClassName="active" className="side-menu-item">My Ideas</NavLink>
                 <NavLink to="/groups" activeClassName="active" className="side-menu-item">Groups</NavLink>
@@ -179,7 +174,6 @@ const App = () => {
               </div>
             )}
 
-            {/* Main Content Area */}
             <div className={`main-content ${menuOpen ? "shifted" : ""}`}>
               <nav className="navbar">
                 <div className="side-menu-icon" onClick={toggleMenu}>
@@ -225,13 +219,12 @@ const App = () => {
                         handleDelete={handleDelete}
                         handleEdit={handleUpdateIdea}
                         handleLike={handleLike}
-                        userId={userId} // Pass userId as prop
-                        username={username} // Pass username as prop
+                        userId={userId} 
+                        username={username} 
                       />
                     </>
                   }
                 />
-                {/* Other Routes for Approvals, My Ideas, etc. */}
                 <Route path="/approvals" element={<Approvals />} />
                 <Route
                   path="/draft"
@@ -263,7 +256,7 @@ const App = () => {
             </div>
           </>
         ) : (
-          <Login onLogin={handleLogin} /> // Show the login component if not authenticated
+          <Login onLogin={handleLogin} /> 
         )}
       </div>
     </Router>

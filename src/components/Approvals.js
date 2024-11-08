@@ -85,17 +85,11 @@ const Approvals = () => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-
   const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0 || idea.isApproved === null);
   const approvedRejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1 || idea.isApproved === 2);
 
   const togglePendingDropdown = () => setShowPendingDropdown((prev) => !prev);
   const toggleApprovedRejectedDropdown = () => setShowApprovedRejectedDropdown((prev) => !prev);
-
-
-
-
   const openModal = (idea) => setShowModal(idea);
   const closeModal = () => setShowModal(null);
 
@@ -268,7 +262,6 @@ const Approvals = () => {
               </p>
             </div>
 
-            {/* Modal Body */}
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
 
@@ -324,7 +317,6 @@ const Approvals = () => {
             <button className="close-modal-btn" onClick={closeModal}>
               &times;
             </button>
-            {/* Modal Header: Username, Date, and Status */}
             <div className="modal-header">
               <span className="creator-username"><strong>By: {showModal.username}</strong></span>
               <span className="created-date">
@@ -346,7 +338,6 @@ const Approvals = () => {
               </p>
             </div>
 
-            {/* Modal Body */}
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
 

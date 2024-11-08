@@ -1,7 +1,6 @@
-// src/components/IdeaForm.js
 import React, { useState, useEffect } from 'react';
-import ReactQuill from 'react-quill'; // Import React Quill
-import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
+import ReactQuill from 'react-quill'; 
+import 'react-quill/dist/quill.snow.css'; 
 
 const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
   const [title, setTitle] = useState('');
@@ -21,10 +20,10 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
     e.preventDefault();
     const newIdea = { title, description };
     if (editingIdea) {
-      newIdea.id = editingIdea.id; // Add id for updating
-      onUpdateIdea(newIdea); // Call update function
+      newIdea.id = editingIdea.id; 
+      onUpdateIdea(newIdea); 
     } else {
-      onAddIdea(newIdea); // Call add function
+      onAddIdea(newIdea); 
     }
     setTitle('');
     setDescription('');
@@ -35,7 +34,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
     const newDraft = {
       title,
       description,
-      is_draft: true // Set is_draft flag to true for drafts
+      is_draft: true 
     };
 
     await onAddDraft(newDraft);

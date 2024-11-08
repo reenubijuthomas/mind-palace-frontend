@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import IdeaList from './IdeaList'; // Adjust the import path as needed
-import './MyIdeas.css'; // Import CSS for styling
+import IdeaList from './IdeaList'; 
+import './MyIdeas.css'; 
 
 const Drafts = ({ userId, handleDelete, handleEdit }) => {
   const [drafts, setDrafts] = useState([]);

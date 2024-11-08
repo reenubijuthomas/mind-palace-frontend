@@ -5,7 +5,7 @@
 }
 .creator-info{
   display: flex;
-  justify-content: space-between; /* Ensure the username and date are spaced out horizontally */
+  justify-content: space-between; 
   width: 100%;
 }
 
@@ -45,7 +45,7 @@
 
 .idea-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Creates responsive cards */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 15px;
   padding: 0;
 }
@@ -67,15 +67,15 @@
 
 .idea-item {
   display: flex;
-  flex-direction: column; /* Makes content stack vertically */
+  flex-direction: column; 
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  height: 230px; /* Fixed height */
+  height: 230px; 
   width: 230px;
-  overflow: hidden; /* Hide overflowing content */
+  overflow: hidden; 
   cursor: pointer;
   transition: box-shadow 0.3s ease;
   position: relative;
@@ -88,7 +88,7 @@
 }
 
 .idea-item:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); 
 }
 
 .permanent-delete-btn {
@@ -109,9 +109,9 @@
   width: 75px;
   padding: 6px;
   bottom: 10px;
-  right: 90px; /* Position it to the left of the delete button */
+  right: 90px; 
   position: absolute;
-  background-color: #4CAF50; /* Green background for restore */
+  background-color: #4CAF50; 
   color: white;
   border: none;
   cursor: pointer;
@@ -134,7 +134,6 @@
   color: #555; 
 }
 
-/* Buttons */
 .edit-btn, .delete-btn {
   background: transparent;
   border: none;
@@ -151,7 +150,6 @@
   color: #ff0000;
 }
 
-/* Hover effects */
 .edit-btn:hover, .delete-btn:hover {
   background-color: #f0f0f0;
 }
@@ -182,7 +180,7 @@
 }
 
 .comment-toggle-btn:hover::after {
-  content: "View Comments"; /* Text to display on hover */
+  content: "View Comments"; 
   position: absolute;
   bottom: 35px; 
   left: 50%;
@@ -195,9 +193,9 @@
 }
 
 .likes-count {
-  margin-left: 5px; /* Space between icon and count */
-  color: #555; /* Color for the likes count */
-  font-size: 14px; /* Adjust font size as needed */
+  margin-left: 5px;
+  color: #555; 
+  font-size: 14px; 
 }
 
 
@@ -216,7 +214,7 @@
 }
 
 .like-btn:hover {
-  background-color: #e0e0e0; /* Darker background on hover */
+  background-color: #e0e0e0; 
 }
 
 .comments-section {
@@ -257,9 +255,8 @@
   margin-right: 10px;
 }
 
-/* Add this to your existing IdeaList.css */
 .add-comment-btn {
-  background-color: #42337ed2; /* Green color */
+  background-color: #42337ed2; 
   color: white;
   border: none;
   padding: 8px 16px;
@@ -268,23 +265,23 @@
 }
 
 .add-comment-btn:hover {
-  background-color: #7666b7d2; /* Darker green on hover */
+  background-color: #7666b7d2; 
 }
 
 .comment-arrow {
-  color: black; /* Make the arrow black */
-  height: 20px; /* Adjust height if needed */
-  width: auto; /* Maintain aspect ratio */
+  color: black; 
+  height: 20px; 
+  width: auto; 
 }
 
 .delete-comment-btn:hover {
-  color: #c00000; /* Darker red on hover */
+  color: #c00000; 
   background-color: #f0f0f0;
 }
 
 .idea-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Wider cards */
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
   gap: 15px;
   padding: 0;
 }
@@ -347,9 +344,9 @@
 }
 
 .edit-btn:hover::after {
-  content: "Edit"; /* Text to display on hover */
+  content: "Edit"; 
   position: absolute;
-  bottom: 35px; /* Position it below the button */
+  bottom: 35px; 
   left: 50%;
   transform: translateX(-50%);
   background-color: rgb(248, 248, 248);
@@ -360,9 +357,9 @@
 }
 
 .delete-btn:hover::after {
-  content: "Delete"; /* Text to display on hover */
+  content: "Delete"; 
   position: absolute;
-  bottom: 35px; /* Position it below the button */
+  bottom: 35px; 
   left: 50%;
   transform: translateX(-50%);
   background-color: rgb(248, 248, 248);
@@ -383,7 +380,7 @@
   border-radius: 5px;
   padding: 8px;
   color: #000000;
-  height: 30px; /* Match height of likes box container */
+  height: 30px; 
   cursor: pointer;
   position: relative;
 }
@@ -392,13 +389,13 @@
   position: absolute;
   top: 3px;
   right: 3px;
-  background: none; /* No background */
-  border: none; /* No border */
+  background: none; 
+  border: none; 
   font-size: 24px;
   cursor: pointer;
-  color: black; /* Set color for the "X" */
-  padding: 0; /* Remove padding */
-  outline: none; /* Remove outline */
+  color: black; 
+  padding: 0; 
+  outline: none; 
 }
 
 .close-modal-btn:hover{
@@ -481,13 +478,13 @@
 }
 
 .confirmation-dialog .confirm-btn {
-  background-color: #2d6b2f; /* Green */
+  background-color: #2d6b2f; 
   color: white;
   border: none;
 }
 
 .confirmation-dialog .cancel-btn {
-  background-color: #f12718; /* Red */
+  background-color: #f12718; 
   color: white;
   border: none;
 }
@@ -504,7 +501,6 @@
   margin-bottom: 15px;
 }
 
-/* Label styling */
 .edit-input-group label {
   font-weight: bold;
   display: block;
@@ -512,10 +508,9 @@
   color: #333;
 }
 
-/* Input fields styling */
 .edit-input-group input,
 .edit-input-group textarea {
-  width: 100%; /* Ensures both input and textarea are the same width */
+  width: 100%; 
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -529,11 +524,10 @@
   outline: none;
 }
 
-/* Textarea specific styling */
 .edit-input-group textarea {
   resize: vertical;
-  height: 70px; /* Set a minimum height for textarea */
-  box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+  height: 70px; 
+  box-sizing: border-box; 
 }
 
 

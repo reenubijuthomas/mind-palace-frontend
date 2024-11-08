@@ -1,11 +1,9 @@
-/* src/App.css */
-
 body {
   font-family: Arial, sans-serif;
   background-color: #ffe6f0;
   margin: 0;
   padding: 20px;
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  overflow-x: hidden; 
 }
 
 p{
@@ -61,20 +59,20 @@ h1 {
 
 
 .mind-palace-title {
-  color: white; /* Text color for the title */
+  color: white; 
   margin: 0;
-  font-size: 2.5rem; /* Default font size */
+  font-size: 2.5rem; 
 }
 
 @media (max-width: 768px) {
   .mind-palace-title {
-    font-size: 2rem; /* Smaller font size for tablets */
+    font-size: 2rem; 
   }
 }
 
 @media (max-width: 480px) {
   .mind-palace-title {
-    font-size: 1.5rem; /* Smaller font size for mobile */
+    font-size: 1.5rem;
   }
 }
 
@@ -108,7 +106,7 @@ button {
   cursor: pointer;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
-  font-size: 18px; /* Increase the font size for the button text */
+  font-size: 18px; 
 }
 
 button:hover {
@@ -130,13 +128,13 @@ li {
 }
 
 .search-bar {
-  position: relative; /* Allows for absolute positioning of the icon */
+  position: relative; 
   margin: 10px 0;
 }
 
 .search-bar input[type="text"] {
-  width: 93%; /* Make input fill the width of the container */
-  padding: 10px 40px; /* Add padding for the icon and text */
+  width: 93%; 
+  padding: 10px 40px; 
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
@@ -144,11 +142,11 @@ li {
 
 .search-icon {
   position: absolute;
-  left: 10px; /* Position the icon within the input */
-  top: 50%; /* Center the icon vertically */
-  transform: translateY(-50%); /* Adjust for vertical centering */
+  left: 10px; 
+  top: 50%; 
+  transform: translateY(-50%); 
   color: #888;
-  font-size: 18px; /* Adjust size as needed */
+  font-size: 18px; 
 }
 
 .nav-item {
@@ -174,8 +172,8 @@ li {
 .nav-user span {
   font-size: 16px;
   cursor: pointer;
-  display: inline-block; /* Ensure the element can be transformed */
-  transition: transform 0.2s ease, color 0.2s ease; /* Smooth transition for the effect */
+  display: inline-block; 
+  transition: transform 0.2s ease, color 0.2s ease; 
 }
 
 .nav-user span:hover {
@@ -198,44 +196,41 @@ li {
   justify-content: space-between;
   align-items: center;
   border-radius: 20px;
-  background-color: #42337ed2; /* Your desired color */
+  background-color: #42337ed2; 
   padding: 12px;
   font-size: 30px;
 }
 
 .navbar-title {
-  color: white; /* Change text color to white */
-  flex: 1; /* Allow the title to take up space */
-  text-align: center; /* Center align the title */
+  color: white; 
+  flex: 1; 
+  text-align: center; 
 }
 
-/* Add margin to the username in the navbar */
 .nav-user {
   display: flex;
   align-items: center;
   color: white;
-  padding: 0 10px 0 0; /* Add horizontal padding for natural spacing */
-  position: relative; /* Allow dropdown positioning */
+  padding: 0 10px 0 0; 
+  position: relative; 
 }
 
-/* Increase dropdown size */
 .dropdown {
   position: absolute;
   right: 0;
-  top: 100%; /* Position below the user icon */
-  background: white; /* Background color for the dropdown */
+  top: 100%; 
+  background: white; 
   border: 1px solid #ccc;
-  z-index: 1000; /* Ensure dropdown is above other elements */
+  z-index: 1000; 
   font-size: 15px;
-  min-width: 150px; /* Minimum width to make it larger */
+  min-width: 150px; 
   border-radius: 8px;
 }
 
-/* Center the logout button */
 .dropdown-logout-button {
-  margin-top: 10px; /* Increase the top margin */
-  margin-left: auto; /* Center it horizontally */
-  margin-right: auto; /* Center it horizontally */
+  margin-top: 10px; 
+  margin-left: auto; 
+  margin-right: auto; 
   margin-bottom: 10px;
   background-color: #dc3545;
   color: white;
@@ -243,79 +238,74 @@ li {
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  display: block; /* Make the button a block element */
-  text-align: center; /* Center text inside the button */
+  display: block; 
+  text-align: center; 
 }
 
-/* Adjust dropdown items for better spacing */
 .dropdown-item {
-  display: block; /* Stack items vertically */
+  display: block;
   padding: 10px;
-  color: black; /* Text color for dropdown items */
-  text-align: left; /* Align text to the left */
+  color: black; 
+  text-align: left; 
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f0; /* Highlight on hover */
+  background-color: #f0f0f0; 
 }
 
-/* Sidebar Styles */
 .sidebar {
-  position: fixed; /* Fix the sidebar to the left */
+  position: fixed; 
   top: 0;
-  left: 250px; /* Shift the sidebar to the right */
-  width: 250px; /* Width of the sidebar */
+  left: 250px; 
+  width: 250px; 
   height: 100%;
-  background-color: white; /* Change sidebar color to white */
-  color: black; /* Change text color to black for contrast */
-  padding: 20px; /* Padding inside the sidebar */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
-  z-index: 1000; /* Ensure it is above other elements */
-  display: none; /* Initially hide the sidebar */
+  background-color: white; 
+  color: black; 
+  padding: 20px; 
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
+  z-index: 1000; 
+  display: none; 
 }
 
-/* Sidebar toggle button */
 .sidebar-toggle {
   cursor: pointer;
-  font-size: 24px; /* Size of the toggle button */
-  margin-bottom: 10px; /* Space below the toggle button */
+  font-size: 24px; 
+  margin-bottom: 10px; 
 }
 
-/* Dropdown menu styles */
 .menu-options {
-  display: none; /* Initially hide the menu options */
-  margin-top: 10px; /* Space above the menu options */
+  display: none;
+  margin-top: 10px; 
 }
 
 .menu-options ul {
-  list-style: none; /* Remove default list styles */
+  list-style: none; 
   padding: 0;
 }
 
 .menu-options li {
-  padding: 10px; /* Padding for each option */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3); /* Separator line */
-  cursor: pointer; /* Change cursor on hover */
-  transition: background-color 0.3s; /* Smooth background transition */
+  padding: 10px; 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3); 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
 }
 
 .menu-options li:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Highlight on hover */
+  background-color: rgba(0, 0, 0, 0.1); 
 }
 
-/* Style for showing the sidebar */
 .sidebar.active {
-  display: block; /* Show the sidebar when active */
+  display: block; 
 }
 
 .navbar-title {
-  color: white; /* Title color */
+  color: white; 
   margin: 0;
 }
 
 .side-menu-icon {
   padding: 0 0 0 15px;
-  cursor: pointer; /* Change cursor to pointer */
+  cursor: pointer; 
 }
 
 .side-menu {
@@ -324,24 +314,24 @@ li {
   height: 100%;
   left: 0;
   top: 0;
-  background-color: #42337ed2; /* Solid color, without transparency */
+  background-color: #42337ed2;
   color: white;
   z-index: 1000;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); 
 }
 
 .side-menu a {
-  color: white; /* Ensures text within links is white */
+  color: white; 
   text-decoration: none;
   font-size: 18px;
   margin: 10px 0;
-  transition: color 0.3s ease, background-color 0.3s ease; /* Adds smooth transition */
+  transition: color 0.3s ease, background-color 0.3s ease; 
 }
 
 .side-menu a:hover {
-  color: white; /* Darker color on hover */
-  background-color: rgba(255, 255, 255, 0.2); /* Light background on hover for better visibility */
+  color: white; 
+  background-color: rgba(255, 255, 255, 0.2); 
   border-radius: 5px;
 }
 
@@ -358,39 +348,39 @@ li {
 }
 
 .main-content.shifted {
-  margin-left: 250px; /* Adjust width based on the side menu width */
+  margin-left: 250px; 
 }
 
 .side-menu-item {
-  display: block; /* Block display for items */
-  padding: 10px; /* Padding for items */
-  color: black; /* Text color */
-  text-decoration: none; /* Remove underline */
+  display: block; 
+  padding: 10px; 
+  color: black; 
+  text-decoration: none; 
 }
 
 .side-menu-item:hover {
-  background-color: #f0f0f0; /* Hover background color */
+  background-color: #f0f0f0; 
 }
 
 .dropdown {
-  position: absolute; /* Position dropdown relative to user icon */
+  position: absolute; 
   right: 0;
   top: 100%;
-  background-color: white; /* Background color of dropdown */
-  border: 1px solid #ccc; /* Border */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-  z-index: 1000; /* Ensure it appears above other content */
+  background-color: white; 
+  border: 1px solid #ccc; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+  z-index: 1000; 
 }
 
 .dropdown-item {
-  display: block; /* Block display for items */
-  padding: 10px; /* Padding for items */
-  color: black; /* Text color */
-  text-decoration: none; /* Remove underline */
+  display: block; 
+  padding: 10px; 
+  color: black; 
+  text-decoration: none; 
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f0; /* Hover background color */
+  background-color: #f0f0f0; 
 }
 
 

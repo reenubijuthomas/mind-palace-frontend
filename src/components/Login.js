@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import './Login.css';
-import logo from './assets/logo.jpeg'; // Adjust the path as necessary
+import logo from './assets/logo.jpeg'; 
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState(''); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Call the onLogin function, expecting it to return a boolean or a promise
     onLogin(username, password)
       .then((isAuthenticated) => {
         if (!isAuthenticated) {
-          setError('Invalid credentials. Please try again.'); // Set error message if authentication fails
+          setError('Invalid credentials. Please try again.'); 
         } else {
-          setError(''); // Clear error if authenticated
+          setError(''); 
         }
       })
       .catch((error) => {
-        console.error('Login error:', error); // Log error
-        setError('An error occurred during login. Please try again.'); // Set a generic error message
+        console.error('Login error:', error); 
+        setError('An error occurred during login. Please try again.'); 
       });
   };
 
@@ -54,7 +53,7 @@ const Login = ({ onLogin }) => {
                 required
               />
             </div>
-            {error && <div className="error-message">{error}</div>} {/* Display error message */}
+            {error && <div className="error-message">{error}</div>} 
             <div className="remember-me-container">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
