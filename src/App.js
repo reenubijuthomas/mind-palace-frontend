@@ -7,7 +7,7 @@ import Drafts from './components/Drafts';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
 import BinPage from './components/BinPage';
