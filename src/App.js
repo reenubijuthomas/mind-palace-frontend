@@ -37,7 +37,7 @@ const App = () => {
     };
 
     // Poll every 5 seconds for updated ideas
-    const interval = setInterval(fetchIdeas, 1000 * 180);
+    const interval = setInterval(fetchIdeas, 800);
     fetchIdeas(); // Call fetchIdeas function
     return () => clearInterval(interval); // Cleanup on component unmount
 

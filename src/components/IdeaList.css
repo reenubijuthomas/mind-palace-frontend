@@ -105,6 +105,24 @@
   transform: scale(1.05);
 }
 
+.restore-btn {
+  width: 75px;
+  padding: 6px;
+  bottom: 10px;
+  right: 90px; /* Position it to the left of the delete button */
+  position: absolute;
+  background-color: #4CAF50; /* Green background for restore */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.restore-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
 .idea-content h3 {
   margin-top: 10px;
   margin-bottom: 10px;

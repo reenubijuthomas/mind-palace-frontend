@@ -112,6 +112,19 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
+  const handleRestore = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/bin/restore/${ideaId}`);
+      setDeletedIdeas((prevDeletedIdeas) =>
+        prevDeletedIdeas.filter((idea) => idea.id !== ideaId)
+      );
+      showNotification('Idea has been restored!');
+    } catch (error) {
+      console.error('Error restoring idea:', error);
+      showNotification('Failed to restore idea');
+    }
+  };
+
   // Confirm delete comment
   const confirmDeleteComment = (commentId, ideaId) => {
     setDeleteCommentId(commentId);
@@ -205,15 +218,26 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
             {isBinPage && (
-              <button
-                className="permanent-delete-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteClick(idea.id); // Trigger delete confirmation
-                }}
-              >
-                Delete
-              </button>
+              <>
+                <button
+                  className="permanent-delete-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(idea.id); // Trigger delete confirmation
+                  }}
+                >
+                  Delete
+                </button>
+                <button
+                  className="restore-btn" // Add the Restore button here
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRestore(idea.id); // Call the restore function
+                  }}
+                >
+                  Restore
+                </button>
+              </>
             )}
             {!isDraftPage && (
               <div className="idea-actions">
@@ -221,10 +245,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   className="like-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (isBinPage) return;  // Prevent like action on BinPage
-                    handleLike(idea.id);  // Proceed with like action on other pages
+                    if (isBinPage) return;  
+                    handleLike(idea.id);  
                   }}
-                  disabled={isBinPage}  // Disable the button if it's on the BinPage
+                  disabled={isBinPage}  
                 >
                   <FontAwesomeIcon icon={faThumbsUp} />
                   <span className="likes-count">{idea.likes}</span>
@@ -375,9 +399,9 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               className="confirm-btn"
               onClick={() => {
                 if (isBinPage) {
-                  permanentDelete(deleteIdeaId); 
+                  permanentDelete(deleteIdeaId);
                 } else {
-                  confirmDelete(); 
+                  confirmDelete();
                 }
               }}
             >
