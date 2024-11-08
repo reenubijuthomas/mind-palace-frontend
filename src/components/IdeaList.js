@@ -230,7 +230,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </span>
 
               {!isBinPage && (
-                <div className="approval-status-container">
+                <div className="approval-status-container2">
                   <span
                     className={`approval-status ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 0 ? 'pending' : 'rejected'
                       }`}
