@@ -10,7 +10,6 @@ const Drafts = ({ userId, handleDelete, handleEdit }) => {
     const fetchDrafts = async () => {
       try {
         const response = await axios.get(`http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`);
-        console.log(response.data);
         setDrafts(response.data);
       } catch (error) {
         console.error('Error fetching drafts:', error);
@@ -19,14 +18,38 @@ const Drafts = ({ userId, handleDelete, handleEdit }) => {
 
     fetchDrafts();
   }, [userId]);
+
+  const handleDeleteIdea = async (id) => {
+    try {
+      await handleDelete(id);
+      setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+    } catch (error) {
+      console.error('Error deleting idea:', error);
+    }
+  };
+
+  const handleEditIdea = async (updatedIdea) => {
+    try {
+      const savedIdea = await handleEdit(updatedIdea);
+      if (savedIdea) {
+        setDrafts((prevIdeas) =>
+          prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
+        );
+      }
+    } catch (error) {
+      console.error('Error editing idea:', error);
+    }
+  };
+
+
 return (
     <div>
       <h2>My Drafts</h2>
       {drafts.length > 0 ? (
         <IdeaList
           ideas={drafts}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
+          handleDelete={handleDeleteIdea}
+          handleEdit={handleEditIdea}
           userId={userId}
         />
       ) : (

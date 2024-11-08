@@ -52,7 +52,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
       {myIdeas.length > 0 ? (
         <IdeaList
           ideas={myIdeas}
-          handleDelete={handleDeleteIdea} // Use the local handleDeleteIdea function here
+          handleDelete={handleDeleteIdea}
           handleEdit={handleEditIdea}
           handleLike={handleLike}
           userId={userId}
