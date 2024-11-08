@@ -51,6 +51,7 @@ return (
           handleDelete={handleDeleteIdea}
           handleEdit={handleEditIdea}
           userId={userId}
+          isDraftPage={true}
         />
       ) : (
         <div className="no-ideas-container">

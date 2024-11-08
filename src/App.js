@@ -174,7 +174,7 @@ const App = () => {
 
                 <NavLink to="/my-ideas" activeClassName="active" className="side-menu-item">My Ideas</NavLink>
                 <NavLink to="/groups" activeClassName="active" className="side-menu-item">Groups</NavLink>
-                <NavLink to="/draft" activeClassName="active" className="side-menu-item">Draft</NavLink>
+                <NavLink to="/draft" activeClassName="active" className="side-menu-item">Drafts</NavLink>
                 <NavLink to="/bin" activeClassName="active" className="side-menu-item">Bin</NavLink>
               </div>
             )}

@@ -6,7 +6,7 @@ import './IdeaList.css';
 import ReactQuill from 'react-quill'; // Import React Quill
 import 'react-quill/dist/quill.snow.css'; // Import the required Quill styles
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -142,7 +142,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   const handleSave = async (id) => {
     try {
       await handleEdit({ id, title: editableTitle, description: editableDescription });
-      console.log("Title:", editableTitle)
       setIsEditMode(false);
       showNotification('Idea has been updated!');
     } catch (error) {
@@ -193,20 +192,22 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <h3>{idea.title}</h3>
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
-            <div className="idea-actions">
-              <button
-                className="like-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (isBinPage) return;  // Prevent like action on BinPage
-                  handleLike(idea.id);  // Proceed with like action on other pages
-                }}
-                disabled={isBinPage}  // Disable the button if it's on the BinPage
-              >
-                <FontAwesomeIcon icon={faThumbsUp} />
-                <span className="likes-count">{idea.likes}</span>
-              </button>
-            </div>
+            {!isDraftPage && (
+              <div className="idea-actions">
+                <button
+                  className="like-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isBinPage) return;  // Prevent like action on BinPage
+                    handleLike(idea.id);  // Proceed with like action on other pages
+                  }}
+                  disabled={isBinPage}  // Disable the button if it's on the BinPage
+                >
+                  <FontAwesomeIcon icon={faThumbsUp} />
+                  <span className="likes-count">{idea.likes}</span>
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>

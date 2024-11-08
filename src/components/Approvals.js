@@ -174,7 +174,7 @@ const Approvals = () => {
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
                   <div className="idea-likes">
-                    <FaThumbsUp /> {idea.likes}
+                    <FaThumbsUp/> <span className="approvals-likes-count">{idea.likes}</span>
                   </div>
                   <div className="idea-status">
                     {idea.isApproved === null || idea.isApproved === 0 ? (
