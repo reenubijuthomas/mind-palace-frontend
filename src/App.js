@@ -179,7 +179,7 @@ const App = () => {
                 <div className="side-menu-icon" onClick={toggleMenu}>
                   <FontAwesomeIcon icon={faBars} />
                 </div>
-                <h1 className="navbar-title">Mind Palace</h1>
+                <h1 className="navbar-title">MIND PALACE</h1>
                 <div className="nav-user" onClick={toggleDropdown}>
                   <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
                   <span>{username}</span>
