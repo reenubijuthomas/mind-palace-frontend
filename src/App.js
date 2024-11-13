@@ -30,18 +30,33 @@ const App = () => {
       if (!isAuthenticated) return; 
       try {
         const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false');
-        setIdeas(response.data);
+        const ideasWithCategories = await Promise.all(response.data.map(async (idea) => {
+          const categories = await fetchCategoriesForIdea(idea.id);
+          return { ...idea, categories };
+        }));
+        console.log(ideasWithCategories)
+        setIdeas(ideasWithCategories);
+  
       } catch (error) {
         console.error('Error fetching ideas:', error);
       }
     };
-
-    
+  
     const interval = setInterval(fetchIdeas, 800);
     fetchIdeas(); 
     return () => clearInterval(interval); 
+  
+  }, [isAuthenticated]);
 
-  }, [isAuthenticated]); 
+  const fetchCategoriesForIdea = async (ideaId) => {
+    try {
+      const response = await axios.get(`http://localhost:5050/api/tags/getTags/${ideaId}`);
+      return response.data.categories || [];
+    } catch (error) {
+      console.error(`Error fetching categories for idea ${ideaId}:`, error);
+      return [];
+    }
+  };
 
   const handleAddIdea = async (newIdea) => {
     try {
@@ -52,11 +67,21 @@ const App = () => {
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
       response.data.username = username;
-      setIdeas((prevIdeas) => [response.data, ...prevIdeas]); 
+      setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
+      tagIdea(response.data.id); 
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
   };
+
+  const tagIdea = async (ideaId) => {
+    try {
+      axios.get(`http://localhost:5050/api/tags/updateTags/${ideaId}`);
+    } catch (error) {
+      console.error('Error tagging idea:', error);
+    }
+  };
+  
 
   const handleAddDraft = async (newDraft) => {
     try {
@@ -135,12 +160,15 @@ const App = () => {
     }
   };
 
-  const filteredIdeas = ideas.filter(
-    (idea) =>
-      !idea.is_draft &&
-      (idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        idea.description.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredIdeas = ideas.filter((idea) => {
+    const titleMatch = idea.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const descriptionMatch = idea.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const categoryMatch = idea.categories?.some((category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    return !idea.is_draft && (titleMatch || descriptionMatch || categoryMatch);
+  });
 
   const handleLogout = () => {
     setIsAuthenticated(false);
