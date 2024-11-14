@@ -52,6 +52,7 @@ return (
           handleEdit={handleEditIdea}
           userId={userId}
           isDraftPage={true}
+          setDrafts={setDrafts}
         />
       ) : (
         <div className="no-ideas-container">

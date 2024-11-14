@@ -3,10 +3,10 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import './IdeaList.css';
-import ReactQuill from 'react-quill'; 
-import 'react-quill/dist/quill.snow.css'; 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -54,17 +54,17 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const showNotification = (message) => {
     setNotification(message);
-    setTimeout(() => setNotification(''), 3000); 
+    setTimeout(() => setNotification(''), 3000);
   };
 
   const handleDeleteClick = (ideaId) => {
     setDeleteIdeaId(ideaId);
-    setShowDeleteConfirm(true); 
+    setShowDeleteConfirm(true);
   };
 
   const confirmDelete = async () => {
     try {
-      await handleDelete(deleteIdeaId); 
+      await handleDelete(deleteIdeaId);
       setShowDeleteConfirm(false);
       setDeleteIdeaId(null);
       showNotification('Idea has been deleted!');
@@ -163,7 +163,18 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
+  const submitDraft = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/drafts/submit/${ideaId}`);
+      setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+      showNotification('Idea has been saved successfully!');
+    } catch (error) {
+      console.error('Error submitting draft:', error);
+    }
+  };
   
+
+
   const getApprovalStatus = (status) => {
     switch (status) {
       case 1:
@@ -206,22 +217,33 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <h3>{idea.title}</h3>
               <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
             </div>
+            {isDraftPage && (
+              <button
+                className="submit-draft-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  submitDraft(idea.id);
+                }}
+              >
+                Submit
+              </button>
+            )}
             {isBinPage && (
               <>
                 <button
                   className="permanent-delete-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteClick(idea.id); 
+                    handleDeleteClick(idea.id);
                   }}
                 >
                   Delete
                 </button>
                 <button
-                  className="restore-btn" 
+                  className="restore-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleRestore(idea.id); 
+                    handleRestore(idea.id);
                   }}
                 >
                   Restore
@@ -234,10 +256,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   className="like-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (isBinPage) return;  
-                    handleLike(idea.id);  
+                    if (isBinPage) return;
+                    handleLike(idea.id);
                   }}
-                  disabled={isBinPage}  
+                  disabled={isBinPage}
                 >
                   <FontAwesomeIcon icon={faThumbsUp} />
                   <span className="likes-count">{idea.likes}</span>
@@ -291,8 +313,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 <div className="edit-input-group">
                   <label htmlFor="editableDescription">Description:</label>
                   <ReactQuill
-                    value={editableDescription} 
-                    onChange={setEditableDescription} 
+                    value={editableDescription}
+                    onChange={setEditableDescription}
                     placeholder="Enter idea description"
                     modules={{
                       toolbar: [
@@ -319,10 +341,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <button
                 className="like-btn"
                 onClick={() => {
-                  if (isBinPage) return; 
-                  handleLike(showModal.id); 
+                  if (isBinPage) return;
+                  handleLike(showModal.id);
                 }}
-                disabled={isBinPage}  
+                disabled={isBinPage}
               >
                 <FontAwesomeIcon icon={faThumbsUp} />
                 <span className="likes-count">{showModal.likes}</span>

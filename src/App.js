@@ -94,6 +94,7 @@ const App = () => {
       const response = await axios.post('http://localhost:5050/api/ideas', draftWithCreator);
       response.data.username = username;
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
+      tagIdea(response.data.id); 
     } catch (error) {
       console.error('Error saving draft:', error);
     }
