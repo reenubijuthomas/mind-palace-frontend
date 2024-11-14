@@ -6,12 +6,13 @@ import Login from './components/Login';
 import Drafts from './components/Drafts';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
 import BinPage from './components/BinPage';
 import { NavLink } from 'react-router-dom';
+import { faHome, faThumbsUp, faLightbulb, faUsers, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -21,7 +22,6 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
   const [userId, setUserId] = useState(null); 
   const [username, setUsername] = useState(''); 
-  const [dropdownOpen, setDropdownOpen] = useState(false); 
   const [menuOpen, setMenuOpen] = useState(true); 
   const [roleId, setRole] = useState(null);  
 
@@ -42,6 +42,7 @@ const App = () => {
       }
     };
   
+    
     const interval = setInterval(fetchIdeas, 800);
     fetchIdeas(); 
     return () => clearInterval(interval); 
@@ -92,10 +93,7 @@ const App = () => {
       };
       const response = await axios.post('http://localhost:5050/api/ideas', draftWithCreator);
       response.data.username = username;
-
-      
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
-
     } catch (error) {
       console.error('Error saving draft:', error);
     }
@@ -114,7 +112,6 @@ const App = () => {
         prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea))
       );
       setEditingIdea(null);
-
       return response.data;
     } catch (error) {
       console.error('Error updating idea:', error);
@@ -174,10 +171,6 @@ const App = () => {
     setIsAuthenticated(false);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -189,41 +182,54 @@ const App = () => {
           <>
             {menuOpen && (
               <div className="side-menu">
-                <NavLink to="/" activeClassName="active" className="side-menu-item">Home</NavLink>
+                <div className="side-menu-main">
+                  <NavLink to="/" activeClassName="active" className="side-menu-item">
+                    <FontAwesomeIcon icon={faHome} className="menu-icon" /> <span>Home</span>
+                  </NavLink>
+                  {(roleId === 3 || roleId === 1) && (
+                    <NavLink to="/approvals" activeClassName="active" className="side-menu-item">
+                      <FontAwesomeIcon icon={faThumbsUp} className="menu-icon" /> <span>Approvals</span>
+                    </NavLink>
+                  )}
+                  <NavLink to="/my-ideas" activeClassName="active" className="side-menu-item">
+                    <FontAwesomeIcon icon={faLightbulb} className="menu-icon" /> <span>My Ideas</span>
+                  </NavLink>
+                  <NavLink to="/groups" activeClassName="active" className="side-menu-item">
+                    <FontAwesomeIcon icon={faUsers} className="menu-icon" /> <span>Groups</span>
+                  </NavLink>
+                  <NavLink to="/draft" activeClassName="active" className="side-menu-item">
+                    <FontAwesomeIcon icon={faFileAlt} className="menu-icon" /> <span>My Drafts</span>
+                  </NavLink>
+                  <NavLink to="/bin" activeClassName="active" className="side-menu-item">
+                    <FontAwesomeIcon icon={faTrash} className="menu-icon" /> <span>My Bin</span>
+                  </NavLink>
+                </div>
 
-                {(roleId === 3 || roleId === 1) && (
-                  <NavLink to="/approvals" activeClassName="active" className="side-menu-item">Approvals</NavLink>
-                )}
-
-                <NavLink to="/my-ideas" activeClassName="active" className="side-menu-item">My Ideas</NavLink>
-                <NavLink to="/groups" activeClassName="active" className="side-menu-item">Groups</NavLink>
-                <NavLink to="/draft" activeClassName="active" className="side-menu-item">Drafts</NavLink>
-                <NavLink to="/bin" activeClassName="active" className="side-menu-item">Bin</NavLink>
+                <div className="side-menu-bottom">
+                  <NavLink to="/settings" className="side-menu-item">
+                    <FontAwesomeIcon icon={faCog} className="menu-icon" /> <span>Settings</span>
+                  </NavLink>
+                  <NavLink to="/help" className="side-menu-item">
+                    <FontAwesomeIcon icon={faQuestionCircle} className="menu-icon" /> <span>Help</span>
+                  </NavLink>
+                  <button onClick={handleLogout} className="side-menu-logout">
+                    <FontAwesomeIcon icon={faSignOutAlt} className="menu-icon" /> <span>Logout</span>
+                  </button>
+                </div>
               </div>
             )}
 
             <div className={`main-content ${menuOpen ? "shifted" : ""}`}>
               <nav className="navbar">
                 <div className="side-menu-icon" onClick={toggleMenu}>
-                  <FontAwesomeIcon icon={faBars} />
+                <FontAwesomeIcon icon={faBars} className="side-menu-icon" onClick={toggleMenu} />
                 </div>
                 <h1 className="navbar-title">MIND PALACE</h1>
-                <div className="nav-user" onClick={toggleDropdown}>
+                <div className="nav-user">
                   <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
                   <span>{username}</span>
-                  {dropdownOpen && (
-                    <div className="dropdown">
-                      <a href="#settings" className="dropdown-item">
-                        <FontAwesomeIcon icon={faCog} /> Settings
-                      </a>
-                      <a href="#help" className="dropdown-item">
-                        <FontAwesomeIcon icon={faQuestionCircle} /> Help
-                      </a>
-                      <button onClick={handleLogout} className="dropdown-logout-button">Logout</button>
-                    </div>
-                  )}
                 </div>
-              </nav>
+              </nav>           
               <Routes>
                 <Route
                   path="/"
@@ -280,6 +286,8 @@ const App = () => {
                 />
                 <Route path="/groups" element={<div>Groups Page</div>} />
                 <Route path="/bin" element={<BinPage userId={userId} />} />
+                <Route path="/settings" element={<div>Settings Page</div>} />
+                <Route path="/help" element={<div>Help Page</div>} />
               </Routes>
             </div>
           </>
@@ -288,7 +296,6 @@ const App = () => {
         )}
       </div>
     </Router>
-
   );
 };
 

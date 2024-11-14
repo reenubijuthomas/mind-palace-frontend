@@ -187,9 +187,7 @@ li {
 }
 
 
-.dropdown-logout-button:hover {
-  background-color: #c82333;
-}
+
 
 .navbar {
   display: flex;
@@ -227,19 +225,24 @@ li {
   border-radius: 8px;
 }
 
-.dropdown-logout-button {
-  margin-top: 10px; 
-  margin-left: auto; 
-  margin-right: auto; 
-  margin-bottom: 10px;
+.side-menu-logout {
+  padding: 8px 55px; /* Adjust padding for smaller button */
+  font-size: 18px;    /* Adjust font size */
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
-  display: block; 
-  text-align: center; 
+  display: flex;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+}
+
+.side-menu-logout:hover {
+  background-color: #c82333; /* Slightly darker on hover */
 }
 
 .dropdown-item {
@@ -310,6 +313,22 @@ li {
   color: white;
 }
 
+.menu-icon {
+  width: 24px; /* Set a fixed width to ensure consistent alignment */
+  margin-right: 12px; /* Spacing between icon and text */
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+}
+
+.side-menu-bottom {
+  padding-top: 5px; /* Reduced padding at the top */
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px; /* Reduced padding at the bottom */
+}
+
 .side-menu {
   position: fixed;
   width: 200px;
@@ -320,7 +339,12 @@ li {
   color: white;
   z-index: 1000;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); 
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto; /* Enables scroll if content exceeds screen height */
+  max-height: 100vh; /* Prevents overflow from the screen */
 }
 
 .side-menu a {
@@ -353,14 +377,19 @@ li {
 }
 
 .side-menu-item {
-  display: block; 
-  padding: 10px; 
-  color: black; 
-  text-decoration: none; 
+  display: flex;
+  align-items: center; /* Vertically aligns icon and text */
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 5px 0;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .side-menu-item:hover {
-  background-color: #f0f0f0; 
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
 }
 
 .dropdown {
