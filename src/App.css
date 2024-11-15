@@ -18,8 +18,9 @@ h1 {
 
 .drafts-container {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px; /* Ensure this width aligns with the search-bar width */
+  margin: 0 auto; /* Centers the drafts-container */
+  text-align: center; /* Ensures inner elements are centered */
 }
 
 .action-buttons-container {
@@ -59,14 +60,18 @@ h1 {
 
 
 .mind-palace-title {
-  color: white; 
-  margin: 0;
-  font-size: 2.5rem; 
+  color: white;
+  margin: 20px auto;
+  font-size: 2.5rem;
+  text-align: center; /* Centers the title */
+  max-width: 500px; /* Restricts the width of the title */
+  padding: 0 20px; /* Adds padding for a better look */
 }
 
+/* Responsive mind-palace-title */
 @media (max-width: 768px) {
   .mind-palace-title {
-    font-size: 2rem; 
+    font-size: 2rem;
   }
 }
 
@@ -79,22 +84,51 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Centers the form elements */
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;  /* Restricts the form width */
+}
+
+.input-container {
+  margin-bottom: 15px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 20px auto;
+  max-width: 800px;
 }
 
 input,
 .textarea-idea {
-  margin: 5px 0;
-  padding: 12px;
+  margin: 12px 0; /* Space between elements */
   border: 1px solid #ced4da;
-  border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   background-color: white;
+  width: 100%; /* Full width of the container */
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 600px;
 }
 
 .ql-container{
-  height: 100px;
+  height: 150px;
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow-x: auto; /* Adds horizontal scroll if needed */
+  overflow-y: hidden; /* Hides vertical scroll */
+  white-space: nowrap; /* Prevents line wrapping */
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 3px;
 }
 
 button {
@@ -128,25 +162,28 @@ li {
 }
 
 .search-bar {
-  position: relative; 
-  margin: 10px 0;
+  position: relative;
+  margin: 20px auto;  /* Centers the search bar */
+  width: 100%;
+  max-width: 600px;
 }
 
 .search-bar input[type="text"] {
-  width: 93%; 
-  padding: 10px 40px; 
+  width: 100%;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  padding: 15px 45px;
+  border-radius: 10px;
+  font-size: 18px;
 }
 
 .search-icon {
   position: absolute;
-  left: 10px; 
-  top: 50%; 
-  transform: translateY(-50%); 
+  left: 12px; /* Adjusted for padding */
+  top: 50%;
+  transform: translateY(-50%);
   color: #888;
-  font-size: 18px; 
+  font-size: 18px;
 }
 
 .nav-item {
@@ -168,7 +205,6 @@ li {
   color: lightgray;
 }
 
-
 .nav-user span {
   font-size: 16px;
   cursor: pointer;
@@ -185,9 +221,6 @@ li {
   margin: 0;
   font-weight: bold;
 }
-
-
-
 
 .navbar {
   display: flex;
@@ -211,18 +244,6 @@ li {
   color: white;
   padding: 0 10px 0 0; 
   position: relative; 
-}
-
-.dropdown {
-  position: absolute;
-  right: 0;
-  top: 100%; 
-  background: white; 
-  border: 1px solid #ccc;
-  z-index: 1000; 
-  font-size: 15px;
-  min-width: 150px; 
-  border-radius: 8px;
 }
 
 .side-menu-logout {
@@ -258,17 +279,21 @@ li {
 }
 
 .sidebar {
-  position: fixed; 
+  position: fixed;
   top: 0;
-  left: 250px; 
-  width: 250px; 
+  left: -250px;
+  width: 250px;
   height: 100%;
-  background-color: white; 
-  color: black; 
-  padding: 20px; 
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
-  z-index: 1000; 
-  display: none; 
+  background-color: #42337ed2;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+.sidebar.active {
+  left: 0;
 }
 
 .sidebar-toggle {
@@ -367,7 +392,6 @@ li {
   border-radius: 5px;
 }
 
-
 .main-content {
   transition: margin-left 0.3s ease;
 }
@@ -390,14 +414,4 @@ li {
 .side-menu-item:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
-}
-
-.dropdown {
-  position: absolute; 
-  right: 0;
-  top: 100%;
-  background-color: white; 
-  border: 1px solid #ccc; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
-  z-index: 1000; 
 }

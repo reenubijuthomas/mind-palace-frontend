@@ -248,15 +248,17 @@ const App = () => {
                       <div className="input-container">
                         <IdeaForm onAddIdea={handleAddIdea} onAddDraft={handleAddDraft} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
                       </div>
-                      <h2>View Ideas</h2>
-                      <IdeaList
-                        ideas={filteredIdeas}
-                        handleDelete={handleDelete}
-                        handleEdit={handleUpdateIdea}
-                        handleLike={handleLike}
-                        userId={userId} 
-                        username={username} 
-                      />
+                      <div className="ideas-section">
+                        <h2>View Ideas</h2>
+                        <IdeaList
+                          ideas={filteredIdeas}
+                          handleDelete={handleDelete}
+                          handleEdit={handleUpdateIdea}
+                          handleLike={handleLike}
+                          userId={userId}
+                          username={username}
+                        />
+                      </div>
                     </>
                   }
                 />
