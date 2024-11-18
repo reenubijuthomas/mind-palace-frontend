@@ -262,7 +262,7 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/approvals" element={<Approvals />} />
+                <Route path="/approvals" element={<Approvals userId={userId} />} />
                 <Route
                   path="/draft"
                   element={

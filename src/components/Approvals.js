@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaThumbsUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './Approvals.css';
 
-const Approvals = () => {
+const Approvals = ({userId}) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
   const [comments, setComments] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,9 +12,11 @@ const Approvals = () => {
   const [commentVisibility, setCommentVisibility] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(null);
   const [actionType, setActionType] = useState('');
-  const [newComment, setNewComment] = useState('');
+  //const [newComment, setNewComment] = useState('');
   const [showPendingDropdown, setShowPendingDropdown] = useState(true);
   const [showApprovedRejectedDropdown, setShowApprovedRejectedDropdown] = useState(true);
+  const [approvalComment, setApprovalComment] = useState('');
+
 
   useEffect(() => {
     const fetchApprovalIdeas = async () => {
@@ -28,12 +30,15 @@ const Approvals = () => {
             axios.get(`http://localhost:5050/api/comments/${idea.id}`)
           )
         );
-
+        
         const commentsMap = {};
-        commentsResponses.forEach((response, index) => {
-          commentsMap[ideas[index].id] = response.data;
+        commentsResponses.forEach(({ data }, index) => {
+          commentsMap[ideas[index].id] = data;  // directly using `data`
         });
         setComments(commentsMap);
+        
+        
+        
       } catch (error) {
         console.error('Error fetching approval ideas or comments:', error);
       }
@@ -44,12 +49,23 @@ const Approvals = () => {
 
   const handleApprove = async (ideaId) => {
     try {
+      // Insert the approval comment into the Comments table
+      await axios.post(`http://localhost:5050/api/comments`, {
+        comment: approvalComment || '',
+        commentedBy: userId,
+        commentedOn: ideaId,
+      });
+  
+      // Update the idea's status to 'Approved'
       await axios.put(`http://localhost:5050/api/approvals/approve/${ideaId}`);
+  
+      // Update the state to reflect the approval
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
           idea.id === ideaId ? { ...idea, status: 'Approved', isApproved: 1 } : idea
         )
       );
+  
       setShowConfirmation(null);
       closeModal();
       showNotification('Idea approved successfully!');
@@ -61,18 +77,23 @@ const Approvals = () => {
   const handleReject = async (ideaId) => {
     try {
       await axios.put(`http://localhost:5050/api/approvals/reject/${ideaId}`);
+  
+      // Update the state to reflect the rejection
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
           idea.id === ideaId ? { ...idea, status: 'Rejected', isApproved: 2 } : idea
         )
       );
+  
       setShowConfirmation(null);
-      showNotification('Idea rejected successfully!');
       closeModal();
+      showNotification('Idea rejected successfully!');
     } catch (error) {
       console.error('Error rejecting idea:', error);
     }
   };
+  
+  
 
   const showNotification = (message) => {
     setNotification(message);
@@ -110,27 +131,27 @@ const Approvals = () => {
     setActionType('');
   };
 
-  const handleCommentSubmit = async (ideaId) => {
-    if (newComment.trim()) {
-      try {
-        await axios.post(`http://localhost:5050/api/comments/${ideaId}`, {
-          comment: newComment,
-        });
+  // const handleCommentSubmit = async (ideaId) => {
+  //   if (newComment.trim()) {
+  //     try {
+  //       await axios.post(`http://localhost:5050/api/comments/${ideaId}`, {
+  //         comment: newComment,
+  //       });
 
-        setComments((prev) => ({
-          ...prev,
-          [ideaId]: [
-            ...(prev[ideaId] || []),
-            { comment: newComment, username: 'currentUser' },
-          ],
-        }));
+  //       setComments((prev) => ({
+  //         ...prev,
+  //         [ideaId]: [
+  //           ...(prev[ideaId] || []),
+  //           { comment: newComment, username: 'currentUser' },
+  //         ],
+  //       }));
 
-        setNewComment('');
-      } catch (error) {
-        console.error('Error adding comment:', error);
-      }
-    }
-  };
+  //       setNewComment('');
+  //     } catch (error) {
+  //       console.error('Error adding comment:', error);
+  //     }
+  //   }
+  // };
 
   return (
     <div>
@@ -233,84 +254,6 @@ const Approvals = () => {
         )}
       </div>
 
-
-      {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal-btn" onClick={closeModal}>
-              &times;
-            </button>
-            {/* Modal Header: Username, Date, and Status */}
-            <div className="modal-header">
-              <span className="creator-username"><strong>By: {showModal.username}</strong></span>
-              <span className="created-date">
-                {new Date(showModal.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-              <p className="modal-status">
-                <span
-                  className={`status-box ${showModal.isApproved === 1 ? 'approved' :
-                      showModal.isApproved === 2 ? 'rejected' : 'pending'
-                    }`}
-                >
-                  {showModal.isApproved === 1 ? 'Approved' :
-                    showModal.isApproved === 2 ? 'Rejected' : 'Pending'}
-                </span>
-              </p>
-            </div>
-
-            <h3 className="modal-title">{showModal.title}</h3>
-            <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
-
-            <div className="modal-likes-comments">
-              <div className="modal-likes">
-                <FaThumbsUp /> {showModal.likes}
-              </div>
-              <div
-                className="comments-toggle"
-                onClick={() => toggleCommentsVisibility(showModal.id)}
-              >
-                Comments {commentVisibility[showModal.id] ? <FaChevronUp /> : <FaChevronDown />}
-              </div>
-            </div>
-
-            {commentVisibility[showModal.id] && (
-              <ul className="comments-list">
-                {comments[showModal.id]?.map((comment, idx) => (
-                  <li key={idx}>
-                    <strong>{comment.username}</strong>: {comment.comment}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {showModal.isApproved === 0 && (
-              <div className="modal-actions">
-                <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
-                  Approve
-                </button>
-                <button className="reject-btn" onClick={() => openConfirmation(showModal, 'reject')}>
-                  Reject
-                </button>
-              </div>
-            )}
-
-            <div className="add-comment">
-              <input
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Add a comment"
-              />
-              <button onClick={() => handleCommentSubmit(showModal.id)}>Add</button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -340,6 +283,13 @@ const Approvals = () => {
 
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+            {showModal.isApproved !== null && showModal.approvalComment && (
+  <div className="modal-comment">
+    <strong>Approver's Comment:</strong>
+    <p>{showModal.approvalComment}</p>
+  </div>
+)}
+
 
             <div className="modal-likes-comments">
               <div className="modal-likes">
@@ -365,6 +315,12 @@ const Approvals = () => {
 
             {showModal.isApproved === 0 && (
               <div className="modal-actions">
+                <textarea
+      className="approval-comment"
+      placeholder="Add a comment for approval/rejection"
+      value={approvalComment}
+      onChange={(e) => setApprovalComment(e.target.value)}
+    />
                 <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
                   Approve
                 </button>
@@ -373,7 +329,7 @@ const Approvals = () => {
                 </button>
               </div>
             )}
-
+{/* 
             <div className="add-comment">
               <input
                 type="text"
@@ -382,7 +338,7 @@ const Approvals = () => {
                 placeholder="Add a comment"
               />
               <button class="approval-submit-button"onClick={() => handleCommentSubmit(showModal.id)}>Add</button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
