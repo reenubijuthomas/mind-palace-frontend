@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
 import BinPage from './components/BinPage';
+import GroupsPage from './components/GroupsPage'; //ardra edit 1
+import CategoryPage from './components/CategoryPage'; //ardra edit 2
 import { NavLink } from 'react-router-dom';
 import { faHome, faThumbsUp, faLightbulb, faUsers, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -287,7 +289,8 @@ const App = () => {
                     />
                   }
                 />
-                <Route path="/groups" element={<div>Groups Page</div>} />
+                <Route path="/groups" element={<GroupsPage />} /> 
+                <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage />} />
                 <Route path="/bin" element={<BinPage userId={userId} />} />
                 <Route path="/settings" element={<div>Settings Page</div>} />
                 <Route path="/help" element={<div>Help Page</div>} />
