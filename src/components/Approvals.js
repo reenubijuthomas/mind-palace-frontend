@@ -299,8 +299,13 @@ const Approvals = ({ userId }) => {
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
             <div className="modal-comment">
-              <strong>Approver's Comment: {comments[showModal.id]?.approverComment?.comment || 'No approver comment yet'}</strong>
+              {(showModal.isApproved === 1 || showModal.isApproved === 2) && (
+                <strong>
+                  Approver's Comment: {comments[showModal.id]?.approverComment?.comment || 'No approver comment yet'}
+                </strong>
+              )}
             </div>
+
 
 
             <div className="modal-likes-comments">
