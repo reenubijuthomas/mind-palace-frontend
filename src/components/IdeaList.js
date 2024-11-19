@@ -16,7 +16,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   const [deleteIdeaId, setDeleteIdeaId] = useState(null);
   const [showDeleteCommentConfirm, setShowDeleteCommentConfirm] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState(null);
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableTitle, setEditableTitle] = useState('');
   const [editableDescription, setEditableDescription] = useState('');
@@ -31,12 +30,21 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   const fetchComments = async (ideaId) => {
     try {
       const response = await axios.get(`http://localhost:5050/api/comments/${ideaId}`);
-      setCommentData((prevComments) => ({ ...prevComments, [ideaId]: response.data }));
+      const generalComments = response.data.filter(comment => !comment.isApproverComment);
+      const approverComment = response.data.find(comment => comment.isApproverComment);
+      setCommentData((prevComments) => ({
+        ...prevComments,
+        [ideaId]: {
+          generalComments: generalComments,
+          approverComment: approverComment || null, 
+        },
+      }));
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
+  
   const handleAddComment = async (ideaId) => {
     try {
       await axios.post(`http://localhost:5050/api/comments`, {
@@ -140,6 +148,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   };
 
   const openModal = (idea) => {
+    fetchComments(idea.id);
     setShowModal(idea);
     setIsEditMode(false);
   };
@@ -172,8 +181,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       console.error('Error submitting draft:', error);
     }
   };
-  
-
 
   const getApprovalStatus = (status) => {
     switch (status) {
@@ -334,7 +341,20 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             ) : (
               <>
                 <h3 className="modal-title">{showModal.title}</h3>
-                <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }}></div>
+                <div className="modal-description">
+  {showModal.isApproved === 1 || showModal.isApproved === 2 ? (
+    <>
+      <strong>Approver's Comment:</strong>
+      {commentData[showModal.id]?.approverComment ? (
+        <span> {commentData[showModal.id].approverComment.comment}</span>
+      ) : (
+        <span> No approver's comment available.</span>
+      )}
+    </>
+  ) : null}
+</div>
+
+
               </>
             )}
             <div className="modal-actions">
@@ -378,17 +398,22 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             </div>
             {showComments[showModal.id] && (
               <ul className="comments-list">
-                {commentData[showModal.id]?.map((comment) => (
-                  <li className="comment-text" key={comment.id}>
-                    <strong>{comment.username}</strong>: {comment.comment}
-                    {userId === comment.commentedBy && !isBinPage && (
-                      <button className="delete-comment-btn" onClick={() => confirmDeleteComment(comment.id, showModal.id)}>
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
+  {/* Render general comments */}
+  {commentData[showModal.id]?.generalComments?.map((comment) => (
+    <li className="comment-text" key={comment.id}>
+      <strong>{comment.username}</strong>: {comment.comment}
+      {userId === comment.commentedBy && !isBinPage && (
+        <button
+          className="delete-comment-btn"
+          onClick={() => confirmDeleteComment(comment.id, showModal.id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      )}
+    </li>
+  ))}
+</ul>
+
             )}
           </div>
         </div>

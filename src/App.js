@@ -36,7 +36,6 @@ const App = () => {
           const categories = await fetchCategoriesForIdea(idea.id);
           return { ...idea, categories };
         }));
-        console.log(ideasWithCategories)
         setIdeas(ideasWithCategories);
   
       } catch (error) {
@@ -264,7 +263,7 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/approvals" element={<Approvals />} />
+                <Route path="/approvals" element={<Approvals userId={userId} />} />
                 <Route
                   path="/draft"
                   element={
