@@ -36,7 +36,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         ...prevComments,
         [ideaId]: {
           generalComments: generalComments,
-          approverComment: approverComment || null, 
+          approverComment: approverComment || null,
         },
       }));
     } catch (error) {
@@ -44,7 +44,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     }
   };
 
-  
+
   const handleAddComment = async (ideaId) => {
     try {
       await axios.post(`http://localhost:5050/api/comments`, {
@@ -342,17 +342,17 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               <>
                 <h3 className="modal-title">{showModal.title}</h3>
                 <div className="modal-description">
-  {showModal.isApproved === 1 || showModal.isApproved === 2 ? (
-    <>
-      <strong>Approver's Comment:</strong>
-      {commentData[showModal.id]?.approverComment ? (
-        <span> {commentData[showModal.id].approverComment.comment}</span>
-      ) : (
-        <span> No approver's comment available.</span>
-      )}
-    </>
-  ) : null}
-</div>
+                  {showModal.isApproved === 1 || showModal.isApproved === 2 ? (
+                    <>
+                      <strong>Approver's Comment:</strong>
+                      {commentData[showModal.id]?.approverComment ? (
+                        <span> {commentData[showModal.id].approverComment.comment}</span>
+                      ) : (
+                        <span> No approver's comment available.</span>
+                      )}
+                    </>
+                  ) : null}
+                </div>
 
 
               </>
@@ -398,21 +398,21 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             </div>
             {showComments[showModal.id] && (
               <ul className="comments-list">
-  {/* Render general comments */}
-  {commentData[showModal.id]?.generalComments?.map((comment) => (
-    <li className="comment-text" key={comment.id}>
-      <strong>{comment.username}</strong>: {comment.comment}
-      {userId === comment.commentedBy && !isBinPage && (
-        <button
-          className="delete-comment-btn"
-          onClick={() => confirmDeleteComment(comment.id, showModal.id)}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-      )}
-    </li>
-  ))}
-</ul>
+                {/* Render general comments */}
+                {commentData[showModal.id]?.generalComments?.map((comment) => (
+                  <li className="comment-text" key={comment.id}>
+                    <strong>{comment.username}</strong>: {comment.comment}
+                    {userId === comment.commentedBy && !isBinPage && (
+                      <button
+                        className="delete-comment-btn"
+                        onClick={() => confirmDeleteComment(comment.id, showModal.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
 
             )}
           </div>
