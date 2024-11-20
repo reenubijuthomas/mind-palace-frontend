@@ -31,7 +31,7 @@ const App = () => {
     const fetchIdeas = async () => {
       if (!isAuthenticated) return; 
       try {
-        const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false');
+        const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false&&isApproved=2');
         const ideasWithCategories = await Promise.all(response.data.map(async (idea) => {
           const categories = await fetchCategoriesForIdea(idea.id);
           return { ...idea, categories };
