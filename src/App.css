@@ -72,7 +72,7 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 20px auto;
+  margin: 0px auto;
   max-width: 800px;
 }
 
@@ -183,7 +183,7 @@ input,
 
 .search-bar {
   position: relative;
-  margin: 20px auto;
+  margin: 10px auto 0px;
   width: 100%;
   max-width: 600px;
 }
