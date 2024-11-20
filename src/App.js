@@ -254,15 +254,6 @@ const App = () => {
                   path="/"
                   element={
                     <>
-                      <div className={`search-bar ${theme}`}>
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                        <input
-                          type="text"
-                          placeholder="Search ideas..."
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                      </div>
                       <div className={`input-container ${theme}`}>
                         <IdeaForm 
                           onAddIdea={handleAddIdea} 
@@ -270,6 +261,15 @@ const App = () => {
                           editingIdea={editingIdea} 
                           onUpdateIdea={handleUpdateIdea}
                           theme={theme} 
+                        />
+                      </div>
+                      <div className={`search-bar ${theme}`}>
+                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                        <input
+                          type="text"
+                          placeholder="Search ideas..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
                         />
                       </div>
                       <div className={`ideas-section ${theme}`}>

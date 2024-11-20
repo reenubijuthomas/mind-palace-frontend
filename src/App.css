@@ -61,18 +61,16 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
   width: 100%;
   max-width: 600px;
 }
 
 .input-container {
-  margin-bottom: 15px;
   align-items: center;
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 0px auto;
+  margin: 20px auto;
   max-width: 800px;
 }
 
