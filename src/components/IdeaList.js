@@ -342,19 +342,13 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             ) : (
               <>
                 <h3 className="modal-title">{showModal.title}</h3>
-                <div className="modal-description">
-                  {showModal.isApproved === 1 || showModal.isApproved === 2 ? (
-                    commentData[showModal.id]?.approverComment?.comment && (
-                      <>
-                        <strong>Approver's Comment:</strong>
-                        <span> {commentData[showModal.id].approverComment.comment}</span>
-                      </>
-                    )
-                  ) : null}
-                </div>
-
-
-
+                <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
+                {(showModal.isApproved === 1 || showModal.isApproved === 2) && commentData[showModal.id] && commentData[showModal.id].approverComment?.comment ? (
+                  <div className="approver-comment">
+                    <strong>Approver's Comment:</strong>
+                    <span>{commentData[showModal.id].approverComment.comment}</span>
+                  </div>
+                ) : null}
               </>
             )}
             <div className="modal-actions">

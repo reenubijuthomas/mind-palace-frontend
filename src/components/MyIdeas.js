@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import IdeaList from './IdeaList';
-import { Link } from 'react-router-dom'; 
-//import './MyIdeas.css'; 
-import '../App.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import IdeaList from "./IdeaList";
+import { Link } from "react-router-dom";
+//import './MyIdeas.css';
+import "../App.css";
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   const [myIdeas, setMyIdeas] = useState([]);
@@ -12,14 +12,17 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     rejected: true,
     pending: true,
   });
+  const [activeIdea, setActiveIdea] = useState(null); // For modal
 
   useEffect(() => {
     const fetchMyIdeas = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=false`);
+        const response = await axios.get(
+          `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=false`
+        );
         setMyIdeas(response.data);
       } catch (error) {
-        console.error('Error fetching my ideas:', error);
+        console.error("Error fetching my ideas:", error);
       }
     };
 
@@ -31,7 +34,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
       await handleDelete(id);
       setMyIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
     } catch (error) {
-      console.error('Error deleting idea:', error);
+      console.error("Error deleting idea:", error);
     }
   };
 
@@ -44,7 +47,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
         );
       }
     } catch (error) {
-      console.error('Error editing idea:', error);
+      console.error("Error editing idea:", error);
     }
   };
 
@@ -61,68 +64,81 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     }));
   };
 
+  // Handle modal visibility
+  const openModal = (idea) => setActiveIdea(idea);
+  const closeModal = () => setActiveIdea(null);
+
   return (
-    <div>
+    <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""}`}>
       <h2>My Ideas</h2>
 
       {/* Pending Approval Section */}
       <section>
-        <h3 onClick={() => toggleSection('pending')} style={{ cursor: 'pointer' }}>
-          Pending Approval {toggleSections.pending ? '▼' : '▲'}
+        <h3
+          onClick={() => toggleSection("pending")}
+          style={{ cursor: "pointer" }}
+        >
+          Pending Approval {toggleSections.pending ? "▼" : "▲"}
         </h3>
-        {toggleSections.pending && (
-          pendingIdeas.length > 0 ? (
+        {toggleSections.pending &&
+          (pendingIdeas.length > 0 ? (
             <IdeaList
               ideas={pendingIdeas}
               handleDelete={handleDeleteIdea}
               handleEdit={handleEditIdea}
               handleLike={handleLike}
               userId={userId}
+              openModal={openModal}
             />
           ) : (
             <p>No pending ideas found.</p>
-          )
-        )}
+          ))}
       </section>
 
       {/* Approved Ideas Section */}
       <section>
-        <h3 onClick={() => toggleSection('approved')} style={{ cursor: 'pointer' }}>
-          Approved Ideas {toggleSections.approved ? '▼' : '▲'}
+        <h3
+          onClick={() => toggleSection("approved")}
+          style={{ cursor: "pointer" }}
+        >
+          Approved Ideas {toggleSections.approved ? "▼" : "▲"}
         </h3>
-        {toggleSections.approved && (
-          approvedIdeas.length > 0 ? (
+        {toggleSections.approved &&
+          (approvedIdeas.length > 0 ? (
             <IdeaList
               ideas={approvedIdeas}
               handleDelete={handleDeleteIdea}
               handleEdit={handleEditIdea}
               handleLike={handleLike}
               userId={userId}
+              openModal={openModal}
             />
           ) : (
             <p>No approved ideas found.</p>
-          )
-        )}
+          ))}
       </section>
 
       {/* Rejected Ideas Section */}
       <section>
-        <h3 onClick={() => toggleSection('rejected')} style={{ cursor: 'pointer' }}>
-          Rejected Ideas {toggleSections.rejected ? '▼' : '▲'}
+        <h3
+          onClick={() => toggleSection("rejected")}
+          style={{ cursor: "pointer" }}
+        >
+          Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
         </h3>
-        {toggleSections.rejected && (
-          rejectedIdeas.length > 0 ? (
+        {toggleSections.rejected &&
+          (rejectedIdeas.length > 0 ? (
             <IdeaList
               ideas={rejectedIdeas}
               handleDelete={handleDeleteIdea}
               handleEdit={handleEditIdea}
               handleLike={handleLike}
               userId={userId}
+              openModal={openModal}
             />
           ) : (
             <p>No rejected ideas found.</p>
-          )
-        )}
+          ))}
       </section>
 
       {/* No Ideas Found */}
@@ -132,6 +148,20 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
           <p>
             Start creating some <Link to="/">here</Link>!
           </p>
+        </div>
+      )}
+
+      {/* Modal */}
+      {activeIdea && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()} // Prevent closing modal on content click
+          >
+            <h2>{activeIdea.title}</h2>
+            <p>{activeIdea.description}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
         </div>
       )}
     </div>
