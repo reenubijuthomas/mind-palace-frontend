@@ -761,7 +761,6 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .modal-content {
@@ -771,7 +770,6 @@ button:hover {
   width: 50%;
   max-height: 80%;
   overflow-y: auto;
-  z-index: 1001;
   position: relative;
 }
 
