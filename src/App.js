@@ -263,6 +263,7 @@ const App = () => {
                           theme={theme} 
                         />
                       </div>
+                      <h2>View Ideas</h2>
                       <div className={`search-bar ${theme}`}>
                         <FontAwesomeIcon icon={faSearch} className="search-icon" />
                         <input
@@ -273,7 +274,6 @@ const App = () => {
                         />
                       </div>
                       <div className={`ideas-section ${theme}`}>
-                        <h2>View Ideas</h2>
                         <IdeaList
                           ideas={filteredIdeas}
                           handleDelete={handleDelete}
