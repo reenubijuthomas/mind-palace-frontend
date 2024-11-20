@@ -183,9 +183,19 @@ h2 {
 }
 
 .status-box {
-  padding: 5px 10px;
-  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+  min-width: 100px;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 12px;
+  border-radius: 6px;
 }
 
 .approved {
@@ -278,24 +288,27 @@ h2 {
 
 
 .status-box.pending {
-  background-color: orange;
+  background-color: #f59e0b;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .status-box.approved {
-  background-color: green;
+  background-color: #10b981;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .status-box.rejected {
-  background-color: red;
+  background-color: #ef4444;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+  text-transform: uppercase;
 }
 
 .idea-header {
