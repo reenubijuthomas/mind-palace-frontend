@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom'; 
 import IdeaList from './IdeaList';
-// import './MyIdeas.css'; 
 
 const CategoryPage = () => {
   const { categoryName, categoryID } = useParams();
