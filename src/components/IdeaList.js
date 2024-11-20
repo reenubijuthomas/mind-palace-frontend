@@ -344,16 +344,15 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 <h3 className="modal-title">{showModal.title}</h3>
                 <div className="modal-description">
                   {showModal.isApproved === 1 || showModal.isApproved === 2 ? (
-                    <>
-                      <strong>Approver's Comment:</strong>
-                      {commentData[showModal.id]?.approverComment ? (
+                    commentData[showModal.id]?.approverComment?.comment && (
+                      <>
+                        <strong>Approver's Comment:</strong>
                         <span> {commentData[showModal.id].approverComment.comment}</span>
-                      ) : (
-                        <span> No approver's comment available.</span>
-                      )}
-                    </>
+                      </>
+                    )
                   ) : null}
                 </div>
+
 
 
               </>

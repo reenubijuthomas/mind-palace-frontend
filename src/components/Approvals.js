@@ -299,12 +299,13 @@ const Approvals = ({ userId }) => {
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
             <div className="modal-comment">
-              {(showModal.isApproved === 1 || showModal.isApproved === 2) && (
+              {(showModal.isApproved === 1 || showModal.isApproved === 2) && comments[showModal.id]?.approverComment?.comment && (
                 <strong>
-                  Approver's Comment: {comments[showModal.id]?.approverComment?.comment || 'No approver comment yet'}
+                  Approver's Comment: {comments[showModal.id]?.approverComment?.comment}
                 </strong>
               )}
             </div>
+
 
 
 
