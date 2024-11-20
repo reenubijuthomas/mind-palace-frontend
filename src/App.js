@@ -4,9 +4,8 @@ import IdeaForm from './components/IdeaForm';
 import IdeaList from './components/IdeaList';
 import Login from './components/Login';
 import Drafts from './components/Drafts';
-import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars, faSignOutAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
@@ -15,6 +14,10 @@ import GroupsPage from './components/GroupsPage'; //ardra edit 1
 import CategoryPage from './components/CategoryPage'; //ardra edit 2
 import { NavLink } from 'react-router-dom';
 import { faHome, faThumbsUp, faLightbulb, faUsers, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Help from './components/Help';
+import Settings from './components/Settings';
+import './App.css';
+import './components/Navbar.css';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -25,8 +28,20 @@ const App = () => {
   const [userId, setUserId] = useState(null); 
   const [username, setUsername] = useState(''); 
   const [menuOpen, setMenuOpen] = useState(true); 
-  const [roleId, setRole] = useState(null);  
+  const [roleId, setRole] = useState(null); 
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+  
   useEffect(() => {
     const fetchIdeas = async () => {
       if (!isAuthenticated) return; 
@@ -37,17 +52,14 @@ const App = () => {
           return { ...idea, categories };
         }));
         setIdeas(ideasWithCategories);
-  
       } catch (error) {
         console.error('Error fetching ideas:', error);
       }
     };
-  
-    
+
     const interval = setInterval(fetchIdeas, 800);
     fetchIdeas(); 
     return () => clearInterval(interval); 
-  
   }, [isAuthenticated]);
 
   const fetchCategoriesForIdea = async (ideaId) => {
@@ -83,7 +95,6 @@ const App = () => {
       console.error('Error tagging idea:', error);
     }
   };
-  
 
   const handleAddDraft = async (newDraft) => {
     try {
@@ -165,7 +176,6 @@ const App = () => {
     const categoryMatch = idea.categories?.some((category) =>
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  
     return !idea.is_draft && (titleMatch || descriptionMatch || categoryMatch);
   });
 
@@ -179,11 +189,11 @@ const App = () => {
 
   return (
     <Router> 
-      <div className="app-container">
+      <div className={`app-container ${theme}`}>
         {isAuthenticated ? (
           <>
             {menuOpen && (
-              <div className="side-menu">
+              <div className={`side-menu ${theme}`}>
                 <div className="side-menu-main">
                   <NavLink to="/" activeClassName="active" className="side-menu-item">
                     <FontAwesomeIcon icon={faHome} className="menu-icon" /> <span>Home</span>
@@ -214,6 +224,13 @@ const App = () => {
                   <NavLink to="/help" className="side-menu-item">
                     <FontAwesomeIcon icon={faQuestionCircle} className="menu-icon" /> <span>Help</span>
                   </NavLink>
+                  <button onClick={toggleTheme} className="side-menu-item">
+                    <FontAwesomeIcon 
+                      icon={theme === 'light' ? faMoon : faSun} 
+                      className="menu-icon" 
+                    />
+                    <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                  </button>
                   <button onClick={handleLogout} className="side-menu-logout">
                     <FontAwesomeIcon icon={faSignOutAlt} className="menu-icon" /> <span>Logout</span>
                   </button>
@@ -221,10 +238,10 @@ const App = () => {
               </div>
             )}
 
-            <div className={`main-content ${menuOpen ? "shifted" : ""}`}>
-              <nav className="navbar">
+            <div className={`main-content ${menuOpen ? "shifted" : ""} ${theme}`}>
+              <nav className={`navbar ${theme}`}>
                 <div className="side-menu-icon" onClick={toggleMenu}>
-                <FontAwesomeIcon icon={faBars} className="side-menu-icon" onClick={toggleMenu} />
+                  <FontAwesomeIcon icon={faBars} className="side-menu-icon" onClick={toggleMenu} />
                 </div>
                 <h1 className="navbar-title">MIND PALACE</h1>
                 <div className="nav-user">
@@ -237,7 +254,7 @@ const App = () => {
                   path="/"
                   element={
                     <>
-                      <div className="search-bar">
+                      <div className={`search-bar ${theme}`}>
                         <FontAwesomeIcon icon={faSearch} className="search-icon" />
                         <input
                           type="text"
@@ -246,10 +263,16 @@ const App = () => {
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
                       </div>
-                      <div className="input-container">
-                        <IdeaForm onAddIdea={handleAddIdea} onAddDraft={handleAddDraft} editingIdea={editingIdea} onUpdateIdea={handleUpdateIdea} />
+                      <div className={`input-container ${theme}`}>
+                        <IdeaForm 
+                          onAddIdea={handleAddIdea} 
+                          onAddDraft={handleAddDraft} 
+                          editingIdea={editingIdea} 
+                          onUpdateIdea={handleUpdateIdea}
+                          theme={theme} 
+                        />
                       </div>
-                      <div className="ideas-section">
+                      <div className={`ideas-section ${theme}`}>
                         <h2>View Ideas</h2>
                         <IdeaList
                           ideas={filteredIdeas}
@@ -258,12 +281,13 @@ const App = () => {
                           handleLike={handleLike}
                           userId={userId}
                           username={username}
+                          theme={theme}
                         />
                       </div>
                     </>
                   }
                 />
-                <Route path="/approvals" element={<Approvals userId={userId} />} />
+                <Route path="/approvals" element={<Approvals userId={userId} theme={theme} />} />
                 <Route
                   path="/draft"
                   element={
@@ -274,6 +298,7 @@ const App = () => {
                       username={username}
                       handleDelete={handleDelete}
                       handleEdit={handleUpdateIdea}
+                      theme={theme}
                     />
                   }
                 />
@@ -285,19 +310,20 @@ const App = () => {
                       handleDelete={handleDelete}
                       handleEdit={handleUpdateIdea}
                       handleLike={handleLike}
+                      theme={theme}
                     />
                   }
                 />
-                <Route path="/groups" element={<GroupsPage />} /> 
-                <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage />} />
-                <Route path="/bin" element={<BinPage userId={userId} />} />
-                <Route path="/settings" element={<div>Settings Page</div>} />
-                <Route path="/help" element={<div>Help Page</div>} />
+                <Route path="/groups" element={<GroupsPage theme={theme} />} /> 
+                <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage theme={theme} />} />
+                <Route path="/bin" element={<BinPage userId={userId} theme={theme} />} />
+                <Route path="/settings" element={<Settings theme={theme} toggleTheme={toggleTheme} />} />
+                <Route path="/help" element={<Help theme={theme} />} />
               </Routes>
             </div>
           </>
         ) : (
-          <Login onLogin={handleLogin} /> 
+          <Login onLogin={handleLogin} theme={theme} toggleTheme={toggleTheme} />
         )}
       </div>
     </Router>

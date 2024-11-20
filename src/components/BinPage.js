@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import IdeaList from './IdeaList'; 
+import IdeaList from './IdeaList';
 import './BinPage.css'; 
 
 const BinPage = ({ userId, handleRestore, handleDelete }) => {
@@ -26,7 +26,7 @@ const BinPage = ({ userId, handleRestore, handleDelete }) => {
   }, [userId]); 
 
   return (
-    <div>
+    <div className="bin-page-container"> {/* Updated class name */}
       <h2>My Bin</h2>
       {message && <p>{message}</p>} 
       

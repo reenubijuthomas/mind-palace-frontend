@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import IdeaList from './IdeaList';
-import { Link } from 'react-router-dom';
-import './MyIdeas.css';
+import { Link } from 'react-router-dom'; 
+//import './MyIdeas.css'; 
+import '../App.css';
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   const [myIdeas, setMyIdeas] = useState([]);

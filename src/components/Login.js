@@ -1,41 +1,50 @@
 import React, { useState } from 'react';
 import './Login.css';
-import logo from './assets/logo.jpeg'; 
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); 
+  const [error, setError] = useState('');
+  const [theme, setTheme] = useState('light'); // Default theme
+
+  // Toggle between light and dark modes
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme); // Persist theme in localStorage
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     onLogin(username, password)
       .then((isAuthenticated) => {
         if (!isAuthenticated) {
-          setError('Invalid credentials. Please try again.'); 
+          setError('Invalid credentials. Please try again.');
         } else {
-          setError(''); 
+          setError('');
         }
       })
-      .catch((error) => {
-        console.error('Login error:', error); 
-        setError('An error occurred during login. Please try again.'); 
+      .catch(() => {
+        setError('An error occurred during login. Please try again.');
       });
   };
 
   return (
-    <div className="full-screen-background">
-      <div className="logo-container">
-        <img src={logo} alt="Mind Palace Logo" className="logo" />
-      </div>
-      <div className="login-container">
-        <div className="login-box">
-          <div className="title-background">
-            <h1 className="login-title">MIND PALACE</h1>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <div className="input-container">
+    <div className={`full-screen-background ${theme}`}>
+      <button className="theme-toggle" onClick={toggleTheme}>
+        <div className="toggle-container">
+          {theme === 'light' ? '🌙' : '🌞'}
+        </div>
+      </button>
+      <div className="login-wrapper">
+        <div className={`login-branding ${theme}`}>
+          <h1 className="app-title">MIND PALACE</h1>
+          <p className="branding-text">Unlock creativity and innovation with ease.</p>
+        </div>
+        <div className={`login-form-container ${theme}`}>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <h2 className="login-header">Welcome Back!</h2>
+            <div className="input-group">
               <input
                 type="text"
                 placeholder="User Name"
@@ -44,7 +53,7 @@ const Login = ({ onLogin }) => {
                 required
               />
             </div>
-            <div className="input-container">
+            <div className="input-group">
               <input
                 type="password"
                 placeholder="Password"
@@ -53,12 +62,8 @@ const Login = ({ onLogin }) => {
                 required
               />
             </div>
-            {error && <div className="error-message">{error}</div>} 
-            <div className="remember-me-container">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
-            </div>
-            <button type="submit" className="login-button">Log in</button>
+            {error && <div className="error-message">{error}</div>}
+            <button type="submit" className="login-button">Log In</button>
           </form>
         </div>
       </div>

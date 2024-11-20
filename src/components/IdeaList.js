@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import './IdeaList.css';
+//import '../App.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
