@@ -750,7 +750,6 @@ button:hover {
   height: 100vh;
   position: relative;
 }
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -761,8 +760,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
-
 .modal-content {
   background: #fff;
   padding: 20px;
@@ -770,13 +769,12 @@ button:hover {
   width: 50%;
   max-height: 80%;
   overflow-y: auto;
+  z-index: 1001;
   position: relative;
 }
-
 .modal-content h2 {
   margin-top: 0;
 }
-
 .modal-content button {
   margin-top: 20px;
 }
