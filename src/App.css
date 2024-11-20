@@ -228,12 +228,6 @@ input,
   gap: 20px;
 }
 
-.idea-card {
-  background-color: #ffffff;
-  color: #000000;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
 .idea-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

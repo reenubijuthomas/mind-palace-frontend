@@ -185,10 +185,10 @@ const Approvals = ({ userId }) => {
           Pending Approval Ideas {showPendingDropdown ? <FaChevronUp /> : <FaChevronDown />}
         </h3>
         {showPendingDropdown && (
-          <ul className="ul-approvals">
+          <ul className="idea-list">
             {pendingIdeas.length > 0 ? (
               pendingIdeas.map((idea) => (
-                <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
+                <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
                   <div className="creator-info">
                     <span className="creator-username"><strong>By: {idea.username}</strong></span>
                     <span className="created-date">
@@ -230,10 +230,10 @@ const Approvals = ({ userId }) => {
           Approved/Rejected Ideas {showApprovedRejectedDropdown ? <FaChevronUp /> : <FaChevronDown />}
         </h3>
         {showApprovedRejectedDropdown && (
-          <ul className="ul-approvals">
+          <ul className="idea-list">
             {approvedRejectedIdeas.length > 0 ? (
               approvedRejectedIdeas.map((idea) => (
-                <li key={idea.id} className="idea-card" onClick={() => openModal(idea)}>
+                <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
                   <div className="creator-info">
                     <span className="creator-username"><strong>By: {idea.username}</strong></span>
                     <span className="created-date">
