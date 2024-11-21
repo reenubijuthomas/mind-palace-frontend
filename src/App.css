@@ -1,5 +1,5 @@
 :root {
-  --light-gradient: #ffe6f0; 
+  --light-gradient: #d7c3ed; 
   --dark-gradient: #2d3436;
   --light-text: #2c3e50;
   --dark-text: #ecf0f1;
@@ -23,15 +23,15 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.light {
+/* body.light {
   background: var(--light-gradient);
   color: var(--light-text);
-}
+} */
 
-body.dark {
+/* body.dark {
   background: var(--dark-gradient);
   color: var(--dark-text);
-}
+} */
 
 p {
   margin: 0;
@@ -663,9 +663,8 @@ button:hover {
 }
 
 
-
 .full-screen-background.light {
-  background: #c3e0e9;
+  background: #d7c3ed;
   color: #2c3e50;
 }
 

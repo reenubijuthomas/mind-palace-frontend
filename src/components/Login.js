@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
+import logo from './assets/logo.jpeg'; // Adjust the path if your logo is in a different folder
+
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -38,8 +40,12 @@ const Login = ({ onLogin }) => {
       </button>
       <div className="login-wrapper">
         <div className={`login-branding ${theme}`}>
-          <h1 className="app-title">MIND PALACE</h1>
-          <p className="branding-text">Unlock creativity and innovation with ease.</p>
+        <img src={logo} alt="Mind Palace Logo" className="branding-logo" />
+
+          {/* <h1 className="app-title">MIND PALACE</h1>
+          <p className="branding-text">
+            Unlock creativity and innovation with ease.
+          </p> */}
         </div>
         <div className={`login-form-container ${theme}`}>
           <form className="login-form" onSubmit={handleSubmit}>
