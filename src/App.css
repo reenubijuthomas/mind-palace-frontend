@@ -53,6 +53,10 @@ h1 {
   font-size: 35px;
 }
 
+h2 {
+  margin-left: 20px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -114,6 +118,28 @@ input,
   padding: 3px;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
 .modal-content.light {
   background-color: #ffffff;
@@ -462,7 +488,7 @@ button:hover {
 .idea-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 15px;
   padding: 0;
 }
 
@@ -718,36 +744,10 @@ button:hover {
   position: relative;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 50%;
-  max-height: 80%;
-  overflow-y: auto;
-  position: relative;
-}
-
 .modal-content h2 {
   margin-top: 0;
 }
 
 .modal-content button {
   margin-top: 20px;
-}
-
-.views-ideas-title{
-  margin-top: 40px;
 }
