@@ -127,8 +127,9 @@ input,
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  /*z-index: 1000;*/
+  background: rgba(0, 0, 0, 0.7); 
+  z-index: 1000;
+  overflow: auto; 
 }
 
 .modal-content {
@@ -137,6 +138,8 @@ input,
   border-radius: 8px;
   max-width: 600px;
   width: 100%;
+  max-height: 80vh; 
+  overflow-y: auto; 
   position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -751,4 +754,34 @@ button:hover {
 
 .modal-content button {
   margin-top: 20px;
+}
+
+/* Ensure content within the modal matches card styling */
+.modal-content .idea-content {
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  display: flex;
+  flex-direction: column; /* Consistent alignment */
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-line-clamp: 3; /* Line clamping */
+  line-clamp: 3;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-y: auto; /* Enable scrolling for long content */
+}
+
+.modal-content .idea-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content .idea-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.modal-content .idea-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
 }

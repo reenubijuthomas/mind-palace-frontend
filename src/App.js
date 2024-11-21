@@ -224,7 +224,7 @@ const App = () => {
                   <NavLink to="/help" className="side-menu-item">
                     <FontAwesomeIcon icon={faQuestionCircle} className="menu-icon" /> <span>Help</span>
                   </NavLink>
-                  <button onClick={toggleTheme} className="side-menu-item">
+                  <button onClick={toggleTheme} className="side-menu-item smtb">
                     <FontAwesomeIcon 
                       icon={theme === 'light' ? faMoon : faSun} 
                       className="menu-icon" 
@@ -263,7 +263,7 @@ const App = () => {
                           theme={theme} 
                         />
                       </div>
-                      <h2 className='views-ideas-title'>View Ideas</h2>
+                      <h2>View Ideas</h2>
                       <div className={`search-bar ${theme}`}>
                         <FontAwesomeIcon icon={faSearch} className="search-icon" />
                         <input
