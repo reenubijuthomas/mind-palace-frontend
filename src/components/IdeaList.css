@@ -544,13 +544,13 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   height: 230px;
   width: 230px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .idea-item.light {
@@ -565,13 +565,19 @@
   border: 1px solid #40494b;
 }
 
-.idea-item:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
-}
-
 .idea-item.dark:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
   background-color: #343b3d;
+}
+
+.idea-item:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); 
+}
+
+.idea-item:active {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
 }
 
 .idea-content {
