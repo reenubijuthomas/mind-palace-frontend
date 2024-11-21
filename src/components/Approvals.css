@@ -355,3 +355,7 @@ h2 {
 .approval-comment:focus::placeholder {
   color: #4CAF50; /* Change placeholder text color when focused */
 }
+
+.section-divider{
+  margin-bottom: 50px;
+}

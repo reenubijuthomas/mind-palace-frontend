@@ -183,7 +183,7 @@ const Approvals = ({ userId }) => {
       {/* Pending Approval Ideas Section */}
       {pendingIdeas.length > 0 && (
         <div className="dropdown-section">
-          <section style={{ marginBottom: "20px" }}>
+          <section className="section-divider">
             <h3 onClick={togglePendingDropdown} className="dropdown-title">
               Pending Approval {showPendingDropdown ? "▼" : "▲"}
             </h3>
@@ -228,9 +228,9 @@ const Approvals = ({ userId }) => {
       {/* Approved/Rejected Ideas Section */}
       {approvedRejectedIdeas.length > 0 && (
         <div className="dropdown-section">
-          <section style={{ marginBottom: "20px" }}>
+          <section className="section-divider">
             <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-              Approved/Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
+              Approved / Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
             </h3>
             {showApprovedRejectedDropdown && (
               <ul className="idea-list">

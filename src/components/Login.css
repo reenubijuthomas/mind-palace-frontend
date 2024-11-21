@@ -281,21 +281,19 @@
   padding: 40px;
 }
 
-/* Header */
 .login-header {
-  font-size: 2rem; /* Increase font size for better visibility */
-  font-weight: 700; /* Use bolder weight for more emphasis */
+  font-size: 2rem; 
+  font-weight: 700; 
   text-align: center;
-  margin-bottom: 30px; /* Increased margin for better spacing */
-  color: #732f8e; /* A slightly richer shade of pink for a more vibrant look */
+  margin-bottom: 30px; 
+  color: white; 
   font-family: 'Roboto', sans-serif;
-  text-transform: uppercase; /* Uppercase text for a strong, bold appearance */
-  letter-spacing: 2px; /* Add letter-spacing to enhance readability */
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-  line-height: 1.4; /* Adjust line-height for a better visual balance */
+  text-transform: uppercase; 
+  letter-spacing: 2px; 
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2); 
+  line-height: 1.4; 
 }
 
-/* Input Fields */
 .input-container input {
   width: 100%;
   padding: 12px;
@@ -303,25 +301,23 @@
   border: 1px solid #d1ccc0;
   margin-bottom: 15px;
   font-size: 16px;
-  transition: border 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; /* Added transition for color */
-  color: #f1f1f1; /* Light text color */
-  background-color: #3a405a; /* Dark background for contrast */
+  transition: border 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; 
+  color: #f1f1f1; 
+  background-color: #3a405a; 
 }
 
 .input-container input:hover {
-  border: 1px solid #6a89cc; /* Change to a new color on hover */
-  box-shadow: 0 0 10px rgba(106, 137, 204, 0.5); /* Add a subtle glow effect on hover */
-  color: #f1f1f1; /* Keep text light on hover */
+  border: 1px solid #6a89cc;
+  box-shadow: 0 0 10px rgba(106, 137, 204, 0.5); 
+  color: #f1f1f1;
 }
 
 .input-container input:focus {
-  border: 1px solid #3742fa; /* Focused border color */
+  border: 1px solid #3742fa; 
   outline: none;
-  color: #f1f1f1; /* Ensure text stays light on focus */
+  color: #f1f1f1; 
 }
 
-
-/* Branding Logo */
 .branding-logo-container {
   width: 150px;
   height: 150px;
@@ -341,7 +337,6 @@
   object-fit: contain;
 }
 
-/* Toggle */
 .theme-toggle {
   position: absolute;
   top: 20px;
@@ -353,14 +348,12 @@
   color: #576574;
 }
 
-/* Error Message */
 .error-message {
   color: #e74c3c;
   font-size: 0.9rem;
   margin-top: 10px;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   .login-wrapper {
     flex-direction: column;

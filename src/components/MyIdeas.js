@@ -84,7 +84,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
       />
       {/* Pending Approval Section */}
       {pendingIdeas.length > 0 && (
-        <section style={{ marginBottom: "20px" }}>
+        <section className="section-divider">
           <h3
             onClick={() => toggleSection("pending")}
             style={{ cursor: "pointer" }}
@@ -106,7 +106,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
 
       {/* Approved Ideas Section */}
       {approvedIdeas.length > 0 && (
-        <section style={{ marginBottom: "20px" }}>
+        <section className="section-divider">
           <h3
             onClick={() => toggleSection("approved")}
             style={{ cursor: "pointer" }}
@@ -128,7 +128,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
 
       {/* Rejected Ideas Section */}
       {rejectedIdeas.length > 0 && (
-        <section style={{ marginBottom: "20px" }}>
+        <section classname="section-divider">
           <h3
             onClick={() => toggleSection("rejected")}
             style={{ cursor: "pointer" }}

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import './Login.css';
-import logo from './assets/logo.jpeg'; // Adjust the path if your logo is in a different folder
+import logo from './assets/logo.jpeg'; 
 
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [theme, setTheme] = useState('light'); // Default theme
+  const [theme, setTheme] = useState('light'); 
 
-  // Toggle between light and dark modes
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme); // Persist theme in localStorage
+    localStorage.setItem('theme', newTheme);
   };
 
   const handleSubmit = (e) => {
