@@ -134,7 +134,7 @@ const Approvals = ({ userId }) => {
 
   const showNotification = (message) => {
     setNotification(message);
-    setTimeout(() => setNotification(''), 3000);
+    setTimeout(() => setNotification(''), 5000);
   };
 
   const filteredIdeas = approvalIdeas.filter(
@@ -183,7 +183,7 @@ const Approvals = ({ userId }) => {
       <div className="dropdown-section">
       <section style={{ marginBottom: "20px" }}>
         <h3 onClick={togglePendingDropdown} className="dropdown-title">
-          Pending Approval Ideas {showPendingDropdown ? "▼" : "▲"}
+          Pending Approval {showPendingDropdown ? "▼" : "▲"}
         </h3>
         {showPendingDropdown && (
           <ul className="idea-list">
@@ -230,7 +230,7 @@ const Approvals = ({ userId }) => {
       <div className="dropdown-section">
       <section style={{ marginBottom: "20px" }}>
         <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-          Approved/Rejected Ideas {showApprovedRejectedDropdown ? "▼" : "▲"}
+          Approved/Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
         </h3>
         {showApprovedRejectedDropdown && (
           <ul className="idea-list">
