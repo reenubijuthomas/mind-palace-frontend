@@ -596,16 +596,15 @@
 
 .idea-content {
   flex: 1;
-  overflow: hidden; 
-  display: -webkit-box;
-  display: box; 
-  -webkit-box-orient: vertical;
-  box-orient: vertical; 
-  -webkit-line-clamp: 3; 
-  line-clamp: 3; 
-  text-overflow: ellipsis; 
-  word-wrap: break-word; 
-  white-space: normal; 
+  overflow: hidden;
+  display: flex; 
+  flex-direction: column; 
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-y: auto;
 }
 
 .idea-content h3 {

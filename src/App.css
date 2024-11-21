@@ -33,16 +33,6 @@ body.dark {
   color: var(--dark-text);
 }
 
-.app-container.dark {
-  background-color: #2d3436;
-  color: #ffffff;
-}
-
-.app-container.light {
-  background-color: #ffe6f0;
-  color: #000000;
-}
-
 p {
   margin: 0;
 }
@@ -775,4 +765,23 @@ button:hover {
 
 .modal-content .idea-content::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark mode card background */
+.idea-item.dark {
+  background-color: #2f3640; /* Darker shade for contrast */
+  color: #ecf0f1; /* Lighter text color */
+  border: 1px solid #40494b; /* Subtle border for dark mode */
+}
+
+/* Dark mode for modal content */
+.modal-content.dark {
+  background-color: #2d3436; /* Dark background for modal */
+  color: var(--dark-text); /* Light text color */
+}
+
+/* Card hover effect in dark mode */
+.idea-item.dark:hover {
+  background-color: #353b48; /* Slightly lighter dark background on hover */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4); /* Enhanced hover shadow */
 }
