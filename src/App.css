@@ -733,25 +733,20 @@ button:hover {
   margin-top: 0;
 }
 
-.modal-content button {
-  margin-top: 20px;
-}
-
-/* Ensure content within the modal matches card styling */
 .modal-content .idea-content {
   flex: 1;
   overflow: hidden;
   display: -webkit-box;
   display: flex;
-  flex-direction: column; /* Consistent alignment */
+  flex-direction: column; 
   -webkit-box-orient: vertical;
   box-orient: vertical;
-  -webkit-line-clamp: 3; /* Line clamping */
+  -webkit-line-clamp: 3; 
   line-clamp: 3;
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: normal;
-  overflow-y: auto; /* Enable scrolling for long content */
+  overflow-y: auto; 
 }
 
 .modal-content .idea-content::-webkit-scrollbar {
