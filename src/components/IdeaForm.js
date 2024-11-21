@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (editingIdea) {
@@ -18,6 +19,17 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = description;
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+  
+    if (!plainText.trim()) {
+      setError("Please add your idea in the description area!");
+      return;
+    }
+  
+    setError("");
+  
     const newIdea = { title, description };
     if (editingIdea) {
       newIdea.id = editingIdea.id; 
@@ -31,15 +43,31 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
 
   const handleSaveAsDraft = async (e) => {
     e.preventDefault();
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = description;
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+  
+    if (!plainText.trim()) {
+      setError("Please add your idea in the description area!");
+      return;
+    }
+  
+    setError("");
     const newDraft = {
       title,
       description,
       is_draft: true 
     };
-
-    await onAddDraft(newDraft);
-    setTitle('');
-    setDescription('');
+  
+    try {
+      const success = await onAddDraft(newDraft);
+      if (success) {
+        setTitle('');
+        setDescription('');
+      }
+    } catch (error) {
+      console.error('Error saving draft:', error);
+    }
   };
 
   return (
@@ -55,6 +83,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
         <ReactQuill
           value={description}
           onChange={setDescription}
+          required
           placeholder="Add your new idea here..."
           modules={{
             toolbar: [
@@ -70,6 +99,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
           }}
         />
       </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="action-buttons-container">
         <button
           type="submit"

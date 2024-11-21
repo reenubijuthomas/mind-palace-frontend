@@ -47,6 +47,13 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
 
   const handleAddComment = async (ideaId) => {
+    const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = newComment[ideaId];
+  const plainText = tempDiv.textContent || tempDiv.innerText || '';
+  if (!plainText.trim()) {
+    showNotification('Please add a comment before submitting!');
+    return;
+  }
     try {
       await axios.post(`http://localhost:5050/api/comments`, {
         comment: newComment[ideaId],
