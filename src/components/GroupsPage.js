@@ -5,23 +5,58 @@ import './GroupsPage.css';
 const GroupsPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [newCategory, setNewCategory] = useState(''); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('http://localhost:5050/api/groups/categories');
-        const data = await response.json();
-        setCategories(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        setLoading(false);
-      }
-    };
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:5050/api/groups/categories');
+      const data = await response.json();
+      setCategories(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCategories();
   }, []);
+
+  const handleAddCategory = async () => {
+    if (!newCategory.trim()) {
+      alert('Please enter a valid category name');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5050/api/groups/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newCategory.trim() }),
+      });
+
+      const result = await response.json();
+      if (response.status === 201) {
+        fetchCategories();
+
+        setIsModalOpen(false);
+        setNewCategory('');
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error('Error adding category:', error);
+      alert('Failed to add category');
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setNewCategory('');
+  };
 
   if (loading) {
     return <div>Loading categories...</div>;
@@ -36,7 +71,7 @@ const GroupsPage = () => {
             <div
               key={index}
               className="category-tile"
-              onClick={() => navigate(`/groups/${category.name}/${category.id}`)} 
+              onClick={() => navigate(`/groups/${category.name}/${category.id}`)}
             >
               {category.name}
             </div>
@@ -44,7 +79,30 @@ const GroupsPage = () => {
         ) : (
           <div>No categories available.</div>
         )}
+
+        <div
+          className="category-tile add-category"
+          onClick={() => setIsModalOpen(true)}
+        >
+          + Add category...
+        </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Add a New Category</h3>
+            <input
+              type="text"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+              placeholder="Enter category name"
+            />
+            <button onClick={handleAddCategory}>Add</button>
+            <button onClick={closeModal}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
