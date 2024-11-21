@@ -60,7 +60,7 @@
   transform: scale(1.1);
 }
 
-.modal {
+.modals {
   position: fixed;
   top: 0;
   left: 0;
@@ -73,7 +73,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modals-content {
   background-color: white;
   padding: 30px;
   border-radius: 10px;
@@ -87,7 +87,7 @@
   justify-content: center;
 }
 
-.modal-content input {
+.modals-content input {
   padding: 10px;
   font-size: 1em;
   width: 100%;
@@ -96,7 +96,7 @@
   border: 1px solid #ccc;
 }
 
-.modal-content button {
+.modals-content button {
   padding: 10px 20px;
   font-size: 1em;
   margin: 5px;
@@ -109,6 +109,6 @@
   transition: background-color 0.3s ease;
 }
 
-.modal-content button:hover {
+.modals-content button:hover {
   background-color: #502d739d;
 }

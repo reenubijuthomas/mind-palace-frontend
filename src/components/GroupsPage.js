@@ -89,8 +89,8 @@ const GroupsPage = () => {
       </div>
 
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modals">
+          <div className="modals-content">
             <h3>Add a New Category</h3>
             <input
               type="text"
