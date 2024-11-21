@@ -179,99 +179,96 @@ const Approvals = ({ userId }) => {
         className="search-bar-new"
       />
 
+
       {/* Pending Approval Ideas Section */}
-      <div className="dropdown-section">
-      <section style={{ marginBottom: "20px" }}>
-        <h3 onClick={togglePendingDropdown} className="dropdown-title">
-          Pending Approval {showPendingDropdown ? "▼" : "▲"}
-        </h3>
-        {showPendingDropdown && (
-          <ul className="idea-list">
-            {pendingIdeas.length > 0 ? (
-              pendingIdeas.map((idea) => (
-                <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
-                  <div className="creator-info">
-                    <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                    <span className="created-date">
-                      {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </span>
-                  </div>
-                  <div className="idea-content">
-                    <h3>{idea.title}</h3>
-                    <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-                  </div>
-                  <div className="idea-likes">
-                    <FaThumbsUp /> <span className="approvals-likes-count">{idea.likes}</span>
-                  </div>
-                  <div className="idea-status">
-                    {idea.isApproved === null || idea.isApproved === 0 ? (
-                      <span className="status-box pending">Pending</span>
-                    ) : idea.isApproved === 1 ? (
-                      <span className="status-box approved">Approved</span>
-                    ) : (
-                      <span className="status-box rejected">Rejected</span>
-                    )}
-                  </div>
-                </li>
-              ))
-            ) : (
-              <p>No ideas pending approval.</p>
+      {pendingIdeas.length > 0 && (
+        <div className="dropdown-section">
+          <section style={{ marginBottom: "20px" }}>
+            <h3 onClick={togglePendingDropdown} className="dropdown-title">
+              Pending Approval {showPendingDropdown ? "▼" : "▲"}
+            </h3>
+            {showPendingDropdown && (
+              <ul className="idea-list">
+                {pendingIdeas.map((idea) => (
+                  <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
+                    <div className="creator-info">
+                      <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                      <span className="created-date">
+                        {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                    <div className="idea-content">
+                      <h3>{idea.title}</h3>
+                      <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
+                    </div>
+                    <div className="idea-likes">
+                      <FaThumbsUp /> <span className="approvals-likes-count">{idea.likes}</span>
+                    </div>
+                    <div className="idea-status">
+                      {idea.isApproved === null || idea.isApproved === 0 ? (
+                        <span className="status-box pending">Pending</span>
+                      ) : idea.isApproved === 1 ? (
+                        <span className="status-box approved">Approved</span>
+                      ) : (
+                        <span className="status-box rejected">Rejected</span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             )}
-          </ul>
-        )}
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
 
       {/* Approved/Rejected Ideas Section */}
-      <div className="dropdown-section">
-      <section style={{ marginBottom: "20px" }}>
-        <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-          Approved/Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
-        </h3>
-        {showApprovedRejectedDropdown && (
-          <ul className="idea-list">
-            {approvedRejectedIdeas.length > 0 ? (
-              approvedRejectedIdeas.map((idea) => (
-                <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
-                  <div className="creator-info">
-                    <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                    <span className="created-date">
-                      {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </span>
-                  </div>
-                  <div className="idea-content">
-                    <h3>{idea.title}</h3>
-                    <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-                  </div>
-                  <div className="idea-likes">
-                    <FaThumbsUp /> {idea.likes}
-                  </div>
-                  <div className="idea-status">
-                    {idea.isApproved === null || idea.isApproved === 0 ? (
-                      <span className="status-box pending">Pending</span>
-                    ) : idea.isApproved === 1 ? (
-                      <span className="status-box approved">Approved</span>
-                    ) : (
-                      <span className="status-box rejected">Rejected</span>
-                    )}
-                  </div>
-                </li>
-              ))
-            ) : (
-              <p>No approved or rejected ideas available.</p>
+      {approvedRejectedIdeas.length > 0 && (
+        <div className="dropdown-section">
+          <section style={{ marginBottom: "20px" }}>
+            <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
+              Approved/Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
+            </h3>
+            {showApprovedRejectedDropdown && (
+              <ul className="idea-list">
+                {approvedRejectedIdeas.map((idea) => (
+                  <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
+                    <div className="creator-info">
+                      <span className="creator-username"><strong>By: {idea.username}</strong></span>
+                      <span className="created-date">
+                        {new Date(idea.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                    <div className="idea-content">
+                      <h3>{idea.title}</h3>
+                      <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
+                    </div>
+                    <div className="idea-likes">
+                      <FaThumbsUp /> {idea.likes}
+                    </div>
+                    <div className="idea-status">
+                      {idea.isApproved === null || idea.isApproved === 0 ? (
+                        <span className="status-box pending">Pending</span>
+                      ) : idea.isApproved === 1 ? (
+                        <span className="status-box approved">Approved</span>
+                      ) : (
+                        <span className="status-box rejected">Rejected</span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             )}
-          </ul>
-        )}
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
 
       {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
