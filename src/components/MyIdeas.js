@@ -64,7 +64,6 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     }));
   };
 
-  // Handle modal visibility
   const openModal = (idea) => setActiveIdea(idea);
   const closeModal = () => setActiveIdea(null);
 
@@ -73,15 +72,15 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
       <h2>My Ideas</h2>
 
       {/* Pending Approval Section */}
-      <section>
-        <h3
-          onClick={() => toggleSection("pending")}
-          style={{ cursor: "pointer" }}
-        >
-          Pending Approval {toggleSections.pending ? "▼" : "▲"}
-        </h3>
-        {toggleSections.pending &&
-          (pendingIdeas.length > 0 ? (
+      {pendingIdeas.length > 0 && (
+        <section>
+          <h3
+            onClick={() => toggleSection("pending")}
+            style={{ cursor: "pointer" }}
+          >
+            Pending Approval {toggleSections.pending ? "▼" : "▲"}
+          </h3>
+          {toggleSections.pending && (
             <IdeaList
               ideas={pendingIdeas}
               handleDelete={handleDeleteIdea}
@@ -90,21 +89,20 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               userId={userId}
               openModal={openModal}
             />
-          ) : (
-            <p>No pending ideas found.</p>
-          ))}
-      </section>
+          )}
+        </section>
+      )}
 
       {/* Approved Ideas Section */}
-      <section>
-        <h3
-          onClick={() => toggleSection("approved")}
-          style={{ cursor: "pointer" }}
-        >
-          Approved Ideas {toggleSections.approved ? "▼" : "▲"}
-        </h3>
-        {toggleSections.approved &&
-          (approvedIdeas.length > 0 ? (
+      {approvedIdeas.length > 0 && (
+        <section>
+          <h3
+            onClick={() => toggleSection("approved")}
+            style={{ cursor: "pointer" }}
+          >
+            Approved Ideas {toggleSections.approved ? "▼" : "▲"}
+          </h3>
+          {toggleSections.approved && (
             <IdeaList
               ideas={approvedIdeas}
               handleDelete={handleDeleteIdea}
@@ -113,21 +111,20 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               userId={userId}
               openModal={openModal}
             />
-          ) : (
-            <p>No approved ideas found.</p>
-          ))}
-      </section>
+          )}
+        </section>
+      )}
 
       {/* Rejected Ideas Section */}
-      <section>
-        <h3
-          onClick={() => toggleSection("rejected")}
-          style={{ cursor: "pointer" }}
-        >
-          Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
-        </h3>
-        {toggleSections.rejected &&
-          (rejectedIdeas.length > 0 ? (
+      {rejectedIdeas.length > 0 && (
+        <section>
+          <h3
+            onClick={() => toggleSection("rejected")}
+            style={{ cursor: "pointer" }}
+          >
+            Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
+          </h3>
+          {toggleSections.rejected && (
             <IdeaList
               ideas={rejectedIdeas}
               handleDelete={handleDeleteIdea}
@@ -136,10 +133,10 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               userId={userId}
               openModal={openModal}
             />
-          ) : (
-            <p>No rejected ideas found.</p>
-          ))}
-      </section>
+          )}
+        </section>
+      )}
+
 
       {/* No Ideas Found */}
       {myIdeas.length === 0 && (
