@@ -595,10 +595,17 @@
 }
 
 .idea-content {
-  display: -webkit-box; 
-  display: flex; 
+  flex: 1;
+  overflow: hidden; 
+  display: -webkit-box;
+  display: box; 
   -webkit-box-orient: vertical;
-  flex-direction: column; 
+  box-orient: vertical; 
+  -webkit-line-clamp: 3; 
+  line-clamp: 3; 
+  text-overflow: ellipsis; 
+  word-wrap: break-word; 
+  white-space: normal; 
 }
 
 .idea-content h3 {

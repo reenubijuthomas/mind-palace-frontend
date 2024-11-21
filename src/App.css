@@ -231,16 +231,6 @@ input,
   gap: 20px;
 }
 
-/* .app-container.dark .idea-card {
-  background-color: #333333;
-  color: #ffffff;
-}
-
-.idea-card.dark {
-  background-color: #333333;
-  color: #fff;
-} */
-
 .approval-status-container {
   position: absolute;
   bottom: 10px;
