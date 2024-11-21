@@ -1,5 +1,5 @@
 :root {
-  --light-gradient: #d7c3ed; 
+  --light-gradient: #f5ecff; 
   --dark-gradient: #2d3436;
   --light-text: #2c3e50;
   --dark-text: #ecf0f1;
@@ -664,8 +664,8 @@ button:hover {
 
 
 .full-screen-background.light {
-  background: #d7c3ed;
-  color: #2c3e50;
+  background: var(--light-gradient);
+  color: var(--light-text);
 }
 
 .full-screen-background.dark {
