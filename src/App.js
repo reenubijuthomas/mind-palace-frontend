@@ -281,6 +281,7 @@ const App = () => {
                           handleLike={handleLike}
                           userId={userId}
                           username={username}
+                          isDarkMode={theme === 'dark'}
                           theme={theme}
                         />
                       </div>

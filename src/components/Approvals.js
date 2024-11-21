@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaThumbsUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './Approvals.css';
 
-const Approvals = ({ userId }) => {
+const Approvals = ({ userId, theme }) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
   const [comments, setComments] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -169,7 +169,7 @@ const Approvals = ({ userId }) => {
   };
 
   return (
-    <div>
+    <div className={`approvals-container ${theme}`}>
       <h2>Approvals Page</h2>
       <input
         type="text"
@@ -190,7 +190,7 @@ const Approvals = ({ userId }) => {
             {showPendingDropdown && (
               <ul className="idea-list">
                 {pendingIdeas.map((idea) => (
-                  <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
+                  <li key={idea.id} className={`idea-item ${theme}`} onClick={() => openModal(idea)}>
                     <div className="creator-info">
                       <span className="creator-username"><strong>By: {idea.username}</strong></span>
                       <span className="created-date">
@@ -235,7 +235,7 @@ const Approvals = ({ userId }) => {
             {showApprovedRejectedDropdown && (
               <ul className="idea-list">
                 {approvedRejectedIdeas.map((idea) => (
-                  <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
+                  <li key={idea.id} className={`idea-item ${theme}`} onClick={() => openModal(idea)}>
                     <div className="creator-info">
                       <span className="creator-username"><strong>By: {idea.username}</strong></span>
                       <span className="created-date">
@@ -271,13 +271,15 @@ const Approvals = ({ userId }) => {
       )}
 
       {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className={`modal-overlay ${theme}`} onClick={closeModal}>
+          <div className={`modal-content ${theme}`} onClick={(e) => e.stopPropagation()}>
             <button className="close-modal-btn" onClick={closeModal}>
               &times;
             </button>
             <div className="modal-header">
-              <span className="creator-username"><strong>By: {showModal.username}</strong></span>
+              <span className="creator-username">
+                <strong>By: {showModal.username}</strong>
+              </span>
               <span className="created-date">
                 {new Date(showModal.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -287,12 +289,13 @@ const Approvals = ({ userId }) => {
               </span>
               <p className="modal-status">
                 <span
-                  className={`status-box ${showModal.isApproved === 1 ? 'approved' :
-                    showModal.isApproved === 2 ? 'rejected' : 'pending'
-                    }`}
+                  className={`status-box ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 2 ? 'rejected' : 'pending'}`}
                 >
-                  {showModal.isApproved === 1 ? 'Approved' :
-                    showModal.isApproved === 2 ? 'Rejected' : 'Pending'}
+                  {showModal.isApproved === 1
+                    ? 'Approved'
+                    : showModal.isApproved === 2
+                      ? 'Rejected'
+                      : 'Pending'}
                 </span>
               </p>
             </div>
@@ -300,15 +303,13 @@ const Approvals = ({ userId }) => {
             <h3 className="modal-title">{showModal.title}</h3>
             <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
             <div className="modal-comment">
-              {(showModal.isApproved === 1 || showModal.isApproved === 2) && comments[showModal.id]?.approverComment?.comment && (
-                <strong>
-                  Approver's Comment: {comments[showModal.id]?.approverComment?.comment}
-                </strong>
-              )}
+              {(showModal.isApproved === 1 || showModal.isApproved === 2) &&
+                comments[showModal.id]?.approverComment?.comment && (
+                  <strong>
+                    Approver's Comment: {comments[showModal.id]?.approverComment?.comment}
+                  </strong>
+                )}
             </div>
-
-
-
 
             <div className="modal-likes-comments">
               <div className="modal-likes">
@@ -324,12 +325,11 @@ const Approvals = ({ userId }) => {
 
             {commentVisibility[showModal.id] && (
               <ul className="comments-list">
-                {comments[showModal.id]?.generalComments
-                  .map((comment, idx) => (
-                    <li key={idx}>
-                      <strong>{comment.username}</strong>: {comment.comment}
-                    </li>
-                  ))}
+                {comments[showModal.id]?.generalComments.map((comment, idx) => (
+                  <li key={idx}>
+                    <strong>{comment.username}</strong>: {comment.comment}
+                  </li>
+                ))}
               </ul>
             )}
 
@@ -349,7 +349,6 @@ const Approvals = ({ userId }) => {
                 </button>
               </div>
             )}
-            { }
           </div>
         </div>
       )}
@@ -362,9 +361,9 @@ const Approvals = ({ userId }) => {
               className="confirm-btn"
               onClick={() => {
                 if (actionType === 'approve') {
-                  handleApprove(showConfirmation.id); // Call handleApprove explicitly
+                  handleApprove(showConfirmation.id);
                 } else if (actionType === 'reject') {
-                  handleReject(showConfirmation.id); // Call handleReject explicitly
+                  handleReject(showConfirmation.id);
                 }
               }}
             >

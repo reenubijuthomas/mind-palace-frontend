@@ -7,7 +7,7 @@ import './IdeaList.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts, isDarkMode = false }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -205,7 +205,11 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     <div>
       <ul className="idea-list">
         {ideas.map((idea) => (
-          <li key={idea.id} className="idea-item" onClick={() => openModal(idea)}>
+          <li
+            key={idea.id}
+            className={`idea-item ${isDarkMode ? 'dark' : 'light'}`} // Use the isDarkMode prop here
+            onClick={() => openModal(idea)}
+          >
             <div className="idea-header">
               <div className="creator-info">
                 <span className="creator-username"><strong>By: {idea.username}</strong></span>
@@ -286,8 +290,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       </ul>
 
       {showModal && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+         <div className={`modal-overlay ${isDarkMode ? 'dark' : ''}`} onClick={closeModal}>
+           <div className={`modal-content ${isDarkMode ? 'dark' : ''}`} onClick={(e) => e.stopPropagation()}>
             <button className="close-modal-btn" onClick={closeModal}>
               &times;
             </button>

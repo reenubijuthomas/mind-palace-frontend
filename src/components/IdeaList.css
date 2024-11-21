@@ -1,550 +1,3 @@
-/*
-.idea-header {
-  display: flex;
-  flex-direction: column; 
-  width: 100%; 
-}
-.creator-info{
-  display: flex;
-  justify-content: space-between; 
-  width: 100%;
-}
-
-.creator-username {
-  font-size: 14px;
-  color: #333;
-  text-align: left;
-}
-
-.created-date {
-  font-size: 14px;
-  color: #333;
-  text-align: right;
-}
-
-.approval-status-container {
-  position: absolute;  
-  bottom: 10px; 
-  right: 10px; 
-  display: flex;
-  justify-content: flex-end; 
-  width: auto; 
-}
-
-.approval-status {
-  display: inline-block;
-  padding: 4px;
-  font-weight: bold;
-  text-align: center;
-  min-width: 100px;
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-radius: 5px;
-}
-
-.idea-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-  gap: 15px;
-  padding: 0;
-}
-
-
-.approval-status.approved {
-  background-color: green;
-  color: white;
-}
-
-
-.approval-status.rejected {
-  background-color: red;
-  color: white;
-}
-
-
-
-
-.idea-item {
-  display: flex;
-  flex-direction: column; 
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  height: 230px; 
-  width: 230px;
-  overflow: hidden; 
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  position: relative;
-}
-
-.idea-actions {
-  position: absolute;
-  bottom: 10px; 
-  left: 10px;  
-}
-
-.idea-item:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); 
-}
-
-.permanent-delete-btn {
-  width: 70px;
-  padding: 6px;
-  bottom: 10px;
-  right: 10px;
-  position: absolute;
-  background-color: #d73939;
-}
-
-.permanent-delete-btn:hover{
-  background-color: #c00000;
-  transform: scale(1.05);
-}
-
-.restore-btn {
-  width: 75px;
-  padding: 6px;
-  bottom: 10px;
-  right: 90px; 
-  position: absolute;
-  background-color: #4CAF50; 
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.restore-btn:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-
-.idea-content h3 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 20px;
-}
-
-.idea-content p {
-  margin-top: 5px;
-  color: #555; 
-}
-
-.edit-btn, .delete-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 7px;
-  border-radius: 3px;
-}
-
-.edit-btn {
-  color: #000000;
-}
-
-.delete-btn {
-  color: #ff0000;
-}
-
-.edit-btn:hover, .delete-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.edit-btn:hover {
-  color: #0000aa;
-}
-
-.delete-btn:hover {
-  color: #c00000;
-}
-
-.idea-likes-comments {
-  display: flex;
-  align-items: center;
-}
-
-.like-section {
-  margin-right: 10px;
-}
-
-.comment-toggle-section {
-  display: inline-block;
-}
-
-.comment-toggle-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.comment-toggle-btn:hover::after {
-  content: "View Comments"; 
-  position: absolute;
-  bottom: 35px; 
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgb(248, 248, 248);
-  color: gray;
-  padding: 3px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.likes-count {
-  margin-left: 5px;
-  color: #555; 
-  font-size: 14px; 
-}
-
-
-.like-btn {
-  background: #f0f0f0; 
-  border: none;
-  border-radius: 4px; 
-  cursor: pointer;
-  color: #555; 
-  font-size: 14px; 
-  display: flex;
-  align-items: center; 
-  padding: 2px 5px; 
-  height: 30px; 
-  width: 43px; 
-}
-
-.like-btn:hover {
-  background-color: #e0e0e0; 
-}
-
-.comments-section {
-  margin-top: 10px;
-}
-
-.comments-list {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.comments-list li {
-  display: flex;
-  align-items: center;
-}
-
-.comment-text {
-  flex-grow: 1; 
-  margin-right: 10px; 
-}
-
-.delete-comment-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #ff0000; 
-  margin-left: auto; 
-  padding: 4px;
-  border-radius: 3px;
-}
-
-.add-comment input {
-  width: 80%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.add-comment-btn {
-  background-color: #42337ed2; 
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-comment-btn:hover {
-  background-color: #7666b7d2; 
-}
-
-.comment-arrow {
-  color: black; 
-  height: 20px; 
-  width: auto; 
-}
-
-.delete-comment-btn:hover {
-  color: #c00000; 
-  background-color: #f0f0f0;
-}
-
-.idea-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
-  gap: 15px;
-  padding: 0;
-}
-
-.idea-content .idea-description {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  width: 100%;
-  position: relative;
-}
-
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.like-btn {
-  cursor: pointer;
-  padding: 7px;
-  border-radius: 3px;
-}
-
-.edit-btn, .delete-btn, .save-btn {
-  background: transparent;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 3px;
-  position: relative;
-}
-
-.save-btn {
-  background-color: #42337ed2;
-  color: white;
-}
-
-.edit-btn:hover::after {
-  content: "Edit"; 
-  position: absolute;
-  bottom: 35px; 
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgb(248, 248, 248);
-  color: gray;
-  padding: 3px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.delete-btn:hover::after {
-  content: "Delete"; 
-  position: absolute;
-  bottom: 35px; 
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgb(248, 248, 248);
-  color: gray;
-  padding: 3px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.add-comment {
-  display: flex;
-  align-items: center;
-}
-
-.comment-toggle-btn {
-  background-color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px;
-  color: #000000;
-  height: 30px; 
-  cursor: pointer;
-  position: relative;
-}
-
-.close-modal-btn {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  background: none; 
-  border: none; 
-  font-size: 24px;
-  cursor: pointer;
-  color: black; 
-  padding: 0; 
-  outline: none; 
-}
-
-.close-modal-btn:hover{
-  background-color: lightgray;
-}
-
-.notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #42337ed2;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  animation: fadeInOut 3s ease-out forwards;
-}
-
-
-.approval-status.approved {
-  background-color: green;
-  color: white;
-}
-
-
-.approval-status.rejected {
-  background-color: red;
-  color: white;
-}
-
-
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* Confirmation dialog styling */
-/*
-.confirmation-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.confirmation-dialog {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.confirmation-dialog p {
-  margin-bottom: 20px;
-}
-
-.confirmation-dialog .confirm-btn,
-.confirmation-dialog .cancel-btn {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.confirmation-dialog .confirm-btn {
-  background-color: #2d6b2f; 
-  color: white;
-  border: none;
-}
-
-.confirmation-dialog .cancel-btn {
-  background-color: #f12718; 
-  color: white;
-  border: none;
-}
-
-.confirmation-dialog .confirm-btn:hover {
-  background-color: #388e3c;
-}
-
-.confirmation-dialog .cancel-btn:hover {
-  background-color: #d32f2f;
-}
-
-.edit-input-group {
-  margin-bottom: 15px;
-}
-
-.edit-input-group label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.edit-input-group input,
-.edit-input-group textarea {
-  width: 100%; 
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-
-.edit-input-group input:focus,
-.edit-input-group textarea:focus {
-  border-color: #4CAF50;
-  outline: none;
-}
-
-.edit-input-group textarea {
-  resize: vertical;
-  height: 70px; 
-  box-sizing: border-box; 
-}
-
-.submit-draft-btn {
-  width: 80px;
-  padding: 6px;
-  bottom: 10px;
-  right: 10px;
-  position: absolute;
-}
-
-.submit-draft-btn:hover {
-  transform: scale(1.05);
-}
-*/
-
 .idea-item {
   display: flex;
   flex-direction: column;
@@ -565,21 +18,20 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.idea-item.dark {
-  background-color: #2d3436;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  color: var(--dark-text);
-  border: 1px solid #40494b;
-}
+/* .idea-item.dark {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+} */
 
 .idea-item:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.idea-item.dark:hover {
+/* .idea-item.dark:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
   background-color: #343b3d;
-}
+} */
 
 .idea-content::-webkit-scrollbar {
   width: 6px;
@@ -661,19 +113,29 @@
   text-align: right;
 }
 
-.idea-item.dark .idea-content p,
+/* .idea-item.dark .idea-content p,
 .idea-item.dark .idea-description {
   color: #b2bec3;
-}
+} */
+/* 
+.idea-item.dark .idea-content p {
+  color: #a0a0a0; 
+} */
 
+/* .idea-item.dark .creator-username,
+.idea-item.dark .created-date {
+  color: #a0a0a0; 
+} */
+
+/* 
 .idea-item.dark .idea-content h3 {
-  color: var(--dark-text);
+  color: #e0e0e0;
 }
 
 .idea-item.dark .creator-username,
 .idea-item.dark .created-date {
   color: #a0aec0;
-}
+} */
 
 .idea-actions {
   position: absolute;
@@ -707,4 +169,101 @@
 
 .delete-btn:hover {
   color: #c00000;
+}
+
+/* Dark mode specific styles */
+.idea-item.dark {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #333;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.idea-item.dark:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
+  background-color: #2d2d2d;
+}
+
+/* Content styles */
+.idea-item.dark .idea-content h3 {
+  color: #e0e0e0;
+}
+
+.idea-item.dark .idea-content p {
+  color: #b0b0b0;
+}
+
+.idea-item.dark .creator-username,
+.idea-item.dark .created-date {
+  color: #a0a0a0;
+}
+
+/* Button styles in dark mode */
+.idea-item.dark .edit-btn {
+  color: #e0e0e0;
+}
+
+.idea-item.dark .delete-btn {
+  color: #ff6b6b;
+}
+
+.idea-item.dark .edit-btn:hover,
+.idea-item.dark .delete-btn:hover {
+  background-color: #333333;
+}
+
+.idea-item.dark .like-btn {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.idea-item.dark .like-btn:hover {
+  background-color: #404040;
+}
+
+/* Scrollbar styles for dark mode */
+.idea-item.dark .idea-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.idea-item.dark .idea-content::-webkit-scrollbar-thumb {
+  background-color: #404040;
+  border-radius: 3px;
+}
+
+.idea-item.dark .idea-content::-webkit-scrollbar-thumb:hover {
+  background-color: #505050;
+}
+
+.modal-content.dark {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+.modal-content.dark .close-modal-btn {
+  color: #e0e0e0;
+}
+
+.modal-content.dark .modal-title {
+  color: #e0e0e0;
+}
+
+.modal-content.dark .modal-description {
+  color: #b0b0b0;
+}
+
+.modal-content.dark .comments-list {
+  color: #e0e0e0;
+}
+
+.modal-content.dark .add-comment input {
+  background-color: #333333;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.modal-content.dark .comment-toggle-btn {
+  background-color: #333333;
+  color: #e0e0e0;
 }
