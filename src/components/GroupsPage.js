@@ -73,7 +73,7 @@ const GroupsPage = () => {
       <h2>Categories</h2>
       <input
         type="text"
-        placeholder="Search ideas..."
+        placeholder="Search categories..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-bar-new"

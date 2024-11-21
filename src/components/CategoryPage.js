@@ -46,8 +46,7 @@ const CategoryPage = () => {
       ) : filteredIdeas.length > 0 ? (
         <IdeaList 
         ideas={filteredIdeas}
-        isCategoryPage={true}
-         />
+        />
       ) : (
         <div className="no-ideas-container">
           <p>No ideas found for this category.</p>

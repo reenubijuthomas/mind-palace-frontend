@@ -7,7 +7,7 @@ import './IdeaList.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts, isCategoryPage }) => {
+const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts }) => {
   const [commentData, setCommentData] = useState({});
   const [newComment, setNewComment] = useState({});
   const [showModal, setShowModal] = useState(null);
@@ -217,7 +217,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   })}
                 </span>
               </div>
-              {!(isBinPage || isCategoryPage) && (
+              { !isBinPage && (
                 <div className="approval-status-container">
                   <span
                     className={`approval-status ${idea.isApproved === 1 ? 'approved' : idea.isApproved === 0 ? 'pending' : 'rejected'
@@ -301,7 +301,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 })}
               </span>
 
-              {!(isBinPage || isCategoryPage) && (
+              { !isBinPage && (
                 <div className="approval-status-container2">
                   <span
                     className={`approval-status ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 0 ? 'pending' : 'rejected'

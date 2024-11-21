@@ -10,8 +10,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
 import BinPage from './components/BinPage';
-import GroupsPage from './components/GroupsPage'; //ardra edit 1
-import CategoryPage from './components/CategoryPage'; //ardra edit 2
+import GroupsPage from './components/GroupsPage';
+import CategoryPage from './components/CategoryPage';
 import { NavLink } from 'react-router-dom';
 import { faHome, faThumbsUp, faLightbulb, faUsers, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Help from './components/Help';
