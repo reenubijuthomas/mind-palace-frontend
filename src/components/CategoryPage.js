@@ -7,6 +7,7 @@ const CategoryPage = () => {
   const { categoryName, categoryID } = useParams();
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -24,13 +25,26 @@ const CategoryPage = () => {
     fetchIdeas();
   }, [categoryName, categoryID]);
 
+  const filteredIdeas = ideas.filter(
+    (idea) =>
+      idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      idea.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="category-page-container">
       <h2>Ideas in "{categoryName}"</h2>
+      <input
+        type="text"
+        placeholder="Search ideas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-new"
+      />
       {loading ? (
         <div>Loading ideas...</div>
-      ) : ideas.length > 0 ? (
-        <IdeaList ideas={ideas} />
+      ) : filteredIdeas.length > 0 ? (
+        <IdeaList ideas={filteredIdeas} />
       ) : (
         <div className="no-ideas-container">
           <p>No ideas found for this category.</p>

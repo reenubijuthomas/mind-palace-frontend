@@ -4,8 +4,9 @@ import IdeaList from './IdeaList';
 import './BinPage.css'; 
 
 const BinPage = ({ userId, handleRestore, handleDelete }) => {
-  const [deletedIdeas, setDeletedIdeas] = useState([]);
+  const [deletedIdea, setDeletedIdeas] = useState([]);
   const [message, setMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchDeletedIdeas = async () => {
@@ -25,9 +26,22 @@ const BinPage = ({ userId, handleRestore, handleDelete }) => {
     fetchDeletedIdeas(); 
   }, [userId]); 
 
+  const deletedIdeas = deletedIdea.filter(
+    (idea) =>
+      idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      idea.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="bin-page-container"> {/* Updated class name */}
       <h2>My Bin</h2>
+      <input
+        type="text"
+        placeholder="Search ideas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-new"
+      />
       {message && <p>{message}</p>} 
       
       {deletedIdeas.length > 0 ? (

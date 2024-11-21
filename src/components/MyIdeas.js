@@ -7,6 +7,7 @@ import "../App.css";
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   const [myIdeas, setMyIdeas] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [toggleSections, setToggleSections] = useState({
     approved: true,
     rejected: true,
@@ -51,12 +52,16 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     }
   };
 
-  // Categorize ideas based on their status
-  const approvedIdeas = myIdeas.filter((idea) => idea.isApproved === 1); // Approved
-  const rejectedIdeas = myIdeas.filter((idea) => idea.isApproved === 2); // Rejected
-  const pendingIdeas = myIdeas.filter((idea) => idea.isApproved === 0); // Pending
+  const filteredIdeas = myIdeas.filter(
+    (idea) =>
+      idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      idea.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  // Toggle section visibility
+  const approvedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1); // Approved
+  const rejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 2); // Rejected
+  const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0); // Pending
+
   const toggleSection = (section) => {
     setToggleSections((prevState) => ({
       ...prevState,
@@ -70,7 +75,13 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   return (
     <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""}`}>
       <h2>My Ideas</h2>
-
+      <input
+        type="text"
+        placeholder="Search ideas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-new"
+      />
       {/* Pending Approval Section */}
       {pendingIdeas.length > 0 && (
         <section>

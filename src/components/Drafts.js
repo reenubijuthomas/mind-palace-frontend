@@ -5,6 +5,7 @@ import './MyIdeas.css';
 
 const Drafts = ({ userId, handleDelete, handleEdit }) => {
   const [drafts, setDrafts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchDrafts = async () => {
@@ -41,13 +42,25 @@ const Drafts = ({ userId, handleDelete, handleEdit }) => {
     }
   };
 
+  const draftIdeas = drafts.filter(
+    (idea) =>
+      idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      idea.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
 return (
     <div>
       <h2>My Drafts</h2>
-      {drafts.length > 0 ? (
+      <input
+        type="text"
+        placeholder="Search ideas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-new"
+      />
+      {draftIdeas.length > 0 ? (
         <IdeaList
-          ideas={drafts}
+          ideas={draftIdeas}
           handleDelete={handleDeleteIdea}
           handleEdit={handleEditIdea}
           userId={userId}

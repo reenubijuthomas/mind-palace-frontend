@@ -7,6 +7,7 @@ const GroupsPage = () => {
   const [loading, setLoading] = useState(true);
   const [newCategory, setNewCategory] = useState(''); 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const fetchCategories = async () => {
@@ -62,12 +63,24 @@ const GroupsPage = () => {
     return <div>Loading categories...</div>;
   }
 
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="category-container">
       <h2>Categories</h2>
+      <input
+        type="text"
+        placeholder="Search ideas..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar-new"
+       />
       <div className="category-list">
-        {categories.length > 0 ? (
-          categories.map((category, index) => (
+        {filteredCategories.length > 0 ? (
+          filteredCategories.map((category, index) => (
             <div
               key={index}
               className="category-tile"
