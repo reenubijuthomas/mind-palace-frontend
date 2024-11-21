@@ -263,7 +263,7 @@ const App = () => {
                           theme={theme} 
                         />
                       </div>
-                      <h2>View Ideas</h2>
+                      <h2 className='views-ideas-title'>View Ideas</h2>
                       <div className={`search-bar ${theme}`}>
                         <FontAwesomeIcon icon={faSearch} className="search-icon" />
                         <input

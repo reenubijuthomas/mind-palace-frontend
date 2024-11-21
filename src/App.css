@@ -53,10 +53,6 @@ h1 {
   font-size: 35px;
 }
 
-h2 {
-  margin-left: 20px;
-}
-
 form {
   display: flex;
   flex-direction: column;
@@ -128,7 +124,6 @@ input,
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.7);
-  /*z-index: 1000;*/
 }
 
 .modal-content {
@@ -772,4 +767,8 @@ button:hover {
 
 .modal-content button {
   margin-top: 20px;
+}
+
+.views-ideas-title{
+  margin-top: 40px;
 }
