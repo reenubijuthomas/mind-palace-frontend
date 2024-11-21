@@ -181,8 +181,9 @@ const Approvals = ({ userId }) => {
 
       {/* Pending Approval Ideas Section */}
       <div className="dropdown-section">
+      <section style={{ marginBottom: "20px" }}>
         <h3 onClick={togglePendingDropdown} className="dropdown-title">
-          Pending Approval Ideas {showPendingDropdown ? <FaChevronUp /> : <FaChevronDown />}
+          Pending Approval Ideas {showPendingDropdown ? "▼" : "▲"}
         </h3>
         {showPendingDropdown && (
           <ul className="idea-list">
@@ -222,12 +223,14 @@ const Approvals = ({ userId }) => {
             )}
           </ul>
         )}
+        </section>
       </div>
 
       {/* Approved/Rejected Ideas Section */}
       <div className="dropdown-section">
+      <section style={{ marginBottom: "20px" }}>
         <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-          Approved/Rejected Ideas {showApprovedRejectedDropdown ? <FaChevronUp /> : <FaChevronDown />}
+          Approved/Rejected Ideas {showApprovedRejectedDropdown ? "▼" : "▲"}
         </h3>
         {showApprovedRejectedDropdown && (
           <ul className="idea-list">
@@ -267,6 +270,7 @@ const Approvals = ({ userId }) => {
             )}
           </ul>
         )}
+        </section>
       </div>
 
       {showModal && (
