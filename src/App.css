@@ -128,7 +128,7 @@ input,
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
+  /*z-index: 1000;*/
 }
 
 .modal-content {
@@ -743,6 +743,7 @@ button:hover {
   height: 100vh;
   position: relative;
 }
+
 
 .modal-content h2 {
   margin-top: 0;
