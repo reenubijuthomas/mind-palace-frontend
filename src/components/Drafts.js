@@ -3,7 +3,7 @@ import axios from 'axios';
 import IdeaList from './IdeaList'; 
 import './MyIdeas.css'; 
 
-const Drafts = ({ userId, handleDelete, handleEdit }) => {
+const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -48,15 +48,15 @@ const Drafts = ({ userId, handleDelete, handleEdit }) => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-return (
-    <div>
+  return (
+    <div className={`drafts-container ${theme}`}>
       <h2>My Drafts</h2>
       <input
         type="text"
         placeholder="Search ideas..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
+        className={`search-bar-new ${theme}`}
       />
       {draftIdeas.length > 0 ? (
         <IdeaList
@@ -66,9 +66,10 @@ return (
           userId={userId}
           isDraftPage={true}
           setDrafts={setDrafts}
+          isDarkMode={theme === 'dark'} 
         />
       ) : (
-        <div className="no-ideas-container">
+        <div className={`no-ideas-container ${theme}`}>
           <p>No drafts found.</p>
         </div>
       )}

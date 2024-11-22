@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom'; 
 import IdeaList from './IdeaList';
 
-const CategoryPage = () => {
+const CategoryPage = ({ theme }) => {
   const { categoryName, categoryID } = useParams();
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,23 +32,24 @@ const CategoryPage = () => {
   );
 
   return (
-    <div className="category-page-container">
-      <h2>Ideas in "{categoryName}"</h2>
+    <div className={`category-page-container ${theme}`}>
+      <h2 className={`category-page-title ${theme}`}>Ideas in "{categoryName}"</h2>
       <input
         type="text"
         placeholder="Search ideas..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
+        className={`search-bar-new ${theme}`}
       />
       {loading ? (
-        <div>Loading ideas...</div>
+        <div className={`loading-message ${theme}`}>Loading ideas...</div>
       ) : filteredIdeas.length > 0 ? (
-        <IdeaList 
-        ideas={filteredIdeas}
+        <IdeaList
+          ideas={filteredIdeas}
+          isDarkMode={theme === 'dark'}
         />
       ) : (
-        <div className="no-ideas-container">
+        <div className={`no-ideas-container ${theme}`}>
           <p>No ideas found for this category.</p>
           <p>
             Browse other <Link to="/groups">categories</Link>!

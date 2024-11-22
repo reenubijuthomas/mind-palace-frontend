@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import IdeaList from "./IdeaList";
 import { Link } from "react-router-dom";
-//import './MyIdeas.css';
 import "../App.css";
 
-const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
+const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const [myIdeas, setMyIdeas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [toggleSections, setToggleSections] = useState({
@@ -13,7 +12,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
     rejected: true,
     pending: true,
   });
-  const [activeIdea, setActiveIdea] = useState(null); // For modal
+  const [activeIdea, setActiveIdea] = useState(null);
 
   useEffect(() => {
     const fetchMyIdeas = async () => {
@@ -73,14 +72,14 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
   const closeModal = () => setActiveIdea(null);
 
   return (
-    <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""}`}>
+    <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""} ${theme}`}>
       <h2>My Ideas</h2>
       <input
         type="text"
         placeholder="Search ideas..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
+        className={`search-bar-new ${theme}`} // Apply theme class
       />
       {/* Pending Approval Section */}
       {pendingIdeas.length > 0 && (
@@ -99,6 +98,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               handleLike={handleLike}
               userId={userId}
               openModal={openModal}
+              isDarkMode={theme === "dark"}
             />
           )}
         </section>
@@ -121,6 +121,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               handleLike={handleLike}
               userId={userId}
               openModal={openModal}
+              isDarkMode={theme === "dark"} // Pass isDarkMode prop
             />
           )}
         </section>
@@ -128,7 +129,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
 
       {/* Rejected Ideas Section */}
       {rejectedIdeas.length > 0 && (
-        <section classname="section-divider">
+        <section className="section-divider">
           <h3
             onClick={() => toggleSection("rejected")}
             style={{ cursor: "pointer" }}
@@ -143,11 +144,11 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
               handleLike={handleLike}
               userId={userId}
               openModal={openModal}
+              isDarkMode={theme === "dark"}
             />
           )}
         </section>
       )}
-
 
       {/* No Ideas Found */}
       {myIdeas.length === 0 && (
@@ -161,9 +162,9 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike }) => {
 
       {/* Modal */}
       {activeIdea && (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className={`modal-overlay ${theme}`} onClick={closeModal}>
           <div
-            className="modal-content"
+            className={`modal-content ${theme}`}
             onClick={(e) => e.stopPropagation()} // Prevent closing modal on content click
           >
             <h2>{activeIdea.title}</h2>

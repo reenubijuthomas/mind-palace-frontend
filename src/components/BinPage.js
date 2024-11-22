@@ -3,8 +3,8 @@ import axios from 'axios';
 import IdeaList from './IdeaList';
 import './BinPage.css'; 
 
-const BinPage = ({ userId, handleRestore, handleDelete }) => {
-  const [deletedIdea, setDeletedIdeas] = useState([]);
+const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
+  const [deletedIdeas, setDeletedIdeas] = useState([]);
   const [message, setMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -26,35 +26,35 @@ const BinPage = ({ userId, handleRestore, handleDelete }) => {
     fetchDeletedIdeas(); 
   }, [userId]); 
 
-  const deletedIdeas = deletedIdea.filter(
+  const filteredIdeas = deletedIdeas.filter(
     (idea) =>
       idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="bin-page-container"> {/* Updated class name */}
+    <div className={`bin-page-container ${theme}`}>
       <h2>My Bin</h2>
       <input
         type="text"
         placeholder="Search ideas..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
+        className={`search-bar-new ${theme}`}
       />
-      {message && <p>{message}</p>} 
-      
-      {deletedIdeas.length > 0 ? (
+      {message && <p>{message}</p>}
+      {filteredIdeas.length > 0 ? (
         <IdeaList
-          ideas={deletedIdeas}
+          ideas={filteredIdeas}
           handleDelete={handleDelete}
           handleLike={null}
-          userId={userId} 
+          userId={userId}
           isBinPage={true}
           setDeletedIdeas={setDeletedIdeas}
+          isDarkMode={theme === 'dark'} 
         />
       ) : (
-        <div className="no-ideas-container">
+        <div className={`no-ideas-container ${theme}`}>
           <p>No deleted ideas in the bin.</p>
         </div>
       )}
