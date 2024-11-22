@@ -432,8 +432,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
       {/* Delete confirmation popup */}
       {showDeleteConfirm && (
-        <div className="confirmation-overlay">
-          <div className="confirmation-dialog">
+        <div className={`confirmation-overlay ${isDarkMode ? 'dark' : ''}`}>
+          <div className={`confirmation-dialog ${isDarkMode ? 'dark' : ''}`}>
             <p>Are you sure you want to delete this idea?</p>
             <button
               className="confirm-btn"
@@ -453,8 +453,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       )}
       {/* Comment delete confirmation modal */}
       {showDeleteCommentConfirm && (
-        <div className="confirmation-overlay">
-          <div className="confirmation-dialog">
+        <div className={`confirmation-overlay ${isDarkMode ? 'dark' : ''}`}>
+          <div className={`confirmation-dialog ${isDarkMode ? 'dark' : ''}`}>
             <p>Are you sure you want to delete this comment?</p>
             <button className="confirm-btn" onClick={handleDeleteComment}>Yes</button>
             <button className="cancel-btn" onClick={closeDeleteCommentConfirm}>No</button>

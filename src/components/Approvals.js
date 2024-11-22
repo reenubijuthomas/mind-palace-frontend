@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaThumbsUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './Approvals.css';
 
-const Approvals = ({ userId, theme }) => {
+const Approvals = ({ userId, theme, isDarkMode = false }) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
   const [comments, setComments] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
@@ -357,11 +357,11 @@ const Approvals = ({ userId, theme }) => {
       )}
 
       {showConfirmation && (
-        <div className="confirmation-overlay">
-          <div className="confirmation-modal">
+        <div className={`confirmation-overlay ${isDarkMode ? 'dark' : ''}`}>
+          <div className={`confirmation-dialog ${isDarkMode ? 'dark' : ''}`}>
             <p>Are you sure you want to {actionType} this idea?</p>
             <button
-              className="confirm-btn"
+              className={`confirm-btn ${isDarkMode ? 'dark' : ''}`}
               onClick={() => {
                 if (actionType === 'approve') {
                   handleApprove(showConfirmation.id);
@@ -372,7 +372,7 @@ const Approvals = ({ userId, theme }) => {
             >
               Confirm
             </button>
-            <button className="cancel-btn" onClick={closeConfirmation}>
+            <button className={`cancel-btn ${isDarkMode ? 'dark' : ''}`} onClick={closeConfirmation}>
               Cancel
             </button>
           </div>

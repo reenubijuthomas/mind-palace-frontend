@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import IdeaList from './IdeaList';
-import './MyIdeas.css';
+import IdeaList from './IdeaList';  
 
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
