@@ -74,13 +74,16 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   return (
     <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""} ${theme}`}>
       <h2>My Ideas</h2>
-      <input
-        type="text"
-        placeholder="Search ideas..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className={`search-bar-new ${theme}`} // Apply theme class
-      />
+      <div className="search-bar-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search ideas..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={`search-bar-new ${theme}`}
+        />
+      </div>
       {/* Pending Approval Section */}
       {pendingIdeas.length > 0 && (
         <section className="section-divider">

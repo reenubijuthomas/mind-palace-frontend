@@ -76,21 +76,34 @@ h2 {
   margin-left: 20px;
 }
 
+.search-bar-container {
+  display: flex; 
+  align-items: center;
+  width: 100%;
+  max-width: 645px;
+  margin: 20px auto;
+  position: relative; 
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px; 
+  color: #ccc;
+  font-size: 16px; 
+}
+
 .search-bar-new {
   width: 100%; 
-  max-width: 400px; 
-  padding: 10px;
+  padding: 10px 10px 10px 40px; 
   border: 1px solid #ccc; 
   border-radius: 20px; 
-  margin: 20px auto; 
-  display: block;
   font-size: 16px;
 }
 
 .search-bar-new:focus {
-  border-color: #007bff; 
+  border-color: #54085e; 
   outline: none; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 5px rgba(80, 11, 101, 0.5);
 }
 
 .modal-likes-comments {

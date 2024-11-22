@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import IdeaList from './IdeaList'; 
-import './MyIdeas.css'; 
+import IdeaList from './IdeaList';
+import './MyIdeas.css';
 
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
@@ -51,13 +51,16 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   return (
     <div className={`drafts-container ${theme}`}>
       <h2>My Drafts</h2>
-      <input
-        type="text"
-        placeholder="Search ideas..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className={`search-bar-new ${theme}`}
-      />
+      <div className="search-bar-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search ideas..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={`search-bar-new ${theme}`}
+        />
+      </div>
       {draftIdeas.length > 0 ? (
         <IdeaList
           ideas={draftIdeas}
@@ -66,7 +69,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           userId={userId}
           isDraftPage={true}
           setDrafts={setDrafts}
-          isDarkMode={theme === 'dark'} 
+          isDarkMode={theme === 'dark'}
         />
       ) : (
         <div className={`no-ideas-container ${theme}`}>

@@ -171,14 +171,17 @@ const Approvals = ({ userId, theme }) => {
   return (
     <div className={`approvals-container ${theme}`}>
       <h2>Approvals Page</h2>
-      <input
-        type="text"
-        placeholder="Search ideas..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
-      />
 
+      <div className="search-bar-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search ideas..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar-new"
+        />
+      </div>
 
       {/* Pending Approval Ideas Section */}
       {pendingIdeas.length > 0 && (

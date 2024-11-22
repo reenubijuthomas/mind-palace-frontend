@@ -5,7 +5,7 @@ import './GroupsPage.css';
 const GroupsPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newCategory, setNewCategory] = useState(''); 
+  const [newCategory, setNewCategory] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -71,13 +71,16 @@ const GroupsPage = () => {
   return (
     <div className="category-container">
       <h2>Categories</h2>
-      <input
-        type="text"
-        placeholder="Search categories..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-bar-new"
-       />
+      <div className="search-bar-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search categories..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-bar-new"
+        />
+      </div>
       <div className="category-list">
         {filteredCategories.length > 0 ? (
           filteredCategories.map((category, index) => (

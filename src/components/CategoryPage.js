@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import IdeaList from './IdeaList';
 
 const CategoryPage = ({ theme }) => {
@@ -34,13 +34,16 @@ const CategoryPage = ({ theme }) => {
   return (
     <div className={`category-page-container ${theme}`}>
       <h2 className={`category-page-title ${theme}`}>Ideas in "{categoryName}"</h2>
-      <input
-        type="text"
-        placeholder="Search ideas..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className={`search-bar-new ${theme}`}
-      />
+      <div className="search-bar-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search ideas..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={`search-bar-new ${theme}`}
+        />
+      </div>
       {loading ? (
         <div className={`loading-message ${theme}`}>Loading ideas...</div>
       ) : filteredIdeas.length > 0 ? (

@@ -5,7 +5,7 @@ import IdeaList from './components/IdeaList';
 import Login from './components/Login';
 import Drafts from './components/Drafts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faUserCircle, faCog, faQuestionCircle, faBars, faSignOutAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCog, faQuestionCircle, faBars, faSignOutAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MyIdeas from './components/MyIdeas';
 import Approvals from './components/Approvals';
@@ -18,17 +18,18 @@ import Help from './components/Help';
 import Settings from './components/Settings';
 import './App.css';
 import './components/Navbar.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
   const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingIdea, setEditingIdea] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); 
-  const [userId, setUserId] = useState(null); 
-  const [username, setUsername] = useState(''); 
-  const [menuOpen, setMenuOpen] = useState(true); 
-  const [roleId, setRole] = useState(null); 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState('');
+  const [menuOpen, setMenuOpen] = useState(true);
+  const [roleId, setRole] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
@@ -41,10 +42,10 @@ const App = () => {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
   };
-  
+
   useEffect(() => {
     const fetchIdeas = async () => {
-      if (!isAuthenticated) return; 
+      if (!isAuthenticated) return;
       try {
         const response = await axios.get('http://localhost:5050/api/ideas?is_draft=false&&isApproved=2');
         const ideasWithCategories = await Promise.all(response.data.map(async (idea) => {
@@ -58,8 +59,8 @@ const App = () => {
     };
 
     const interval = setInterval(fetchIdeas, 800);
-    fetchIdeas(); 
-    return () => clearInterval(interval); 
+    fetchIdeas();
+    return () => clearInterval(interval);
   }, [isAuthenticated]);
 
   const fetchCategoriesForIdea = async (ideaId) => {
@@ -76,13 +77,13 @@ const App = () => {
     try {
       const ideaWithCreator = {
         ...newIdea,
-        createdBy: userId, 
+        createdBy: userId,
         username: username
       };
       const response = await axios.post('http://localhost:5050/api/ideas', ideaWithCreator);
       response.data.username = username;
       setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
-      tagIdea(response.data.id); 
+      tagIdea(response.data.id);
     } catch (error) {
       console.error('Error adding new idea:', error);
     }
@@ -106,7 +107,7 @@ const App = () => {
       const response = await axios.post('http://localhost:5050/api/ideas', draftWithCreator);
       response.data.username = username;
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
-      tagIdea(response.data.id); 
+      tagIdea(response.data.id);
     } catch (error) {
       console.error('Error saving draft:', error);
     }
@@ -136,14 +137,14 @@ const App = () => {
       const response = await axios.post('http://localhost:5050/api/auth/login', { username, password });
       if (response.data.message === 'Login successful') {
         setIsAuthenticated(true);
-        setUserId(response.data.userId); 
-        setUsername(response.data.username); 
-        setRole(response.data.roleId);  
-        return true; 
+        setUserId(response.data.userId);
+        setUsername(response.data.username);
+        setRole(response.data.roleId);
+        return true;
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      return false; 
+      return false;
     }
   };
 
@@ -188,7 +189,7 @@ const App = () => {
   };
 
   return (
-    <Router> 
+    <Router>
       <div className={`app-container ${theme}`}>
         {isAuthenticated ? (
           <>
@@ -225,9 +226,9 @@ const App = () => {
                     <FontAwesomeIcon icon={faQuestionCircle} className="menu-icon" /> <span>Help</span>
                   </NavLink>
                   <button onClick={toggleTheme} className="side-menu-item smtb">
-                    <FontAwesomeIcon 
-                      icon={theme === 'light' ? faMoon : faSun} 
-                      className="menu-icon" 
+                    <FontAwesomeIcon
+                      icon={theme === 'light' ? faMoon : faSun}
+                      className="menu-icon"
                     />
                     <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
                   </button>
@@ -248,29 +249,30 @@ const App = () => {
                   <FontAwesomeIcon icon={faUserCircle} className="user-icon" />
                   <span>{username}</span>
                 </div>
-              </nav>           
+              </nav>
               <Routes>
                 <Route
                   path="/"
                   element={
                     <>
                       <div className={`input-container ${theme}`}>
-                        <IdeaForm 
-                          onAddIdea={handleAddIdea} 
-                          onAddDraft={handleAddDraft} 
-                          editingIdea={editingIdea} 
+                        <IdeaForm
+                          onAddIdea={handleAddIdea}
+                          onAddDraft={handleAddDraft}
+                          editingIdea={editingIdea}
                           onUpdateIdea={handleUpdateIdea}
-                          theme={theme} 
+                          theme={theme}
                         />
                       </div>
                       <h2>View Ideas</h2>
-                      <div className={`search-bar ${theme}`}>
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                      <div className="search-bar-container">
+                        <i className="fa fa-search search-icon"></i>
                         <input
                           type="text"
                           placeholder="Search ideas..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
+                          className={`search-bar-new ${theme}`}
                         />
                       </div>
                       <div className={`ideas-section ${theme}`}>
@@ -315,7 +317,7 @@ const App = () => {
                     />
                   }
                 />
-                <Route path="/groups" element={<GroupsPage theme={theme} />} /> 
+                <Route path="/groups" element={<GroupsPage theme={theme} />} />
                 <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage theme={theme} />} />
                 <Route path="/bin" element={<BinPage userId={userId} theme={theme} />} />
                 <Route path="/settings" element={<Settings theme={theme} toggleTheme={toggleTheme} />} />
