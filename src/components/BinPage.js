@@ -7,6 +7,7 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
   const [deletedIdeas, setDeletedIdeas] = useState([]);
   const [message, setMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDeletedIdeas = async () => {
@@ -20,6 +21,8 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
         }
       } catch (error) {
         console.error('Error fetching deleted ideas:', error);
+      } finally {
+        setTimeout(() => setLoading(false), 0);
       }
     };
 
@@ -45,8 +48,13 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
           className={`search-bar-new ${theme}`}
         />
       </div>
-      {message && <p>{message}</p>}
-      {filteredIdeas.length > 0 ? (
+      {loading ? (
+        <div className={`loading-container ${theme}`}>
+          <p>Loading deleted ideas...</p>
+        </div>
+      ) : message ? (
+        <p>{message}</p>
+      ) : filteredIdeas.length > 0 ? (
         <IdeaList
           ideas={filteredIdeas}
           handleDelete={handleDelete}

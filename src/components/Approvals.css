@@ -101,9 +101,9 @@ h2 {
 }
 
 .search-bar-new:focus {
-  border-color: #54085e; 
+  border-color: #42337ed2; 
   outline: none; 
-  box-shadow: 0 0 5px rgba(80, 11, 101, 0.5);
+  box-shadow: 0 0 5px #42337ed2;
 }
 
 .modal-likes-comments {

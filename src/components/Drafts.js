@@ -6,6 +6,7 @@ import './MyIdeas.css';
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDrafts = async () => {
@@ -14,6 +15,8 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
         setDrafts(response.data);
       } catch (error) {
         console.error('Error fetching drafts:', error);
+      } finally {
+        setTimeout(() => setLoading(false), 0);
       }
     };
 
@@ -61,7 +64,11 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           className={`search-bar-new ${theme}`}
         />
       </div>
-      {draftIdeas.length > 0 ? (
+      {loading ? (
+        <div className={`loading-container ${theme}`}>
+          <p>Loading drafts...</p>
+        </div>
+      ) : draftIdeas.length > 0 ? (
         <IdeaList
           ideas={draftIdeas}
           handleDelete={handleDeleteIdea}

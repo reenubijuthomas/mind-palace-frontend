@@ -3,6 +3,7 @@
   --dark-gradient: #2d3436;
   --light-text: #2c3e50;
   --dark-text: #ecf0f1;
+  --navbar-purple: #42337ed2;
 }
 
 .light {
@@ -360,7 +361,7 @@ input,
 } */
 
 .action-button-primary {
-  background-color: #42337ed2;
+  background-color: var(--navbar-purple);
   color: white;
   transition: all 0.3s ease;
   min-width: 120px;
@@ -391,7 +392,7 @@ input,
 
 button {
   padding: 12px 12px;
-  background-color: #42337ed2;
+  background-color: var(--navbar-purple);
   color: white;
   border: none;
   border-radius: 8px;
@@ -524,7 +525,7 @@ button:hover {
 }
 
 .add-comment-btn {
-  background-color: #42337ed2;
+  background-color: var(--navbar-purple);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -554,7 +555,7 @@ button:hover {
 }
 
 .save-btn {
-  background-color: #42337ed2;
+  background-color: var(--navbar-purple);
   color: white;
 }
 
@@ -604,7 +605,7 @@ button:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #42337ed2;
+  background-color: var(--navbar-purple);
   color: white;
   padding: 10px 20px;
   border-radius: 5px;

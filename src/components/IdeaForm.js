@@ -60,11 +60,9 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea }) => {
     };
   
     try {
-      const success = await onAddDraft(newDraft);
-      if (success) {
-        setTitle('');
-        setDescription('');
-      }
+      setTitle('');
+      setDescription('');
+      await onAddDraft(newDraft);
     } catch (error) {
       console.error('Error saving draft:', error);
     }

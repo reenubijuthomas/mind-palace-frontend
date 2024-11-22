@@ -13,16 +13,20 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
     pending: true,
   });
   const [activeIdea, setActiveIdea] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMyIdeas = async () => {
       try {
+        setLoading(true); 
         const response = await axios.get(
           `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=false`
         );
         setMyIdeas(response.data);
       } catch (error) {
         console.error("Error fetching my ideas:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,83 +88,90 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
           className={`search-bar-new ${theme}`}
         />
       </div>
-      {/* Pending Approval Section */}
-      {pendingIdeas.length > 0 && (
-        <section className="section-divider">
-          <h3
-            onClick={() => toggleSection("pending")}
-            style={{ cursor: "pointer" }}
-          >
-            Pending Approval {toggleSections.pending ? "▼" : "▲"}
-          </h3>
-          {toggleSections.pending && (
-            <IdeaList
-              ideas={pendingIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"}
-            />
+      
+      {loading ? (
+        <p>Loading ideas...</p>
+      ) : (
+        <>
+          {/* Pending Approval Section */}
+          {pendingIdeas.length > 0 && (
+            <section className="section-divider">
+              <h3
+                onClick={() => toggleSection("pending")}
+                style={{ cursor: "pointer" }}
+              >
+                Pending Approval {toggleSections.pending ? "▼" : "▲"}
+              </h3>
+              {toggleSections.pending && (
+                <IdeaList
+                  ideas={pendingIdeas}
+                  handleDelete={handleDeleteIdea}
+                  handleEdit={handleEditIdea}
+                  handleLike={handleLike}
+                  userId={userId}
+                  openModal={openModal}
+                  isDarkMode={theme === "dark"}
+                />
+              )}
+            </section>
           )}
-        </section>
-      )}
 
-      {/* Approved Ideas Section */}
-      {approvedIdeas.length > 0 && (
-        <section className="section-divider">
-          <h3
-            onClick={() => toggleSection("approved")}
-            style={{ cursor: "pointer" }}
-          >
-            Approved Ideas {toggleSections.approved ? "▼" : "▲"}
-          </h3>
-          {toggleSections.approved && (
-            <IdeaList
-              ideas={approvedIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"} // Pass isDarkMode prop
-            />
+          {/* Approved Ideas Section */}
+          {approvedIdeas.length > 0 && (
+            <section className="section-divider">
+              <h3
+                onClick={() => toggleSection("approved")}
+                style={{ cursor: "pointer" }}
+              >
+                Approved Ideas {toggleSections.approved ? "▼" : "▲"}
+              </h3>
+              {toggleSections.approved && (
+                <IdeaList
+                  ideas={approvedIdeas}
+                  handleDelete={handleDeleteIdea}
+                  handleEdit={handleEditIdea}
+                  handleLike={handleLike}
+                  userId={userId}
+                  openModal={openModal}
+                  isDarkMode={theme === "dark"} // Pass isDarkMode prop
+                />
+              )}
+            </section>
           )}
-        </section>
-      )}
 
-      {/* Rejected Ideas Section */}
-      {rejectedIdeas.length > 0 && (
-        <section className="section-divider">
-          <h3
-            onClick={() => toggleSection("rejected")}
-            style={{ cursor: "pointer" }}
-          >
-            Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
-          </h3>
-          {toggleSections.rejected && (
-            <IdeaList
-              ideas={rejectedIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"}
-            />
+          {/* Rejected Ideas Section */}
+          {rejectedIdeas.length > 0 && (
+            <section className="section-divider">
+              <h3
+                onClick={() => toggleSection("rejected")}
+                style={{ cursor: "pointer" }}
+              >
+                Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
+              </h3>
+              {toggleSections.rejected && (
+                <IdeaList
+                  ideas={rejectedIdeas}
+                  handleDelete={handleDeleteIdea}
+                  handleEdit={handleEditIdea}
+                  handleLike={handleLike}
+                  userId={userId}
+                  openModal={openModal}
+                  isDarkMode={theme === "dark"}
+                />
+              )}
+            </section>
           )}
-        </section>
-      )}
 
-      {/* No Ideas Found */}
-      {myIdeas.length === 0 && (
-        <div className="no-ideas-container">
-          <p>No ideas found.</p>
-          <p>
-            Start creating some <Link to="/">here</Link>!
-          </p>
-        </div>
+          {/* No Ideas Found */}
+          {!loading && myIdeas.length === 0 && (
+            <div className="no-ideas-container">
+              <p>No ideas found.</p>
+              <p>
+                Start creating some <Link to="/">here</Link>!
+              </p>
+            </div>
+          )}
+        </>
       )}
 
       {/* Modal */}

@@ -15,10 +15,10 @@ const CategoryPage = ({ theme }) => {
         const response = await fetch(`http://localhost:5050/api/groups/categories/${categoryID}`);
         const data = await response.json();
         setIdeas(data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching ideas:', error);
-        setLoading(false);
+      } finally {
+        setTimeout(() => setLoading(false), 0);
       }
     };
 
