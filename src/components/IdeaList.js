@@ -3,7 +3,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import './IdeaList.css';
-//import '../App.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -207,7 +206,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         {ideas.map((idea) => (
           <li
             key={idea.id}
-            className={`idea-item ${isDarkMode ? 'dark' : 'light'}`} // Use the isDarkMode prop here
+            className={`idea-item ${isDarkMode ? 'dark' : 'light'}`}
             onClick={() => openModal(idea)}
           >
             <div className="idea-header">

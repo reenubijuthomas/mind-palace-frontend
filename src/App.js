@@ -290,7 +290,11 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path="/approvals" element={<Approvals userId={userId} theme={theme} />} />
+                <Route
+                  path="/approvals"
+                  element={<Approvals userId={userId} theme={theme} isDarkMode={theme === 'dark'} />}
+                />
+
                 <Route
                   path="/draft"
                   element={

@@ -18,20 +18,9 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* .idea-item.dark {
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-} */
-
 .idea-item:hover {
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
 }
-
-/* .idea-item.dark:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
-  background-color: #343b3d;
-} */
 
 .idea-content::-webkit-scrollbar {
   width: 6px;
@@ -269,7 +258,7 @@
 }
 
 .confirmation-overlay.dark {
-  background-color: rgba(0, 0, 0, 0.8); /* Darker background for overlay */
+  background-color: rgba(0, 0, 0, 0.8); 
 }
 
 .confirmation-dialog.dark {
@@ -285,21 +274,21 @@
 }
 
 .confirmation-dialog.dark .confirm-btn {
-  background-color: #4caf50; /* Green for confirm */
+  background-color: #4caf50; 
   color: white;
   border: none;
 }
 
 .confirmation-dialog.dark .cancel-btn {
-  background-color: #f44336; /* Red for cancel */
+  background-color: #f44336;
   color: white;
   border: none;
 }
 
 .confirmation-dialog.dark .confirm-btn:hover {
-  background-color: #45a049; /* Slightly lighter green on hover */
+  background-color: #45a049; 
 }
 
 .confirmation-dialog.dark .cancel-btn:hover {
-  background-color: #d32f2f; /* Slightly lighter red on hover */
+  background-color: #d32f2f; 
 }

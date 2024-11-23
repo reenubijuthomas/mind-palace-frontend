@@ -179,7 +179,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
         <div className={`modal-overlay ${theme}`} onClick={closeModal}>
           <div
             className={`modal-content ${theme}`}
-            onClick={(e) => e.stopPropagation()} // Prevent closing modal on content click
+            onClick={(e) => e.stopPropagation()} 
           >
             <h2>{activeIdea.title}</h2>
             <p>{activeIdea.description}</p>
