@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import IdeaList from './IdeaList';
 
 const CategoryPage = ({ theme }) => {
@@ -8,6 +7,7 @@ const CategoryPage = ({ theme }) => {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchIdeas = async () => {
@@ -46,17 +46,47 @@ const CategoryPage = ({ theme }) => {
       </div>
       {loading ? (
         <div className={`loading-message ${theme}`}>Loading ideas...</div>
-      ) : filteredIdeas.length > 0 ? (
-        <IdeaList
-          ideas={filteredIdeas}
-          isDarkMode={theme === 'dark'}
-        />
       ) : (
-        <div className={`no-ideas-container ${theme}`}>
-          <p>No ideas found for this category.</p>
-          <p>
-            Browse other <Link to="/groups">categories</Link>!
-          </p>
+        <div className="ideas-container">
+          {filteredIdeas.length > 0 && (
+            <>
+              <IdeaList
+                ideas={filteredIdeas}
+                isDarkMode={theme === 'dark'}
+              />
+              <div
+                className="no-ideas-container browse-categories-tile"
+                onClick={() => navigate('/groups')}
+              >
+                <p>
+                Browse other{' '}
+                <span
+                  className="browse-link"
+                  onClick={() => navigate('/groups')}
+                >
+                  categories
+                </span>
+                !
+                </p>
+              </div>
+            </>
+          )}
+
+          {filteredIdeas.length === 0 && (
+            <div className={`no-ideas-container ${theme}`}>
+              <p>No ideas found for this category.</p>
+              <p>
+                Browse other{' '}
+                <span
+                  className="browse-link"
+                  onClick={() => navigate('/groups')}
+                >
+                  categories
+                </span>
+                !
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

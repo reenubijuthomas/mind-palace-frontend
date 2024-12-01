@@ -42,7 +42,6 @@ const GroupsPage = () => {
       const result = await response.json();
       if (response.status === 201) {
         fetchCategories();
-
         setIsModalOpen(false);
         setNewCategory('');
       } else {
@@ -65,7 +64,7 @@ const GroupsPage = () => {
 
   const filteredCategories = categories.filter(
     (category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -93,7 +92,9 @@ const GroupsPage = () => {
             </div>
           ))
         ) : (
-          <div>No categories available.</div>
+          <div className="no-ideas-container light">
+            <p>No categories available.</p>
+          </div>
         )}
 
         <div

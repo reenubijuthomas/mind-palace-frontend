@@ -113,3 +113,44 @@
 .modals-content button:hover {
   background-color: #502d739d;
 }
+
+.no-ideas-container light {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.no-ideas-container light:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.browse-categories-tile {
+  display: grid;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.browse-categories-tile:hover {
+  transform: scale(1.05);
+}
+
+.browse-link {
+  color: #007BFF;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
