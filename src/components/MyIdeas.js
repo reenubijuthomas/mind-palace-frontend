@@ -100,7 +100,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 onClick={() => toggleSection("pending")}
                 style={{ cursor: "pointer" }}
               >
-                Pending Approval {toggleSections.pending ? "▼" : "▲"}
+                Pending Approval {toggleSections.pending ? "▲" : "▼"}
               </h3>
               {toggleSections.pending && (
                 <IdeaList
@@ -123,7 +123,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 onClick={() => toggleSection("approved")}
                 style={{ cursor: "pointer" }}
               >
-                Approved Ideas {toggleSections.approved ? "▼" : "▲"}
+                Approved Ideas {toggleSections.approved ? "▲" : "▼"}
               </h3>
               {toggleSections.approved && (
                 <IdeaList
@@ -146,7 +146,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 onClick={() => toggleSection("rejected")}
                 style={{ cursor: "pointer" }}
               >
-                Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
+                Rejected Ideas {toggleSections.rejected ? "▲" : "▼"}
               </h3>
               {toggleSections.rejected && (
                 <IdeaList

@@ -188,7 +188,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
         <div className="dropdown-section">
           <section className="section-divider">
             <h3 onClick={togglePendingDropdown} className="dropdown-title">
-              Pending Approval {showPendingDropdown ? "▼" : "▲"}
+              Pending Approval {showPendingDropdown ? "▲" : "▼"}
             </h3>
             {showPendingDropdown && (
               <ul className="idea-list">
@@ -233,7 +233,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
         <div className="dropdown-section">
           <section className="section-divider">
             <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-              Approved / Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
+              Approved / Rejected {showApprovedRejectedDropdown ? "▲" : "▼"}
             </h3>
             {showApprovedRejectedDropdown && (
               <ul className="idea-list">
