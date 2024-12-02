@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import IdeaList from './IdeaList';  
+import BASE_URL from '../config';
 
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
@@ -10,7 +11,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   useEffect(() => {
     const fetchDrafts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`);
+        const response = await axios.get(`${BASE_URL}/api/ideas?createdBy=${userId}&&is_draft=true`);
         setDrafts(response.data);
       } catch (error) {
         console.error('Error fetching drafts:', error);

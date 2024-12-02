@@ -3,6 +3,7 @@ import axios from "axios";
 import IdeaList from "./IdeaList";
 import { Link } from "react-router-dom";
 import "../App.css";
+import BASE_URL from "../config";
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const [myIdeas, setMyIdeas] = useState([]);
@@ -20,7 +21,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
       try {
         setLoading(true); 
         const response = await axios.get(
-          `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=false`
+          `${BASE_URL}/api/ideas?createdBy=${userId}&&is_draft=false`
         );
         setMyIdeas(response.data);
       } catch (error) {

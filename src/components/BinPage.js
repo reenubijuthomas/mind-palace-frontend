@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import IdeaList from './IdeaList';
 import './BinPage.css';
+import BASE_URL from '../config';
 
 const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
   const [deletedIdeas, setDeletedIdeas] = useState([]);
@@ -12,7 +13,7 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
   useEffect(() => {
     const fetchDeletedIdeas = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/bin?createdBy=${userId}`);
+        const response = await axios.get(`${BASE_URL}/api/bin?createdBy=${userId}`);
         if (response.data && response.data.length === 0) {
           setMessage('No deleted ideas found.');
         } else {

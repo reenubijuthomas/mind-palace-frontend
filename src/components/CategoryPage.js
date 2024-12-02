@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import IdeaList from './IdeaList';
+import BASE_URL from '../config';
 
 const CategoryPage = ({ theme }) => {
   const { categoryName, categoryID } = useParams();
@@ -12,7 +13,7 @@ const CategoryPage = ({ theme }) => {
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        const response = await fetch(`http://localhost:5050/api/groups/categories/${categoryID}`);
+        const response = await fetch(`${BASE_URL}/api/groups/categories/${categoryID}`);
         const data = await response.json();
         setIdeas(data);
       } catch (error) {

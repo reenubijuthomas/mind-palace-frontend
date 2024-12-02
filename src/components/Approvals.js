@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaThumbsUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './Approvals.css';
+import BASE_URL from '../config';
 
 const Approvals = ({ userId, theme, isDarkMode = false }) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
@@ -19,13 +20,13 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
   useEffect(() => {
     const fetchApprovalIdeas = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/api/approvals');
+        const response = await axios.get(`${BASE_URL}/api/approvals`);
         const ideas = Array.isArray(response.data) ? response.data : [];
         setApprovalIdeas(ideas);
 
         const commentsResponses = await Promise.all(
           ideas.map((idea) =>
-            axios.get(`http://localhost:5050/api/comments/${idea.id}`)
+            axios.get(`${BASE_URL}/api/comments/${idea.id}`)
           )
         );
 
@@ -52,7 +53,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
 
   const handleApprove = async (ideaId) => {
     try {
-      const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
+      const commentResponse = await axios.post(`${BASE_URL}/api/comments`, {
         comment: approvalComment || '',
         commentedBy: userId,
         commentedOn: ideaId,
@@ -75,7 +76,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
         };
       });
 
-      await axios.put(`http://localhost:5050/api/approvals/approve/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/approvals/approve/${ideaId}`);
 
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
@@ -93,7 +94,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
 
   const handleReject = async (ideaId) => {
     try {
-      const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
+      const commentResponse = await axios.post(`${BASE_URL}/api/comments`, {
         comment: approvalComment || '',
         commentedBy: userId,
         commentedOn: ideaId,
@@ -115,7 +116,7 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
         };
       });
 
-      await axios.put(`http://localhost:5050/api/approvals/reject/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/approvals/reject/${ideaId}`);
 
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
