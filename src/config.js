@@ -1,3 +1,3 @@
-const BASE_URL = "http://localhost:5050";
+const BASE_URL = "http://mind-palace.online";
 
 export default BASE_URL;
