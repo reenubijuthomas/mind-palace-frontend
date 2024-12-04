@@ -4,8 +4,8 @@ import logo from './assets/logo.jpeg';
 
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('12345');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [theme, setTheme] = useState('light'); 
 
