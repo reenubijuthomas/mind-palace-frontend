@@ -72,47 +72,136 @@ h2 {
     background: #005bb5;
 }
 
-.settings-container {
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    background-color: var(--background);
-    color: var(--text-color);
+
+
+
+
+
+
+
+
+
+/* General styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Page container */
+  .settings-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    background: #f5ecff;
+    height: 100vh;
+    color: #fff;
+    padding-top: 20px;
+  }
+  
+  /* Main title */
+  .main-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  /* Settings box */
+  .settings-box {
+    background: #fff;
+    color: #333;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.settings-section {
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  /* Settings title */
+  .settings-title {
+    font-size: 24px;
     margin-bottom: 20px;
-}
-
-.settings-item {
+    color: #2575fc;
+    text-align: center;
+  }
+  
+  /* Settings item container */
+  .settings-item {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Labels */
+  .settings-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  /* Buttons */
+  .settings-button {
+    background: #2575fc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .settings-button:hover {
+    background: #6a11cb;
+  }
+  
+  .small-button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  /* Font size display */
+  .font-size-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.settings-item label {
+    gap: 10px;
+  }
+  
+  .font-size-display {
+    font-size: 14px;
     font-weight: bold;
-    margin-right: 10px;
-}
-
-.settings-item button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--primary-color);
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.settings-item button:hover {
-    background-color: var(--primary-hover-color);
-}
-
-.settings-item input[type='checkbox'] {
-    margin-left: 10px;
-    cursor: pointer;
-}
+    color: #2575fc;
+  }
+  
+  /* Select dropdown */
+  .settings-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #f9f9f9;
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .settings-box {
+      padding: 15px;
+    }
+  
+    .main-title {
+      font-size: 28px;
+    }
+  
+    .settings-title {
+      font-size: 20px;
+    }
+  
+    .settings-button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  
