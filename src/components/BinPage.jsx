@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import IdeaList from './IdeaList';
+import BASE_URL from '../config.jsx';
 
 const BinPage = ({ userId, theme }) => {
   const [deletedIdeas, setDeletedIdeas] = useState([]);
@@ -11,7 +12,7 @@ const BinPage = ({ userId, theme }) => {
   useEffect(() => {
     const fetchDeletedIdeas = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/bin?createdBy=${userId}`);
+        const response = await axios.get(`${BASE_URL}/api/bin?createdBy=${userId}`);
         if (response.data && response.data.length === 0) {
           setMessage('No deleted ideas found.');
         } else {
@@ -30,7 +31,7 @@ const BinPage = ({ userId, theme }) => {
 
   const handleRestore = async (ideaId) => {
     try {
-      await axios.put(`http://localhost:5050/api/bin/restore/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/bin/restore/${ideaId}`);
       setDeletedIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
       setMessage('Idea restored successfully!');
     } catch (error) {
@@ -41,7 +42,7 @@ const BinPage = ({ userId, theme }) => {
 
   const handlePermanentDelete = async (ideaId) => {
     try {
-      await axios.delete(`http://localhost:5050/api/bin/permanent-delete/${ideaId}`);
+      await axios.delete(`${BASE_URL}/api/bin/permanent-delete/${ideaId}`);
       setDeletedIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
       setMessage('Idea permanently deleted.');
     } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import IdeaList from "./IdeaList";
+import BASE_URL from "../config.jsx";
 
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
@@ -12,7 +13,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
     const fetchDrafts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`
+          `${BASE_URL}/api/ideas?createdBy=${userId}&&is_draft=true`
         );
         if (response.data && response.data.length === 0) {
           setMessage('No drafts found.');
@@ -33,7 +34,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
 
   const submitDraft = async (ideaId) => {
     try {
-      await axios.put(`http://localhost:5050/api/drafts/submit/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/drafts/submit/${ideaId}`);
       setDrafts((prevDrafts) => prevDrafts.filter((draft) => draft.id !== ideaId));
       setMessage('Draft submitted successfully!');
     } catch (error) {

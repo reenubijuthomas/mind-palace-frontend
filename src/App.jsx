@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import Help from "./components/Help";
 import Settings from "./components/Settings";
 import "./index.css";
+import BASE_URL from "./config.jsx";
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -41,7 +42,7 @@ const App = () => {
     const fetchIdeas = async () => {
       if (!isAuthenticated) return;
       try {
-        const response = await axios.get("http://localhost:5050/api/ideas?is_draft=false&&isApproved=2");
+        const response = await axios.get(`${BASE_URL}/api/ideas?is_draft=false&&isApproved=2`);
         const ideasWithCategories = await Promise.all(
           response.data.map(async (idea) => {
             const categories = await fetchCategoriesForIdea(idea.id);
@@ -54,12 +55,14 @@ const App = () => {
       }
     };
 
+    const interval = setInterval(fetchIdeas, 500);
     fetchIdeas();
+    return () => clearInterval(interval);
   }, [isAuthenticated]);
 
   const fetchCategoriesForIdea = async (ideaId) => {
     try {
-      const response = await axios.get(`http://localhost:5050/api/tags/getTags/${ideaId}`);
+      const response = await axios.get(`${BASE_URL}/api/tags/getTags/${ideaId}`);
       return response.data.categories || [];
     } catch (error) {
       console.error(`Error fetching categories for idea ${ideaId}:`, error);
@@ -70,7 +73,7 @@ const App = () => {
   const handleAddIdea = async (newIdea) => {
     try {
       const ideaWithCreator = { ...newIdea, createdBy: userId, username: username };
-      const response = await axios.post("http://localhost:5050/api/ideas", ideaWithCreator);
+      const response = await axios.post(`${BASE_URL}/api/ideas`, ideaWithCreator);
       response.data.username = username;
       setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
     } catch (error) {
@@ -81,7 +84,7 @@ const App = () => {
   const handleAddDraft = async (newDraft) => {
     try {
       const draftWithCreator = { ...newDraft, createdBy: userId, username: username };
-      const response = await axios.post("http://localhost:5050/api/ideas", draftWithCreator);
+      const response = await axios.post(`${BASE_URL}/api/ideas`, draftWithCreator);
       response.data.username = username;
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
     } catch (error) {
@@ -92,7 +95,7 @@ const App = () => {
   const handleUpdateIdea = async (updatedIdea) => {
     try {
       const ideaWithCreator = { ...updatedIdea, createdBy: userId, username: username };
-      const response = await axios.put(`http://localhost:5050/api/ideas/${updatedIdea.id}`, ideaWithCreator);
+      const response = await axios.put(`${BASE_URL}/api/ideas/${updatedIdea.id}`, ideaWithCreator);
       response.data.username = username;
       setIdeas((prevIdeas) => prevIdeas.map((idea) => (idea.id === updatedIdea.id ? response.data : idea)));
       setEditingIdea(null);
@@ -104,7 +107,7 @@ const App = () => {
 
   const handleLogin = async (username, password) => {
     try {
-      const response = await axios.post("http://localhost:5050/api/auth/login", { username, password });
+      const response = await axios.post(`${BASE_URL}/api/auth/login`, { username, password });
       if (response.data.message === "Login successful") {
         setIsAuthenticated(true);
         setUserId(response.data.userId);
@@ -120,7 +123,7 @@ const App = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5050/api/ideas/${id}`);
+      await axios.delete(`${BASE_URL}/api/ideas/${id}`);
       setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
     } catch (error) {
       console.error("Error deleting idea:", error);

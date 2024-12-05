@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import BASE_URL from '../config.jsx';
 
 const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPage, isDraftPage, setDeletedIdeas, setDrafts, isDarkMode = false }) => {
   const [commentData, setCommentData] = useState({});
@@ -28,7 +29,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const fetchComments = async (ideaId) => {
     try {
-      const response = await axios.get(`http://localhost:5050/api/comments/${ideaId}`);
+      const response = await axios.get(`${BASE_URL}/api/comments/${ideaId}`);
       const generalComments = response.data.filter(comment => !comment.isApproverComment);
       const approverComment = response.data.find(comment => comment.isApproverComment);
       setCommentData((prevComments) => ({
@@ -52,7 +53,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       return;
     }
     try {
-      await axios.post(`http://localhost:5050/api/comments`, {
+      await axios.post(`${BASE_URL}/api/comments`, {
         comment: newComment[ideaId],
         commentedBy: userId,
         commentedOn: ideaId,
@@ -77,7 +78,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const permanentDelete = async (ideaId) => {
     try {
-      await axios.delete(`http://localhost:5050/api/bin/${ideaId}`);
+      await axios.delete(`${BASE_URL}/api/bin/${ideaId}`);
       showNotification('Idea has been permanently deleted!');
       setDeletedIdeas((prevDeletedIdeas) => prevDeletedIdeas.filter((idea) => idea.id !== ideaId));
       setShowDeleteConfirm(false);
@@ -103,7 +104,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const handleRestore = async (ideaId) => {
     try {
-      await axios.put(`http://localhost:5050/api/bin/restore/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/bin/restore/${ideaId}`);
       setDeletedIdeas((prevDeletedIdeas) =>
         prevDeletedIdeas.filter((idea) => idea.id !== ideaId)
       );
@@ -121,7 +122,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const handleDeleteComment = async () => {
     try {
-      await axios.delete(`http://localhost:5050/api/comments/${deleteCommentId}`);
+      await axios.delete(`${BASE_URL}/api/comments/${deleteCommentId}`);
       setShowDeleteCommentConfirm(false);
       setDeleteCommentId(null);
       showNotification('Comment has been deleted!');
@@ -145,7 +146,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   const submitDraft = async (ideaId) => {
     try {
-      await axios.put(`http://localhost:5050/api/drafts/submit/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/drafts/submit/${ideaId}`);
       setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
       showNotification('Idea has been saved successfully!');
     } catch (error) {

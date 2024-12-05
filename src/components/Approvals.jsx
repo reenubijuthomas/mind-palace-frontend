@@ -3,6 +3,7 @@ import axios from "axios";
 import IdeaList from "./IdeaList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import BASE_URL from "../config.jsx";
 
 const Approvals = ({ userId, theme }) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
@@ -20,12 +21,12 @@ const Approvals = ({ userId, theme }) => {
   useEffect(() => {
     const fetchApprovalIdeas = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/api/approvals");
+        const response = await axios.get(`${BASE_URL}/api/approvals`);
         const ideas = Array.isArray(response.data) ? response.data : [];
         setApprovalIdeas(ideas);
 
         const commentsResponses = await Promise.all(
-          ideas.map((idea) => axios.get(`http://localhost:5050/api/comments/${idea.id}`))
+          ideas.map((idea) => axios.get(`${BASE_URL}/api/comments/${idea.id}`))
         );
 
         const commentsMap = {};
@@ -50,7 +51,7 @@ const Approvals = ({ userId, theme }) => {
 
   const handleApprove = async (ideaId) => {
     try {
-      const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
+      const commentResponse = await axios.post(`${BASE_URL}/api/comments`, {
         comment: approvalComment || "",
         commentedBy: userId,
         commentedOn: ideaId,
@@ -67,7 +68,7 @@ const Approvals = ({ userId, theme }) => {
         },
       }));
 
-      await axios.put(`http://localhost:5050/api/approvals/approve/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/approvals/approve/${ideaId}`);
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
           idea.id === ideaId ? { ...idea, status: "Approved", isApproved: 1 } : idea
@@ -84,7 +85,7 @@ const Approvals = ({ userId, theme }) => {
 
   const handleReject = async (ideaId) => {
     try {
-      const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
+      const commentResponse = await axios.post(`${BASE_URL}/api/comments`, {
         comment: approvalComment || "",
         commentedBy: userId,
         commentedOn: ideaId,
@@ -101,7 +102,7 @@ const Approvals = ({ userId, theme }) => {
         },
       }));
 
-      await axios.put(`http://localhost:5050/api/approvals/reject/${ideaId}`);
+      await axios.put(`${BASE_URL}/api/approvals/reject/${ideaId}`);
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
           idea.id === ideaId ? { ...idea, status: "Rejected", isApproved: 2 } : idea

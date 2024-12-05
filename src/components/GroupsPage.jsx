@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../config.jsx";
 
 const GroupsPage = ({ theme }) => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,7 @@ const GroupsPage = ({ theme }) => {
   const fetchCategories = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5050/api/groups/categories"
+        `${BASE_URL}/api/groups/categories`
       );
       const data = await response.json();
       setCategories(data);
@@ -35,7 +36,7 @@ const GroupsPage = ({ theme }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5050/api/groups/categories",
+        `${BASE_URL}/api/groups/categories`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
