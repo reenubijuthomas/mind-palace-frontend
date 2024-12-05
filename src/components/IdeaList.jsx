@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faThumbsUp, faAngleDown, faAngleUp, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -59,15 +59,15 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       });
       setNewComment({ ...newComment, [ideaId]: '' });
       fetchComments(ideaId);
-      showNotification("New comment has been added!");
+      showNotification('New comment has been added!');
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error('Error adding comment:', error);
     }
   };
 
   const showNotification = (message) => {
     setNotification(message);
-    setTimeout(() => setNotification(""), 5000);
+    setTimeout(() => setNotification(''), 5000);
   };
 
   const handleDeleteClick = (ideaId) => {
@@ -75,16 +75,42 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     setShowDeleteConfirm(true);
   };
 
+  const permanentDelete = async (ideaId) => {
+    try {
+      await axios.delete(`http://localhost:5050/api/bin/${ideaId}`);
+      showNotification('Idea has been permanently deleted!');
+      setDeletedIdeas((prevDeletedIdeas) => prevDeletedIdeas.filter((idea) => idea.id !== ideaId));
+      setShowDeleteConfirm(false);
+      closeModal();
+    } catch (error) {
+      console.error('Error deleting idea:', error);
+      showNotification('Failed to delete idea');
+    }
+  };
+
   const confirmDelete = async () => {
     try {
       await handleDelete(deleteIdeaId);
       setShowDeleteConfirm(false);
       setDeleteIdeaId(null);
-      showNotification("Idea has been deleted!");
+      showNotification('Idea has been deleted!');
       closeModal();
     } catch (error) {
-      console.error("Error deleting idea:", error);
-      showNotification("Failed to delete idea");
+      console.error('Error deleting idea:', error);
+      showNotification('Failed to delete idea');
+    }
+  };
+
+  const handleRestore = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/bin/restore/${ideaId}`);
+      setDeletedIdeas((prevDeletedIdeas) =>
+        prevDeletedIdeas.filter((idea) => idea.id !== ideaId)
+      );
+      showNotification('Idea has been restored!');
+    } catch (error) {
+      console.error('Error restoring idea:', error);
+      showNotification('Failed to restore idea');
     }
   };
 
@@ -98,24 +124,49 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       await axios.delete(`http://localhost:5050/api/comments/${deleteCommentId}`);
       setShowDeleteCommentConfirm(false);
       setDeleteCommentId(null);
-      showNotification("Comment has been deleted!");
+      showNotification('Comment has been deleted!');
       fetchComments(deleteIdeaId);
     } catch (error) {
-      console.error("Error deleting comment:", error);
+      console.error('Error deleting comment:', error);
+    }
+  };
+
+  const confirmDeleteComment = (commentId, ideaId) => {
+    setDeleteCommentId(commentId);
+    setDeleteIdeaId(ideaId);
+    setShowDeleteCommentConfirm(true);
+  };
+
+  const closeDeleteCommentConfirm = () => {
+    setShowDeleteCommentConfirm(false);
+    setDeleteCommentId(null);
+    setDeleteIdeaId(null);
+  };
+
+  const submitDraft = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/drafts/submit/${ideaId}`);
+      setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+      showNotification('Idea has been saved successfully!');
+    } catch (error) {
+      console.error('Error submitting draft:', error);
     }
   };
 
   const toggleComments = (ideaId) => {
-    setShowComments((prev) => ({
-      ...prev,
-      [ideaId]: !prev[ideaId],
+    if (!showComments[ideaId]) {
+      fetchComments(ideaId);
+    }
+    setShowComments((prevState) => ({
+      ...prevState,
+      [ideaId]: !prevState[ideaId],
     }));
-    if (!showComments[ideaId]) fetchComments(ideaId);
   };
 
   const openModal = (idea) => {
     fetchComments(idea.id);
     setShowModal(idea);
+    setIsEditMode(false);
   };
 
   const closeModal = () => setShowModal(null);
@@ -130,10 +181,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
     try {
       await handleEdit({ id, title: editableTitle, description: editableDescription });
       setIsEditMode(false);
-      showNotification("Idea has been updated!");
+      showNotification('Idea has been updated!');
     } catch (error) {
-      console.error("Error updating idea:", error);
-      showNotification("Failed to update idea");
+      console.error('Error updating idea:', error);
+      showNotification('Failed to update idea');
     }
   };
 
@@ -144,7 +195,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       case 2:
         return 'Rejected';
       default:
-        return "";
+        return null;
     }
   };
 
@@ -153,50 +204,100 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       {ideas.map((idea) => (
         <div
           key={idea.id}
-          className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card ${isDarkMode ? "dark" : ""}`}
-          style={{ height: "230px", width: "230px" }}
+          className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
+            ${isDarkMode
+              ? "bg-gray-800 text-gray-100 border border-gray-700"
+              : "bg-white text-gray-900"
+            }`}
+          style={{ height: "280px", width: "280px" }}
           onClick={() => openModal(idea)}
         >
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium">
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
               <strong>By: {idea.username}</strong>
             </span>
-            <span className="text-sm text-gray-500">
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
               {new Date(idea.createdAt).toLocaleDateString()}
             </span>
           </div>
           <div className="flex flex-col">
-            <h3 className="font-semibold truncate">{idea.title}</h3>
+            <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"}`}>{idea.title}</h3>
             <p
-              className="mt-2 text-sm text-gray-600 line-clamp-3"
+              className={`card-description ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
               dangerouslySetInnerHTML={{ __html: idea.description }}
             ></p>
           </div>
           <div className="flex justify-between items-center mt-4">
-            <button
-              className={`px-3 py-1 rounded-md text-white ${idea.isApproved === 1
-                ? "bg-green-500"
-                : idea.isApproved === 2
-                  ? "bg-red-500"
-                  : "bg-yellow-500"
-                }`}
-            >
-              {idea.isApproved === 1
-                ? "Approved"
-                : idea.isApproved === 2
-                  ? "Rejected"
-                  : "Pending"}
-            </button>
-            {userId === idea.createdBy && !isBinPage && (
+            {getApprovalStatus(idea.isApproved) && !isDraftPage && (
+              <span
+                className={`px-3 py-1 rounded-md text-white font-semibold ${idea.isApproved === 1 ? "bg-green-600" : "bg-red-600"
+                  }`}
+              >
+                {getApprovalStatus(idea.isApproved)}
+              </span>
+            )}
+          </div>
+          <div className="flex justify-between items-center mt-4">
+            {isDraftPage ? (
               <button
-                className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
+                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDeleteClick(idea.id);
+                  submitDraft(idea.id);
                 }}
               >
-                <FontAwesomeIcon icon={faTrash} />
+                Submit
               </button>
+            ) : (
+              <button
+                className={`px-3 py-1 rounded-md text-white ${idea.isApproved === 1
+                  ? "bg-green-500"
+                  : idea.isApproved === 2
+                    ? "bg-red-500"
+                    : "bg-yellow-500"
+                  }`}
+              >
+                {idea.isApproved === 1
+                  ? "Approved"
+                  : idea.isApproved === 2
+                    ? "Rejected"
+                    : "Pending"}
+              </button>
+            )}
+
+            {isBinPage ? (
+              <div className="flex space-x-2">
+                <button
+                  className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(idea.id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+                <button
+                  className="text-sm px-2 py-1 rounded bg-green-500 hover:bg-green-600 text-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRestore(idea.id);
+                  }}
+                >
+                  Restore
+                </button>
+              </div>
+            ) : (
+              !isDraftPage && userId === idea.createdBy && (
+                <button
+                  className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(idea.id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              )
             )}
           </div>
         </div>
@@ -205,11 +306,19 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       {/* Modal */}
       {showModal && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center modal ${isDarkMode ? "dark" : ""}`}
+          className={`fixed inset-0 z-50 flex items-center justify-center modal 
+          ${isDarkMode
+              ? "bg-gray-900 bg-opacity-80 text-gray-100"
+              : "bg-black bg-opacity-50"
+            }`}
           onClick={closeModal}
         >
           <div
-            className="relative w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto p-6 rounded-lg modal-content"
+            className={`relative w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto p-6 rounded-lg modal-content 
+            ${isDarkMode
+                ? "bg-gray-800 text-gray-100 border border-gray-700"
+                : "bg-white text-gray-900"
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -218,6 +327,33 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             >
               &times;
             </button>
+
+            <div className="mb-4 flex justify-between items-center">
+              <div>
+                <span className="text-sm text-gray-600">
+                  <strong>By: {showModal.username}</strong>
+                </span>
+                <span className="ml-4 text-sm text-gray-500">
+                  {new Date(showModal.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+
+              {/* Approval Status Badge - Bottom Right */}
+              {!isBinPage && getApprovalStatus(showModal.isApproved) && (
+                <div className="absolute bottom-4 right-4">
+                  <span
+                    className={`px-3 py-1 rounded-md text-white font-semibold ${showModal.isApproved === 1 ? "bg-green-600" : "bg-red-600"
+                      }`}
+                  >
+                    {getApprovalStatus(showModal.isApproved)}
+                  </span>
+                </div>
+              )}
+            </div>
 
             {isEditMode ? (
               <div>
@@ -229,7 +365,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                     value={editableTitle}
                     onChange={(e) => setEditableTitle(e.target.value)}
                     placeholder="Enter idea title"
-                    className="input-field"
+                    className="w-full px-3 py-2 border rounded-md"
                   />
                 </div>
 
@@ -239,7 +375,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                     value={editableDescription}
                     onChange={setEditableDescription}
                     placeholder="Enter idea description"
-                    className="bg-white"
                     modules={{
                       toolbar: [
                         [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -254,15 +389,15 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                     }}
                   />
                 </div>
-                <div className="flex space-x-2 mt-4">
+                <div className="flex space-x-2">
                   <button
-                    className="button-primary"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={() => handleSave(showModal.id)}
                   >
                     Save
                   </button>
                   <button
-                    className="button-secondary"
+                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                     onClick={() => setIsEditMode(false)}
                   >
                     Cancel
@@ -279,32 +414,71 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </>
             )}
 
-            <div className="flex space-x-4 mt-4">
+            {isBinPage && (
+              <div className="flex justify-end space-x-4 mt-4">
+                <button
+                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                  onClick={() => {
+                    handleRestore(showModal.id);
+                    closeModal();
+                  }}
+                >
+                  Restore
+                </button>
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  onClick={() => {
+                    permanentDelete(showModal.id);
+                    closeModal();
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+
+            <div className="flex space-x-4 mt-4 items-center">
               <button
-                className="button-primary"
-                onClick={() => toggleComments(showModal.id)}
-              >
-                <FontAwesomeIcon
-                  icon={showComments[showModal.id] ? faAngleUp : faAngleDown}
-                />{" "}
-                Comments
-              </button>
-              <button
-                className="button-primary"
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all 
+                  ${isDarkMode
+                    ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                    : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                  }`}
                 onClick={() => handleLike(showModal.id)}
               >
-                <FontAwesomeIcon icon={faThumbsUp} /> Like ({showModal.likes})
+                <FontAwesomeIcon icon={faThumbsUp} />
+                <span>({showModal.likes})</span>
               </button>
+              <button
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all 
+                  ${isDarkMode
+                    ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                    : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                  }`}
+                onClick={() => toggleComments(showModal.id)}
+              >
+                <FontAwesomeIcon icon={faCommentDots} />
+                <span>Comments</span>
+              </button>
+              {/* Edit and Delete buttons */}
               {userId === showModal.createdBy && !isBinPage && !isEditMode && (
                 <>
                   <button
-                    className="button-primary bg-yellow-500 hover:bg-yellow-600"
+                    className={`px-3 py-2 rounded-lg transition-all 
+                      ${isDarkMode
+                        ? "bg-yellow-700 text-yellow-100 hover:bg-yellow-600"
+                        : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                      }`}
                     onClick={() => handleEditClick(showModal)}
                   >
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                   <button
-                    className="button-primary bg-red-500 hover:bg-red-600"
+                    className={`px-3 py-2 rounded-lg transition-all 
+                      ${isDarkMode
+                        ? "bg-red-700 text-red-100 hover:bg-red-600"
+                        : "bg-red-100 text-red-800 hover:bg-red-200"
+                      }`}
                     onClick={() => handleDeleteClick(showModal.id)}
                   >
                     <FontAwesomeIcon icon={faTrash} />

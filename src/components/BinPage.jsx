@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import IdeaList from "./IdeaList";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import IdeaList from './IdeaList';
 
-const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
+const BinPage = ({ userId, theme }) => {
   const [deletedIdeas, setDeletedIdeas] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [message, setMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,21 +13,43 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
       try {
         const response = await axios.get(`http://localhost:5050/api/bin?createdBy=${userId}`);
         if (response.data && response.data.length === 0) {
-          setDeletedIdeas([]);  // No deleted ideas
+          setMessage('No deleted ideas found.');
         } else {
           setDeletedIdeas(response.data);
+          setMessage('');
         }
       } catch (error) {
         console.error('Error fetching deleted ideas:', error);
       } finally {
-        setLoading(false);  // Set loading to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchDeletedIdeas();
   }, [userId]);
 
-  // Filter ideas based on the search term (title or description)
+  const handleRestore = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/bin/restore/${ideaId}`);
+      setDeletedIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+      setMessage('Idea restored successfully!');
+    } catch (error) {
+      console.error('Error restoring idea:', error);
+      setMessage('Failed to restore the idea.');
+    }
+  };
+
+  const handlePermanentDelete = async (ideaId) => {
+    try {
+      await axios.delete(`http://localhost:5050/api/bin/permanent-delete/${ideaId}`);
+      setDeletedIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+      setMessage('Idea permanently deleted.');
+    } catch (error) {
+      console.error('Error permanently deleting idea:', error);
+      setMessage('Failed to delete the idea.');
+    }
+  };
+
   const filteredIdeas = deletedIdeas.filter(
     (idea) =>
       idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -35,44 +58,56 @@ const BinPage = ({ userId, handleRestore, handleDelete, theme }) => {
 
   return (
     <div
-      className={`p-6 ${theme} min-h-screen flex flex-col items-center transition-all`}
+      className={`min-h-screen py-10 px-6 ${
+        theme === 'dark'
+          ? 'bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]'
+          : 'bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]'
+      }`}
     >
-      <h2 className="text-3xl font-bold mb-6 text-center">My Bin</h2>
+      {/* Title Section */}
+      <div className="pt-24 pb-8 text-center">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          {theme === 'dark' ? (
+            <span className="text-indigo-400">Deleted Ideas</span>
+          ) : (
+            <span className="text-indigo-600">Deleted Ideas</span>
+          )}
+        </h1>
+        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+          Manage and restore your ideas from the bin.
+        </p>
+      </div>
 
       {/* Search Bar */}
-      <div className="relative max-w-lg mx-auto mb-6">
-        <i className="fa fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg"></i>
+      <div className="search-bar mx-auto">
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search ideas..."
+          placeholder="Search deleted ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`w-full pl-12 py-3 rounded-lg border-2 ${
-            theme === "dark"
-              ? "border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-indigo-500"
-              : "border-gray-300 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500"
-          }`}
+          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
         />
       </div>
 
-      {/* Loading, Empty State, and Ideas List */}
+      {/* Loading or Ideas */}
       {loading ? (
-        <div className="text-center text-gray-500 text-xl">Loading deleted ideas...</div>
+        <div className="text-center text-gray-500">Loading deleted ideas...</div>
       ) : filteredIdeas.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-          <IdeaList
-            ideas={filteredIdeas}
-            handleDelete={handleDelete}
-            handleLike={null}
-            userId={userId}
-            isBinPage={true}  // Flag for BinPage to handle restore/delete actions
-            setDeletedIdeas={setDeletedIdeas}
-            isDarkMode={theme === 'dark'}
-          />
-        </div>
+        <IdeaList
+          ideas={filteredIdeas}
+          handleDelete={handlePermanentDelete}
+          handleRestore={handleRestore}
+          userId={userId}
+          isBinPage={true} // Enables restore and permanent delete actions
+          setDeletedIdeas={setDeletedIdeas}
+          isDarkMode={theme === 'dark'}
+        />
       ) : (
-        <div className="mx-auto p-6 bg-white rounded-lg shadow-md text-center">
-          <p className="text-gray-600 text-lg">No deleted ideas in the bin.</p>
+        <div
+          className={`text-center p-4 rounded shadow ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-800'}`}
+        >
+          <p>{message || 'No deleted ideas in the bin.'}</p>
         </div>
       )}
     </div>

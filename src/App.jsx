@@ -13,7 +13,7 @@ import CategoryPage from "./components/CategoryPage";
 import Navbar from "./components/Navbar";
 import Help from "./components/Help";
 import Settings from "./components/Settings";
-import "./index.css"; 
+import "./index.css";
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);
@@ -31,7 +31,7 @@ const App = () => {
     document.body.className = theme === "dark" ? "dark" : "light";
     localStorage.setItem("theme", theme);
   }, [theme]);
-  
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -171,15 +171,28 @@ const App = () => {
                           theme={theme}
                         />
                       </div>
-                      <div className="search-bar-container flex items-center justify-center">
+
+                      {/* Title */}
+                      <h2
+                        className={`text-2xl font-semibold text-center mt-6 ${
+                          theme === "dark" ? "text-gray-200" : "text-gray-800"
+                        }`}
+                      >
+                        View Ideas
+                      </h2>
+
+                      {/* Search Bar */}
+                      <div className="search-bar mx-auto mt-4">
+                        <i className="fa fa-search search-icon"></i>
                         <input
                           type="text"
                           placeholder="Search ideas..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="search-bar px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring focus:ring-indigo-500"
+                          className={`search-input ${theme === "dark" ? "dark-search-bar" : "light-search-bar"}`}
                         />
                       </div>
+
                       <IdeaList
                         ideas={filteredIdeas}
                         handleDelete={handleDelete}

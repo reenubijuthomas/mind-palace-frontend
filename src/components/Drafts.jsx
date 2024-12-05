@@ -6,6 +6,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchDrafts = async () => {
@@ -13,11 +14,17 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
         const response = await axios.get(
           `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`
         );
-        setDrafts(response.data);
+        if (response.data && response.data.length === 0) {
+          setMessage('No drafts found.');
+        } else {
+          setDrafts(response.data);
+          setMessage('');
+        }
       } catch (error) {
         console.error("Error fetching drafts:", error);
+        setMessage('Failed to load drafts.');
       } finally {
-        setTimeout(() => setLoading(false), 0);
+        setLoading(false);
       }
     };
 
@@ -28,8 +35,10 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
     try {
       await handleDelete(id);
       setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+      setMessage('Draft deleted successfully!');
     } catch (error) {
       console.error("Error deleting idea:", error);
+      setMessage('Failed to delete draft.');
     }
   };
 
@@ -40,13 +49,15 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
         setDrafts((prevIdeas) =>
           prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
         );
+        setMessage('Draft updated successfully!');
       }
     } catch (error) {
       console.error("Error editing idea:", error);
+      setMessage('Failed to update draft.');
     }
   };
 
-  const draftIdeas = drafts.filter(
+  const filteredDrafts = drafts.filter(
     (idea) =>
       idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,28 +65,46 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
 
   return (
     <div
-      className={`min-h-screen p-6 flex flex-col items-center ${theme} transition-all`}
+      className={`min-h-screen py-10 px-6 ${
+        theme === "dark"
+          ? "bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]"
+          : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
+      }`}
     >
-      <h2 className="text-xl font-bold mb-6">My Drafts</h2>
+      {/* Title Section */}
+      <div className="pt-24 pb-8 text-center">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          {theme === "dark" ? (
+            <span className="text-indigo-400">My Drafts</span>
+          ) : (
+            <span className="text-indigo-600">My Drafts</span>
+          )}
+        </h1>
+        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+          Manage and finalize your draft ideas.
+        </p>
+      </div>
 
       {/* Search Bar */}
-      <div className="relative w-full max-w-md mb-6">
-        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+      <div className="search-bar mx-auto">
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search ideas..."
+          placeholder="Search draft ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-12 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`search-input ${
+            theme === "dark" ? "dark-search-bar" : "light-search-bar"
+          }`}
         />
       </div>
 
       {/* Loading or Ideas */}
       {loading ? (
-        <div className="text-center text-gray-500 py-4">Loading drafts...</div>
-      ) : draftIdeas.length > 0 ? (
+        <div className="text-center text-gray-500">Loading drafts...</div>
+      ) : filteredDrafts.length > 0 ? (
         <IdeaList
-          ideas={draftIdeas}
+          ideas={filteredDrafts}
           handleDelete={handleDeleteIdea}
           handleEdit={handleEditIdea}
           userId={userId}
@@ -84,8 +113,12 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           isDarkMode={theme === "dark"}
         />
       ) : (
-        <div className="text-center bg-white p-4 rounded shadow">
-          <p>No drafts found.</p>
+        <div
+          className={`text-center p-4 rounded shadow ${
+            theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
+          }`}
+        >
+          <p>{message || "No drafts found."}</p>
         </div>
       )}
     </div>

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import IdeaList from "./IdeaList";
-import { Link } from "react-router-dom";
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const [myIdeas, setMyIdeas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [toggleSections, setToggleSections] = useState({
-    approved: true,
-    rejected: true,
-    pending: true,
+    approved: false,
+    rejected: false,
+    pending: true, // Default open tab is "Pending"
   });
   const [activeIdea, setActiveIdea] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +16,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   useEffect(() => {
     const fetchMyIdeas = async () => {
       try {
-        setLoading(true); 
+        setLoading(true);
         const response = await axios.get(
           `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=false`
         );
@@ -66,8 +65,10 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
 
   const toggleSection = (section) => {
     setToggleSections((prevState) => ({
-      ...prevState,
-      [section]: !prevState[section],
+      approved: false,
+      rejected: false,
+      pending: false,
+      [section]: true, // Only one tab will be active at a time
     }));
   };
 
@@ -75,104 +76,138 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const closeModal = () => setActiveIdea(null);
 
   return (
-    <div className={`p-4 ${activeIdea ? "overflow-hidden h-screen" : ""} ${theme}`}>
-      <h2 className="text-xl font-bold">My Ideas</h2>
-      <div className="relative max-w-md mx-auto mt-4 mb-6">
-        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    <div
+      className={`p-6 ${theme} min-h-screen flex flex-col items-center`}
+    >
+      {/* Title Section */}
+      <div className="pt-24 pb-4 text-center">
+        <h1
+          className={`text-4xl font-extrabold tracking-wide mb-6 ${
+            theme === "dark" ? "text-indigo-400" : "text-indigo-600"
+          }`}
+        >
+          My Ideas
+        </h1>
+        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+          Manage and track the progress of your ideas.
+        </p>
+      </div>
+
+      <div className="search-bar mx-auto">
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`w-full px-10 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-indigo-500`}
+          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
         />
       </div>
 
+      {/* Loading or Ideas */}
       {loading ? (
-        <p className="text-center text-gray-500">Loading ideas...</p>
+        <div className="text-center text-gray-500">Loading ideas...</div>
       ) : (
         <>
-          {pendingIdeas.length > 0 && (
-            <section className="mt-6">
-              <h3
-                onClick={() => toggleSection("pending")}
-                className="cursor-pointer font-semibold text-lg"
-              >
-                Pending Approval {toggleSections.pending ? "▼" : "▲"}
-              </h3>
-              {toggleSections.pending && (
-                <IdeaList
-                  ideas={pendingIdeas}
-                  handleDelete={handleDeleteIdea}
-                  handleEdit={handleEditIdea}
-                  handleLike={handleLike}
-                  userId={userId}
-                  openModal={openModal}
-                  isDarkMode={theme === "dark"}
-                />
-              )}
-            </section>
+          {/* Tabs for Pending, Approved, Rejected */}
+          <div className="flex justify-center space-x-4 mb-6">
+            <button
+              onClick={() => toggleSection("pending")}
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
+                toggleSections.pending
+                  ? theme === "dark"
+                    ? "bg-gray-800 text-indigo-400"
+                    : "bg-gray-200 text-indigo-600"
+                  : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
+              }`}
+            >
+              Pending Approval
+            </button>
+            <button
+              onClick={() => toggleSection("approved")}
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
+                toggleSections.approved
+                  ? theme === "dark"
+                    ? "bg-gray-800 text-indigo-400"
+                    : "bg-gray-200 text-indigo-600"
+                  : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
+              }`}
+            >
+              Approved Ideas
+            </button>
+            <button
+              onClick={() => toggleSection("rejected")}
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
+                toggleSections.rejected
+                  ? theme === "dark"
+                    ? "bg-gray-800 text-indigo-400"
+                    : "bg-gray-200 text-indigo-600"
+                  : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
+              }`}
+            >
+              Rejected Ideas
+            </button>
+          </div>
+
+          {/* Pending Ideas */}
+          {pendingIdeas.length > 0 && toggleSections.pending && (
+            <IdeaList
+              ideas={pendingIdeas}
+              handleDelete={handleDeleteIdea}
+              handleEdit={handleEditIdea}
+              handleLike={handleLike}
+              userId={userId}
+              openModal={openModal}
+              isDarkMode={theme === "dark"}
+            />
           )}
 
-          {approvedIdeas.length > 0 && (
-            <section className="mt-6">
-              <h3
-                onClick={() => toggleSection("approved")}
-                className="cursor-pointer font-semibold text-lg"
-              >
-                Approved Ideas {toggleSections.approved ? "▼" : "▲"}
-              </h3>
-              {toggleSections.approved && (
-                <IdeaList
-                  ideas={approvedIdeas}
-                  handleDelete={handleDeleteIdea}
-                  handleEdit={handleEditIdea}
-                  handleLike={handleLike}
-                  userId={userId}
-                  openModal={openModal}
-                  isDarkMode={theme === "dark"}
-                />
-              )}
-            </section>
+          {/* Approved Ideas */}
+          {approvedIdeas.length > 0 && toggleSections.approved && (
+            <IdeaList
+              ideas={approvedIdeas}
+              handleDelete={handleDeleteIdea}
+              handleEdit={handleEditIdea}
+              handleLike={handleLike}
+              userId={userId}
+              openModal={openModal}
+              isDarkMode={theme === "dark"}
+            />
           )}
 
-          {rejectedIdeas.length > 0 && (
-            <section className="mt-6">
-              <h3
-                onClick={() => toggleSection("rejected")}
-                className="cursor-pointer font-semibold text-lg"
-              >
-                Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
-              </h3>
-              {toggleSections.rejected && (
-                <IdeaList
-                  ideas={rejectedIdeas}
-                  handleDelete={handleDeleteIdea}
-                  handleEdit={handleEditIdea}
-                  handleLike={handleLike}
-                  userId={userId}
-                  openModal={openModal}
-                  isDarkMode={theme === "dark"}
-                />
-              )}
-            </section>
+          {/* Rejected Ideas */}
+          {rejectedIdeas.length > 0 && toggleSections.rejected && (
+            <IdeaList
+              ideas={rejectedIdeas}
+              handleDelete={handleDeleteIdea}
+              handleEdit={handleEditIdea}
+              handleLike={handleLike}
+              userId={userId}
+              openModal={openModal}
+              isDarkMode={theme === "dark"}
+            />
           )}
 
+          {/* No Ideas Found */}
           {!loading && myIdeas.length === 0 && (
-            <div className="text-center bg-white p-4 rounded shadow">
+            <div
+              className={`text-center p-4 rounded shadow ${
+                theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
+              }`}
+            >
               <p>No ideas found.</p>
-              <p>
-                Start creating some{" "}
-                <Link to="/" className="text-indigo-500 underline">
-                  here
-                </Link>
-                !
-              </p>
             </div>
           )}
         </>
       )}
 
+      {/* Modal for Active Idea */}
       {activeIdea && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div

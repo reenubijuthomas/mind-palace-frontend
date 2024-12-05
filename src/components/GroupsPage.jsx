@@ -72,19 +72,29 @@ const GroupsPage = ({ theme }) => {
 
   return (
     <div
-      className={`p-6 ${theme} min-h-screen flex flex-col items-center`}
+      className={`p-6 min-h-screen flex flex-col items-center ${
+        theme === "dark"
+          ? "bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]"
+          : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
+      }`}
     >
-      <h2 className="text-2xl font-bold mb-6">Categories</h2>
+      {/* Title Section */}
+      <div className="pt-24 pb-8 text-center">
+        <h2 className="text-4xl font-extrabold tracking-wide">Categories</h2>
+        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+          Explore and create categories to organize your ideas.
+        </p>
+      </div>
 
       {/* Search Bar */}
-      <div className="relative max-w-md w-full mb-6">
-        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      <div className="search-bar mx-auto">
+      <i className="fa fa-search search-icon"></i>
         <input
           type="text"
           placeholder="Search categories..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-10 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-indigo-500"
+          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
         />
       </div>
 

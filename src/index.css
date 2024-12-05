@@ -44,6 +44,18 @@
     @apply rounded-lg shadow-md p-4 bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-200 transition-all duration-300;
   }
 
+  .card-title {
+    @apply font-semibold truncate text-black dark:text-white;
+  }
+
+  .card-description {
+    @apply text-sm text-gray-600 dark:text-gray-300 line-clamp-3;
+  }
+
+  .card-metadata {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
   .card:hover {
     @apply shadow-lg translate-y-[-2px];
   }
@@ -74,5 +86,45 @@
 
   .dark .card:hover {
     @apply bg-gray-700 border-gray-600;
+  }
+
+  .search-bar {
+    @apply relative max-w-lg w-full mb-8 mx-auto;
+  }
+
+  .search-input {
+    @apply w-full px-10 py-3 rounded-full border bg-gray-50 text-gray-800 dark:bg-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+
+  .search-icon {
+    @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300;
+  }
+
+  .light-search-bar {
+    @apply bg-white text-gray-800 border-gray-300 placeholder-gray-500;
+  }
+
+  .dark-search-bar {
+    @apply bg-gray-800 text-gray-200 border-gray-700 placeholder-gray-400;
+  }
+
+  .search-bar:focus {
+    @apply shadow-lg;
+  }
+
+  .page-title {
+    @apply text-3xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200;
+  }
+
+  .modal-actions {
+    @apply flex justify-end space-x-4 mt-4;
+  }
+
+  .modal-button {
+    @apply px-4 py-2 rounded-md font-medium shadow-md text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300;
+  }
+
+  .modal-button-red {
+    @apply px-4 py-2 rounded-md font-medium shadow-md text-white bg-red-500 hover:bg-red-600 transition-colors duration-300;
   }
 }

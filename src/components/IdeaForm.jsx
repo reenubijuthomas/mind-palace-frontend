@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { BookPlus, Save } from "lucide-react";
 
 const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) => {
   const [title, setTitle] = useState("");
@@ -68,69 +69,100 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
     }
   };
 
+  // Custom Quill theme classes
+  const quillThemeClasses =
+    theme === "dark"
+      ? "bg-gray-800 text-gray-200 border-gray-700 [&_.ql-toolbar]:bg-gray-700 [&_.ql-editor]:bg-gray-800 [&_.ql-editor]:text-gray-200 [&_.ql-stroke]:stroke-gray-300 [&_.ql-fill]:fill-gray-300"
+      : "bg-white text-gray-800 border-gray-200 [&_.ql-toolbar]:bg-gray-100 [&_.ql-editor]:bg-white [&_.ql-editor]:text-gray-800";
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={`max-w-2xl mx-auto p-6 rounded-lg shadow-md space-y-6 border 
-      ${theme === "dark" ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-800"} 
-      mt-16`} // Added margin from navbar
-    >
-      <h2 className="text-2xl font-semibold text-center">
-        {editingIdea ? "Edit Your Idea" : "Share a New Idea"}
-      </h2>
-      <input
-        type="text"
-        placeholder="Give a title to your idea"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-        className={`w-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${
-          theme === "dark"
-            ? "bg-gray-700 border-gray-600 focus:ring-indigo-500"
-            : "bg-gray-100 border-gray-300 focus:ring-indigo-500"
-        }`}
-      />
-      <div>
-        <ReactQuill
-          value={description}
-          onChange={setDescription}
-          placeholder="Add your idea description here..."
-          modules={{
-            toolbar: [
-              [{ header: "1" }, { header: "2" }, { font: [] }],
-              [{ list: "ordered" }, { list: "bullet" }],
-              ["bold", "italic", "underline"],
-              [{ align: [] }],
-              ["link"],
-              [{ color: [] }, { background: [] }],
-              ["blockquote"],
-              ["code-block"],
-            ],
-          }}
-          className={`rounded-lg shadow-md focus:outline-none ${
-            theme === "dark" ? "bg-gray-700 text-white" : "bg-gray-100 text-gray-800"
-          }`}
-        />
-      </div>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-      <div className="flex justify-end gap-4 mt-4">
-        <button
-          type="submit"
-          className="px-6 py-2 text-sm font-medium rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500
-          bg-indigo-600 text-white hover:bg-indigo-700"
+    <div className="container mx-auto px-4 py-8 pt-32"> {/* Add pt-32 for spacing below navbar */}
+      <form
+        onSubmit={handleSubmit}
+        className={`max-w-3xl mx-auto p-8 rounded-2xl shadow-xl transition-all duration-300 
+          ${theme === "dark" 
+            ? "bg-gray-900 border-2 border-gray-800 text-gray-100 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]" 
+            : "bg-white border border-gray-200 text-gray-900 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
+          } space-y-6 transform hover:scale-[1.01]`}
+      >
+        <h2 className={`text-3xl font-bold text-center mb-6 
+          ${theme === "dark" ? "text-indigo-300" : "text-indigo-600"}`}
         >
-          {editingIdea ? "Update Idea" : "Submit Idea"}
-        </button>
-        <button
-          type="button"
-          className="px-6 py-2 text-sm font-medium rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500
-          bg-gray-500 text-white hover:bg-gray-600"
-          onClick={handleSaveAsDraft}
-        >
-          Save as Draft
-        </button>
-      </div>
-    </form>
+          {editingIdea ? "Edit Your Idea" : "Share a New Idea"}
+        </h2>
+
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Give a title to your idea"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className={`w-full px-4 py-3 rounded-xl transition-all duration-300 
+              ${theme === "dark" 
+                ? "bg-gray-800 text-gray-200 border-2 border-gray-700 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500" 
+                : "bg-gray-100 text-gray-900 border border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+              }`}
+          />
+
+          <div className="relative">
+            <ReactQuill
+              value={description}
+              onChange={setDescription}
+              placeholder="Add your idea description here..."
+              modules={{
+                toolbar: [
+                  [{ header: "1" }, { header: "2" }, { font: [] }],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["bold", "italic", "underline"],
+                  [{ align: [] }],
+                  ["link"],
+                  [{ color: [] }, { background: [] }],
+                  ["blockquote"],
+                  ["code-block"],
+                ],
+              }}
+              className={`rounded-xl overflow-hidden transition-all duration-300 ${quillThemeClasses}`}
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm mt-2 pl-2 animate-pulse">
+              {error}
+            </p>
+          )}
+        </div>
+
+        <div className="flex justify-end gap-4 mt-6">
+          <button
+            type="submit"
+            className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl 
+              transition-all duration-300 group 
+              ${theme === "dark"
+                ? "bg-indigo-700 text-gray-100 hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-500"
+                : "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500"
+              } shadow-md hover:shadow-lg`}
+          >
+            <BookPlus className="w-5 h-5 group-hover:rotate-6 transition-transform" />
+            {editingIdea ? "Update Idea" : "Submit Idea"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSaveAsDraft}
+            className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl 
+              transition-all duration-300 group 
+              ${theme === "dark"
+                ? "bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500"
+                : "bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500"
+              } shadow-md hover:shadow-lg`}
+          >
+            <Save className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            Save as Draft
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
