@@ -1,0 +1,76 @@
+.settings-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+  
+  .settings-page.light {
+    --background-color: #f5ecff;
+    --text-color: #2c3e50;
+  }
+  
+  .settings-page.dark {
+    --background-color: #2d3436;
+    --text-color: #ecf0f1;
+  }
+  
+  .settings-box {
+    width: 500px;
+    padding: 20px;
+    background-color: var(--background-color);
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .settings-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .settings-label {
+    font-size: 1rem;
+  }
+  
+  .settings-button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--text-color); /* Ensure the button text color adapts to the theme */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease; /* Add transition for color changes */
+  }
+  
+  .settings-button:hover {
+    background-color: var(--text-color); /* Use the dynamic text color for hover */
+    color: var(--background-color); /* Use the dynamic background color for hover text */
+  }
+  
+  
+  .small-button {
+    padding: 4px 8px;
+  }
+  
+  .settings-select {
+    padding: 5px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid var(--text-color);
+    background-color: transparent;
+    color: var(--text-color);
+  }
+  

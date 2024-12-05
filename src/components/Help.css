@@ -1,0 +1,93 @@
+.help-page {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  h1, h2 {
+    color: #5a2d82; /* Your preferred purple tone */
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .faq-section {
+    margin-bottom: 2rem;
+  }
+  
+  .faq-list {
+    border-top: 1px solid #ddd;
+  }
+  
+  .faq-item {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+  
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #5a2d82;
+  }
+  
+  .faq-question:hover {
+    text-decoration: underline;
+  }
+  
+  .faq-answer {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .user-guide ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .troubleshooting ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .feedback {
+    margin-top: 2rem;
+  }
+  
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .feedback-form textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.8rem;
+  }
+  
+  .feedback-submit {
+    align-self: flex-end;
+    background-color: #5a2d82;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .feedback-submit:hover {
+    background-color: #4a2366;
+  }
+  
