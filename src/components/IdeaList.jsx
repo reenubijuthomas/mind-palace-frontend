@@ -490,41 +490,59 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             {/* Comments Section */}
             {showComments[showModal.id] && (
               <div className="mt-4">
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    value={newComment[showModal.id] || ''}
-                    onChange={(e) => setNewComment({ ...newComment, [showModal.id]: e.target.value })}
-                    className="input-field"
-                  />
-                  <button
-                    className="button-primary mt-2"
-                    onClick={() => handleAddComment(showModal.id)}
-                  >
-                    Add Comment
-                  </button>
-                </div>
-
-                {commentData[showModal.id]?.generalComments?.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="bg-gray-100 dark:bg-gray-700 p-3 rounded-md mb-2 flex justify-between items-center"
-                  >
-                    <div>
-                      <strong>{comment.username}</strong>: {comment.comment}
-                    </div>
-                    {userId === comment.commentedBy && !isBinPage && (
-                      <button
-                        className="text-red-500 hover:text-red-700 dark:text-red-400"
-                        onClick={() => confirmDeleteComment(comment.id, showModal.id)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    )}
-                  </div>
-                ))}
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  value={newComment[showModal.id] || ''}
+                  onChange={(e) => setNewComment({ ...newComment, [showModal.id]: e.target.value })}
+                  className={`input-field w-full px-3 py-2 rounded-md border transition-all ${
+                    isDarkMode
+                      ? "bg-gray-700 text-gray-200 border-gray-600 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
+                      : "bg-gray-100 text-gray-900 border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500"
+                  }`}
+                />
+                <button
+                  className={`button-primary mt-2 px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-indigo-600 text-gray-200 hover:bg-indigo-500"
+                      : "bg-indigo-500 text-white hover:bg-indigo-600"
+                  }`}
+                  onClick={() => handleAddComment(showModal.id)}
+                >
+                  Add Comment
+                </button>
               </div>
+            
+              {commentData[showModal.id]?.generalComments?.map((comment) => (
+                <div
+                  key={comment.id}
+                  className={`p-3 rounded-md mb-2 flex justify-between items-center transition-all ${
+                    isDarkMode
+                      ? "bg-gray-800 text-gray-200 border border-gray-700"
+                      : "bg-gray-100 text-gray-900 border border-gray-300"
+                  }`}
+                >
+                  <div>
+                    <strong className={`${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`}>
+                      {comment.username}
+                    </strong>
+                    : {comment.comment}
+                  </div>
+                  {userId === comment.commentedBy && !isBinPage && (
+                    <button
+                      className={`text-red-500 hover:text-red-700 ${
+                        isDarkMode ? "dark:hover:text-red-400" : ""
+                      }`}
+                      onClick={() => confirmDeleteComment(comment.id, showModal.id)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            
             )}
           </div>
         </div>

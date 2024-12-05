@@ -31,6 +31,17 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
     fetchDrafts();
   }, [userId]);
 
+  const submitDraft = async (ideaId) => {
+    try {
+      await axios.put(`http://localhost:5050/api/drafts/submit/${ideaId}`);
+      setDrafts((prevDrafts) => prevDrafts.filter((draft) => draft.id !== ideaId));
+      setMessage('Draft submitted successfully!');
+    } catch (error) {
+      console.error("Error submitting draft:", error);
+      setMessage('Failed to submit draft.');
+    }
+  };
+
   const handleDeleteIdea = async (id) => {
     try {
       await handleDelete(id);
@@ -73,14 +84,18 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
     >
       {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
-        <h1 className="text-4xl font-extrabold tracking-wide">
-          {theme === "dark" ? (
-            <span className="text-indigo-400">My Drafts</span>
-          ) : (
-            <span className="text-indigo-600">My Drafts</span>
-          )}
+        <h1
+          className={`text-4xl font-extrabold tracking-wide ${
+            theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+          }`}
+        >
+          My Drafts
         </h1>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+        <p
+          className={`mt-4 text-lg font-medium ${
+            theme === "dark" ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
           Manage and finalize your draft ideas.
         </p>
       </div>
@@ -111,6 +126,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           isDraftPage={true}
           setDrafts={setDrafts}
           isDarkMode={theme === "dark"}
+          submitDraft={submitDraft}
         />
       ) : (
         <div

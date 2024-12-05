@@ -79,16 +79,23 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
     <div
       className={`p-6 ${theme} min-h-screen flex flex-col items-center`}
     >
+
       {/* Title Section */}
-      <div className="pt-24 pb-4 text-center">
+      <div className="pt-24 pb-8 text-center">
         <h1
-          className={`text-4xl font-extrabold tracking-wide mb-6 ${
-            theme === "dark" ? "text-indigo-400" : "text-indigo-600"
-          }`}
+          className={`
+      text-4xl font-extrabold tracking-wide
+      ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"}
+    `}
         >
           My Ideas
         </h1>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+        <p
+          className={`
+      mt-4 text-lg font-medium
+      ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
+    `}
+        >
           Manage and track the progress of your ideas.
         </p>
       </div>
@@ -113,43 +120,40 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
           <div className="flex justify-center space-x-4 mb-6">
             <button
               onClick={() => toggleSection("pending")}
-              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
-                toggleSections.pending
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.pending
                   ? theme === "dark"
                     ? "bg-gray-800 text-indigo-400"
                     : "bg-gray-200 text-indigo-600"
                   : theme === "dark"
-                  ? "bg-gray-700 text-gray-400"
-                  : "bg-gray-100 text-gray-500"
-              }`}
+                    ? "bg-gray-700 text-gray-400"
+                    : "bg-gray-100 text-gray-500"
+                }`}
             >
               Pending Approval
             </button>
             <button
               onClick={() => toggleSection("approved")}
-              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
-                toggleSections.approved
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.approved
                   ? theme === "dark"
                     ? "bg-gray-800 text-indigo-400"
                     : "bg-gray-200 text-indigo-600"
                   : theme === "dark"
-                  ? "bg-gray-700 text-gray-400"
-                  : "bg-gray-100 text-gray-500"
-              }`}
+                    ? "bg-gray-700 text-gray-400"
+                    : "bg-gray-100 text-gray-500"
+                }`}
             >
               Approved Ideas
             </button>
             <button
               onClick={() => toggleSection("rejected")}
-              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${
-                toggleSections.rejected
+              className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.rejected
                   ? theme === "dark"
                     ? "bg-gray-800 text-indigo-400"
                     : "bg-gray-200 text-indigo-600"
                   : theme === "dark"
-                  ? "bg-gray-700 text-gray-400"
-                  : "bg-gray-100 text-gray-500"
-              }`}
+                    ? "bg-gray-700 text-gray-400"
+                    : "bg-gray-100 text-gray-500"
+                }`}
             >
               Rejected Ideas
             </button>
@@ -197,9 +201,8 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
           {/* No Ideas Found */}
           {!loading && myIdeas.length === 0 && (
             <div
-              className={`text-center p-4 rounded shadow ${
-                theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
-              }`}
+              className={`text-center p-4 rounded shadow ${theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
+                }`}
             >
               <p>No ideas found.</p>
             </div>

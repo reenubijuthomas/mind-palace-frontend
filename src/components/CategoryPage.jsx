@@ -43,10 +43,18 @@ const CategoryPage = ({ theme }) => {
     >
       {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
-        <h2 className="text-4xl font-extrabold tracking-wide">
+        <h1
+          className={`text-4xl font-extrabold tracking-wide ${
+            theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+          }`}
+        >
           Ideas in <span className="text-indigo-500">"{categoryName}"</span>
-        </h2>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+        </h1>
+        <p
+          className={`mt-4 text-lg font-medium ${
+            theme === "dark" ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
           Browse and explore the ideas in this category.
         </p>
       </div>
@@ -61,10 +69,10 @@ const CategoryPage = ({ theme }) => {
 
       {/* Search Bar */}
       <div className="search-bar mx-auto">
-      <i className="fa fa-search search-icon"></i>
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search ideas..."
+          placeholder="Search categories..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
@@ -72,26 +80,41 @@ const CategoryPage = ({ theme }) => {
       </div>
 
       {/* Idea List */}
-      {loading ? (
-        <p className="text-center text-gray-500">Loading ideas...</p>
-      ) : filteredIdeas.length > 0 ? (
-        <IdeaList ideas={filteredIdeas} isDarkMode={theme === "dark"} />
-      ) : (
-        <div
-          className={`text-center p-4 rounded shadow ${
-            theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
-          }`}
-        >
-          <p>No ideas found for this category.</p>
-          <p>
-            Browse other{" "}
-            <Link to="/groups" className="text-indigo-500 underline">
-              categories
-            </Link>
-            !
-          </p>
-        </div>
-      )}
+      <div className="mt-8 w-full flex flex-wrap justify-center gap-6">
+        {loading ? (
+          <p className="text-center text-gray-500">Loading ideas...</p>
+        ) : filteredIdeas.length > 0 ? (
+          filteredIdeas.map((idea) => (
+            <div
+              key={idea.id}
+              className={`relative flex flex-col items-center justify-center p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 ${
+                theme === "dark"
+                  ? "bg-gray-800 text-gray-100 border border-gray-700"
+                  : "bg-white text-gray-900 border border-gray-200"
+              }`}
+              style={{ width: "260px", height: "160px" }}
+            >
+              <h3 className="text-lg font-bold mb-2">{idea.title}</h3>
+              <p className="text-sm text-center line-clamp-3">{idea.description}</p>
+            </div>
+          ))
+        ) : (
+          <div
+            className={`text-center p-4 rounded shadow ${
+              theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
+            }`}
+          >
+            <p>No ideas found for this category.</p>
+            <p>
+              Browse other{" "}
+              <Link to="/groups" className="text-indigo-500 underline">
+                categories
+              </Link>
+              !
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -149,17 +149,24 @@ const Approvals = ({ userId, theme }) => {
   return (
     <div className={`min-h-screen p-6 ${theme} flex flex-col items-center transition-all`}>
       {/* Title Section */}
-      <div className="pt-24 pb-4 text-center">
-        <h1
-          className={`text-4xl font-extrabold tracking-wide mb-6 ${theme === "dark" ? "text-indigo-400" : "text-indigo-600"
-            }`}
-        >
-          Approvals
-        </h1>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
-          Manage and approve or reject ideas.
-        </p>
-      </div>
+<div className="pt-24 pb-8 text-center">
+  <h1
+    className={`
+      text-4xl font-extrabold tracking-wide
+      ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"}
+    `}
+  >
+    Approvals
+  </h1>
+  <p
+    className={`
+      mt-4 text-lg font-medium
+      ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
+    `}
+  >
+    Manage and approve or reject ideas.
+  </p>
+</div>
 
       {/* Search Bar */}
       <div className="search-bar mx-auto">

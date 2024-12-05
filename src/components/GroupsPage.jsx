@@ -78,20 +78,34 @@ const GroupsPage = ({ theme }) => {
           : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
       }`}
     >
+
       {/* Title Section */}
-      <div className="pt-24 pb-8 text-center">
-        <h2 className="text-4xl font-extrabold tracking-wide">Categories</h2>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
-          Explore and create categories to organize your ideas.
-        </p>
-      </div>
+<div className="pt-24 pb-8 text-center">
+  <h1
+    className={`
+      text-4xl font-extrabold tracking-wide
+      ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"}
+    `}
+  >
+    Categories
+  </h1>
+  <p
+    className={`
+      mt-4 text-lg font-medium
+      ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
+    `}
+  >
+    Explore and create categories to organize your ideas.
+  </p>
+</div>
+      
 
       {/* Search Bar */}
       <div className="search-bar mx-auto">
-      <i className="fa fa-search search-icon"></i>
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search categories..."
+          placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
