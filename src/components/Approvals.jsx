@@ -1,38 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaThumbsUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import './Approvals.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import IdeaList from "./IdeaList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faAngleDown, faAngleUp, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Approvals = ({ userId, theme, isDarkMode = false }) => {
+const Approvals = ({ userId, theme }) => {
   const [approvalIdeas, setApprovalIdeas] = useState([]);
   const [comments, setComments] = useState({});
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(null);
-  const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState("");
   const [commentVisibility, setCommentVisibility] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [actionType, setActionType] = useState("");
   const [showPendingDropdown, setShowPendingDropdown] = useState(true);
   const [showApprovedRejectedDropdown, setShowApprovedRejectedDropdown] = useState(true);
-  const [approvalComment, setApprovalComment] = useState('');
+  const [approvalComment, setApprovalComment] = useState("");
 
   useEffect(() => {
     const fetchApprovalIdeas = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/api/approvals');
+        const response = await axios.get("http://localhost:5050/api/approvals");
         const ideas = Array.isArray(response.data) ? response.data : [];
         setApprovalIdeas(ideas);
 
         const commentsResponses = await Promise.all(
-          ideas.map((idea) =>
-            axios.get(`http://localhost:5050/api/comments/${idea.id}`)
-          )
+          ideas.map((idea) => axios.get(`http://localhost:5050/api/comments/${idea.id}`))
         );
 
         const commentsMap = {};
         commentsResponses.forEach(({ data }, index) => {
-          const generalComments = data.filter(comment => !comment.isApproverComment);
-          const approverComment = data.find(comment => comment.isApproverComment);
+          const generalComments = data.filter((comment) => !comment.isApproverComment);
+          const approverComment = data.find((comment) => comment.isApproverComment);
 
           commentsMap[ideas[index].id] = {
             generalComments: generalComments,
@@ -42,18 +41,17 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
 
         setComments(commentsMap);
       } catch (error) {
-        console.error('Error fetching approval ideas or comments:', error);
+        console.error("Error fetching approval ideas or comments:", error);
       }
     };
 
     fetchApprovalIdeas();
   }, []);
 
-
   const handleApprove = async (ideaId) => {
     try {
       const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
-        comment: approvalComment || '',
+        comment: approvalComment || "",
         commentedBy: userId,
         commentedOn: ideaId,
         isApproverComment: true,
@@ -61,80 +59,66 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
 
       const newComment = commentResponse.data;
 
-      setComments((prevComments) => {
-        const existingComments = prevComments[ideaId] || { generalComments: [], approverComment: null };
-
-        const updatedComments = {
-          generalComments: [...existingComments.generalComments],
+      setComments((prev) => ({
+        ...prev,
+        [ideaId]: {
+          ...prev[ideaId],
           approverComment: newComment,
-        };
-
-        return {
-          ...prevComments,
-          [ideaId]: updatedComments,
-        };
-      });
+        },
+      }));
 
       await axios.put(`http://localhost:5050/api/approvals/approve/${ideaId}`);
-
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
-          idea.id === ideaId ? { ...idea, status: 'Approved', isApproved: 1 } : idea
+          idea.id === ideaId ? { ...idea, status: "Approved", isApproved: 1 } : idea
         )
       );
 
       setShowConfirmation(null);
       closeModal();
-      showNotification('Idea approved successfully!');
+      showNotification("Idea approved successfully!");
     } catch (error) {
-      console.error('Error approving idea:', error);
+      console.error("Error approving idea:", error);
     }
   };
 
   const handleReject = async (ideaId) => {
     try {
       const commentResponse = await axios.post(`http://localhost:5050/api/comments`, {
-        comment: approvalComment || '',
+        comment: approvalComment || "",
         commentedBy: userId,
         commentedOn: ideaId,
         isApproverComment: true,
       });
 
       const newComment = commentResponse.data;
-      setComments((prevComments) => {
-        const existingComments = prevComments[ideaId] || { generalComments: [], approverComment: null };
 
-        const updatedComments = {
-          generalComments: [...existingComments.generalComments],
+      setComments((prev) => ({
+        ...prev,
+        [ideaId]: {
+          ...prev[ideaId],
           approverComment: newComment,
-        };
-
-        return {
-          ...prevComments,
-          [ideaId]: updatedComments,
-        };
-      });
+        },
+      }));
 
       await axios.put(`http://localhost:5050/api/approvals/reject/${ideaId}`);
-
       setApprovalIdeas((prev) =>
         prev.map((idea) =>
-          idea.id === ideaId ? { ...idea, status: 'Rejected', isApproved: 2 } : idea
+          idea.id === ideaId ? { ...idea, status: "Rejected", isApproved: 2 } : idea
         )
       );
 
       setShowConfirmation(null);
       closeModal();
-      showNotification('Idea rejected successfully!');
+      showNotification("Idea rejected successfully!");
     } catch (error) {
-      console.error('Error rejecting idea:', error);
+      console.error("Error rejecting idea:", error);
     }
   };
 
-
   const showNotification = (message) => {
     setNotification(message);
-    setTimeout(() => setNotification(''), 5000);
+    setTimeout(() => setNotification(""), 5000);
   };
 
   const filteredIdeas = approvalIdeas.filter(
@@ -143,8 +127,12 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0 || idea.isApproved === null);
-  const approvedRejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1 || idea.isApproved === 2);
+  const pendingIdeas = filteredIdeas.filter(
+    (idea) => idea.isApproved === 0 || idea.isApproved === null
+  );
+  const approvedRejectedIdeas = filteredIdeas.filter(
+    (idea) => idea.isApproved === 1 || idea.isApproved === 2
+  );
 
   const togglePendingDropdown = () => setShowPendingDropdown((prev) => !prev);
   const toggleApprovedRejectedDropdown = () => setShowApprovedRejectedDropdown((prev) => !prev);
@@ -165,221 +153,136 @@ const Approvals = ({ userId, theme, isDarkMode = false }) => {
 
   const closeConfirmation = () => {
     setShowConfirmation(null);
-    setActionType('');
+    setActionType("");
   };
 
   return (
-    <div className={`approvals-container ${theme}`}>
-      <h2>Approvals Page</h2>
+    <div className={`min-h-screen p-6 ${theme} flex flex-col items-center transition-all`}>
+      <h2 className="text-2xl font-bold mb-6">Approvals Page</h2>
 
-      <div className="search-bar-container">
-        <i className="fa fa-search search-icon"></i>
+      {/* Search Bar */}
+      <div className="relative w-full max-w-md mb-6">
+        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-bar-new"
+          className="w-full pl-12 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
 
-      {/* Pending Approval Ideas Section */}
+      {/* Pending Ideas */}
       {pendingIdeas.length > 0 && (
-        <div className="dropdown-section">
-          <section className="section-divider">
-            <h3 onClick={togglePendingDropdown} className="dropdown-title">
-              Pending Approval {showPendingDropdown ? "▼" : "▲"}
-            </h3>
-            {showPendingDropdown && (
-              <ul className="idea-list">
-                {pendingIdeas.map((idea) => (
-                  <li key={idea.id} className={`idea-item ${theme}`} onClick={() => openModal(idea)}>
-                    <div className="creator-info">
-                      <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                      <span className="created-date">
-                        {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </span>
-                    </div>
-                    <div className="idea-content">
-                      <h3>{idea.title}</h3>
-                      <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-                    </div>
-                    <div className="idea-likes">
-                      <FaThumbsUp /> <span className="approvals-likes-count">{idea.likes}</span>
-                    </div>
-                    <div className="idea-status">
-                      {idea.isApproved === null || idea.isApproved === 0 ? (
-                        <span className="status-box pending">Pending</span>
-                      ) : idea.isApproved === 1 ? (
-                        <span className="status-box approved">Approved</span>
-                      ) : (
-                        <span className="status-box rejected">Rejected</span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
+        <div className="mb-8">
+          <h3 onClick={togglePendingDropdown} className="text-lg font-medium cursor-pointer mb-2">
+            Pending Approval {showPendingDropdown ? "▼" : "▲"}
+          </h3>
+          {showPendingDropdown && (
+            <IdeaList
+              ideas={pendingIdeas}
+              handleDelete={null}
+              handleEdit={null}
+              handleLike={null}
+              userId={userId}
+              isBinPage={false}
+              isDraftPage={false}
+              setDeletedIdeas={null}
+              setDrafts={null}
+              isDarkMode={theme === "dark"}
+            />
+          )}
         </div>
       )}
 
-      {/* Approved/Rejected Ideas Section */}
+      {/* Approved / Rejected Ideas */}
       {approvedRejectedIdeas.length > 0 && (
-        <div className="dropdown-section">
-          <section className="section-divider">
-            <h3 onClick={toggleApprovedRejectedDropdown} className="dropdown-title">
-              Approved / Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
-            </h3>
-            {showApprovedRejectedDropdown && (
-              <ul className="idea-list">
-                {approvedRejectedIdeas.map((idea) => (
-                  <li key={idea.id} className={`idea-item ${theme}`} onClick={() => openModal(idea)}>
-                    <div className="creator-info">
-                      <span className="creator-username"><strong>By: {idea.username}</strong></span>
-                      <span className="created-date">
-                        {new Date(idea.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </span>
-                    </div>
-                    <div className="idea-content">
-                      <h3>{idea.title}</h3>
-                      <p className="idea-description" dangerouslySetInnerHTML={{ __html: idea.description }} />
-                    </div>
-                    <div className="idea-likes">
-                      <FaThumbsUp /> {idea.likes}
-                    </div>
-                    <div className="idea-status">
-                      {idea.isApproved === null || idea.isApproved === 0 ? (
-                        <span className="status-box pending">Pending</span>
-                      ) : idea.isApproved === 1 ? (
-                        <span className="status-box approved">Approved</span>
-                      ) : (
-                        <span className="status-box rejected">Rejected</span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
+        <div>
+          <h3 onClick={toggleApprovedRejectedDropdown} className="text-lg font-medium cursor-pointer mb-2">
+            Approved / Rejected {showApprovedRejectedDropdown ? "▼" : "▲"}
+          </h3>
+          {showApprovedRejectedDropdown && (
+            <IdeaList
+              ideas={approvedRejectedIdeas}
+              handleDelete={null}
+              handleEdit={null}
+              handleLike={null}
+              userId={userId}
+              isBinPage={false}
+              isDraftPage={false}
+              setDeletedIdeas={null}
+              setDrafts={null}
+              isDarkMode={theme === "dark"}
+            />
+          )}
         </div>
       )}
 
+      {/* Modal */}
       {showModal && (
-        <div className={`modal-overlay ${theme}`} onClick={closeModal}>
-          <div className={`modal-content ${theme}`} onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal-btn" onClick={closeModal}>
-              &times;
-            </button>
-            <div className="modal-header">
-              <span className="creator-username">
-                <strong>By: {showModal.username}</strong>
-              </span>
-              <span className="created-date">
-                {new Date(showModal.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-              <p className="modal-status">
-                <span
-                  className={`status-box ${showModal.isApproved === 1 ? 'approved' : showModal.isApproved === 2 ? 'rejected' : 'pending'}`}
-                >
-                  {showModal.isApproved === 1
-                    ? 'Approved'
-                    : showModal.isApproved === 2
-                      ? 'Rejected'
-                      : 'Pending'}
-                </span>
-              </p>
-            </div>
-
-            <h3 className="modal-title">{showModal.title}</h3>
-            <div className="modal-description" dangerouslySetInnerHTML={{ __html: showModal.description }} />
-            <div className="modal-comment">
-              {(showModal.isApproved === 1 || showModal.isApproved === 2) &&
-                comments[showModal.id]?.approverComment?.comment && (
-                  <strong>
-                    Approver's Comment: {comments[showModal.id]?.approverComment?.comment}
-                  </strong>
-                )}
-            </div>
-
-            <div className="modal-likes-comments">
-              <div className="modal-likes">
-                <FaThumbsUp /> {showModal.likes}
-              </div>
-              <div
-                className="comments-toggle"
-                onClick={() => toggleCommentsVisibility(showModal.id)}
-              >
-                Comments {commentVisibility[showModal.id] ? <FaChevronUp /> : <FaChevronDown />}
-              </div>
-            </div>
-
-            {commentVisibility[showModal.id] && (
-              <ul className="comments-list">
-                {comments[showModal.id]?.generalComments.map((comment, idx) => (
-                  <li key={idx}>
-                    <strong>{comment.username}</strong>: {comment.comment}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {showModal.isApproved === 0 && (
-              <div className="modal-actions">
-                <textarea
-                  className="approval-comment"
-                  placeholder="Add a comment for approval/rejection"
-                  value={approvalComment}
-                  onChange={(e) => setApprovalComment(e.target.value)}
-                />
-                <button className="approve-btn" onClick={() => openConfirmation(showModal, 'approve')}>
-                  Approve
-                </button>
-                <button className="reject-btn" onClick={() => openConfirmation(showModal, 'reject')}>
-                  Reject
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {showConfirmation && (
-        <div className={`confirmation-overlay ${isDarkMode ? 'dark' : ''}`}>
-          <div className={`confirmation-dialog ${isDarkMode ? 'dark' : ''}`}>
-            <p>Are you sure you want to {actionType} this idea?</p>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="relative bg-white rounded-lg shadow-lg p-6 w-96 max-w-full">
             <button
-              className={`confirm-btn ${isDarkMode ? 'dark' : ''}`}
-              onClick={() => {
-                if (actionType === 'approve') {
-                  handleApprove(showConfirmation.id);
-                } else if (actionType === 'reject') {
-                  handleReject(showConfirmation.id);
-                }
-              }}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+              onClick={closeModal}
             >
-              Confirm
+              <FontAwesomeIcon icon={faTimes} />
             </button>
-            <button className={`cancel-btn ${isDarkMode ? 'dark' : ''}`} onClick={closeConfirmation}>
-              Cancel
-            </button>
+            <h3 className="text-xl font-semibold">{showModal.title}</h3>
+            <p className="mt-2">{showModal.description}</p>
+            <div className="mt-4 space-x-4">
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                onClick={() => openConfirmation(showModal, "approve")}
+              >
+                Approve
+              </button>
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                onClick={() => openConfirmation(showModal, "reject")}
+              >
+                Reject
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {notification && <div className="notification">{notification}</div>}
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-w-full">
+            <p className="text-center">Are you sure you want to {actionType} this idea?</p>
+            <div className="flex justify-between mt-4">
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                onClick={() => {
+                  if (actionType === "approve") {
+                    handleApprove(showConfirmation.id);
+                  } else if (actionType === "reject") {
+                    handleReject(showConfirmation.id);
+                  }
+                }}
+              >
+                Confirm
+              </button>
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                onClick={closeConfirmation}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Notification */}
+      {notification && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-lg">
+          {notification}
+        </div>
+      )}
     </div>
   );
 };

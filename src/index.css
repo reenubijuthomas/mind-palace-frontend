@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --light-bg: #f3f8ff;
+    --light-text: #2d3748;
+    --dark-bg: #1e293b;
+    --dark-text: #e2e8f0;
+  }
+
+  .light {
+    @apply bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748];
+  }
+
+  .dark {
+    @apply bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0];
+  }
+}
+
+@layer components {
+  .light-gradient-bg {
+    @apply bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff];
+  }
+
+  .dark-gradient-bg {
+    @apply bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a];
+  }
+
+  .button-primary {
+    @apply px-4 py-2 rounded-md font-medium shadow-md text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300;
+  }
+
+  .button-secondary {
+    @apply px-4 py-2 rounded-md font-medium shadow-md text-gray-800 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .card {
+    @apply rounded-lg shadow-md p-4 bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-200 transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply shadow-lg translate-y-[-2px];
+  }
+
+  .modal {
+    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+  }
+
+  .modal-content {
+    @apply bg-white p-6 rounded-lg shadow-lg dark:bg-gray-800 dark:text-gray-200 transition-all;
+  }
+
+  .dark-mode-text {
+    @apply dark:bg-gray-800 dark:text-gray-200;
+  }
+
+  .card {
+    @apply rounded-lg shadow-md p-4 bg-white text-gray-800 border border-gray-200 transition-all duration-300;
+  }
+
+  .dark .card {
+    @apply bg-gray-800 text-gray-200 border-gray-700;
+  }
+
+  .card:hover {
+    @apply shadow-lg translate-y-[-2px] bg-gray-50 border-gray-300;
+  }
+
+  .dark .card:hover {
+    @apply bg-gray-700 border-gray-600;
+  }
+}

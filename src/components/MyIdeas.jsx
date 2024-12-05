@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import IdeaList from "./IdeaList";
 import { Link } from "react-router-dom";
-import "../App.css";
 
 const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const [myIdeas, setMyIdeas] = useState([]);
@@ -61,9 +60,9 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const approvedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1); // Approved
-  const rejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 2); // Rejected
-  const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0); // Pending
+  const approvedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 1);
+  const rejectedIdeas = filteredIdeas.filter((idea) => idea.isApproved === 2);
+  const pendingIdeas = filteredIdeas.filter((idea) => idea.isApproved === 0);
 
   const toggleSection = (section) => {
     setToggleSections((prevState) => ({
@@ -76,29 +75,28 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
   const closeModal = () => setActiveIdea(null);
 
   return (
-    <div className={`my-ideas-container ${activeIdea ? "modal-active" : ""} ${theme}`}>
-      <h2>My Ideas</h2>
-      <div className="search-bar-container">
-        <i className="fa fa-search search-icon"></i>
+    <div className={`p-4 ${activeIdea ? "overflow-hidden h-screen" : ""} ${theme}`}>
+      <h2 className="text-xl font-bold">My Ideas</h2>
+      <div className="relative max-w-md mx-auto mt-4 mb-6">
+        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-bar-new ${theme}`}
+          className={`w-full px-10 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-indigo-500`}
         />
       </div>
-      
+
       {loading ? (
-        <p>Loading ideas...</p>
+        <p className="text-center text-gray-500">Loading ideas...</p>
       ) : (
         <>
-          {/* Pending Approval Section */}
           {pendingIdeas.length > 0 && (
-            <section className="section-divider">
+            <section className="mt-6">
               <h3
                 onClick={() => toggleSection("pending")}
-                style={{ cursor: "pointer" }}
+                className="cursor-pointer font-semibold text-lg"
               >
                 Pending Approval {toggleSections.pending ? "▼" : "▲"}
               </h3>
@@ -116,12 +114,11 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
             </section>
           )}
 
-          {/* Approved Ideas Section */}
           {approvedIdeas.length > 0 && (
-            <section className="section-divider">
+            <section className="mt-6">
               <h3
                 onClick={() => toggleSection("approved")}
-                style={{ cursor: "pointer" }}
+                className="cursor-pointer font-semibold text-lg"
               >
                 Approved Ideas {toggleSections.approved ? "▼" : "▲"}
               </h3>
@@ -133,18 +130,17 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                   handleLike={handleLike}
                   userId={userId}
                   openModal={openModal}
-                  isDarkMode={theme === "dark"} // Pass isDarkMode prop
+                  isDarkMode={theme === "dark"}
                 />
               )}
             </section>
           )}
 
-          {/* Rejected Ideas Section */}
           {rejectedIdeas.length > 0 && (
-            <section className="section-divider">
+            <section className="mt-6">
               <h3
                 onClick={() => toggleSection("rejected")}
-                style={{ cursor: "pointer" }}
+                className="cursor-pointer font-semibold text-lg"
               >
                 Rejected Ideas {toggleSections.rejected ? "▼" : "▲"}
               </h3>
@@ -162,28 +158,35 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
             </section>
           )}
 
-          {/* No Ideas Found */}
           {!loading && myIdeas.length === 0 && (
-            <div className="no-ideas-container">
+            <div className="text-center bg-white p-4 rounded shadow">
               <p>No ideas found.</p>
               <p>
-                Start creating some <Link to="/">here</Link>!
+                Start creating some{" "}
+                <Link to="/" className="text-indigo-500 underline">
+                  here
+                </Link>
+                !
               </p>
             </div>
           )}
         </>
       )}
 
-      {/* Modal */}
       {activeIdea && (
-        <div className={`modal-overlay ${theme}`} onClick={closeModal}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div
-            className={`modal-content ${theme}`}
-            onClick={(e) => e.stopPropagation()} 
+            className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full"
+            onClick={(e) => e.stopPropagation()}
           >
-            <h2>{activeIdea.title}</h2>
-            <p>{activeIdea.description}</p>
-            <button onClick={closeModal}>Close</button>
+            <h2 className="text-xl font-bold">{activeIdea.title}</h2>
+            <p className="mt-4">{activeIdea.description}</p>
+            <button
+              className="mt-6 bg-indigo-500 text-white px-4 py-2 rounded-lg"
+              onClick={closeModal}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './HelpSettings.css';
+import React, { useState } from "react";
 
 function Settings({ theme, toggleTheme }) {
   const [notifications, setNotifications] = useState(true);
@@ -9,29 +8,43 @@ function Settings({ theme, toggleTheme }) {
   };
 
   return (
-    <div className={`settings-container ${theme}`}>
-      <h1>Settings</h1>
-      <div className="settings-section">
-        <h2>Account Preferences</h2>
-        <div className="settings-item">
-          <label htmlFor="theme-toggle">Theme:</label>
-          <button onClick={toggleTheme}>
-            {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+    <div
+      className={`p-6 max-w-4xl mx-auto bg-white dark:bg-gray-800 dark:text-gray-100 rounded shadow`}
+    >
+      <h1 className="text-3xl font-bold text-center mb-8">Settings</h1>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Account Preferences</h2>
+        <div className="flex justify-between items-center mb-4">
+          <label htmlFor="theme-toggle" className="font-semibold">
+            Theme:
+          </label>
+          <button
+            onClick={toggleTheme}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+          >
+            {theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
           </button>
         </div>
-        <div className="settings-item">
-          <label htmlFor="notifications">Notifications:</label>
-          <input
-            type="checkbox"
-            id="notifications"
-            checked={notifications}
-            onChange={handleNotificationChange}
-          />
-          <span>{notifications ? 'Enabled' : 'Disabled'}</span>
+        <div className="flex justify-between items-center">
+          <label htmlFor="notifications" className="font-semibold">
+            Notifications:
+          </label>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="notifications"
+              checked={notifications}
+              onChange={handleNotificationChange}
+              className="w-5 h-5 accent-blue-500"
+            />
+            <span>{notifications ? "Enabled" : "Disabled"}</span>
+          </div>
         </div>
       </div>
-      <div className="settings-section">
-        <h2>Privacy</h2>
+
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Privacy</h2>
         <p>Manage your data and privacy settings here.</p>
       </div>
     </div>

@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import IdeaList from './IdeaList';  
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import IdeaList from "./IdeaList";
 
 const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   const [drafts, setDrafts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDrafts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`);
+        const response = await axios.get(
+          `http://localhost:5050/api/ideas?createdBy=${userId}&&is_draft=true`
+        );
         setDrafts(response.data);
       } catch (error) {
-        console.error('Error fetching drafts:', error);
+        console.error("Error fetching drafts:", error);
       } finally {
         setTimeout(() => setLoading(false), 0);
       }
@@ -27,7 +29,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
       await handleDelete(id);
       setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
     } catch (error) {
-      console.error('Error deleting idea:', error);
+      console.error("Error deleting idea:", error);
     }
   };
 
@@ -40,7 +42,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
         );
       }
     } catch (error) {
-      console.error('Error editing idea:', error);
+      console.error("Error editing idea:", error);
     }
   };
 
@@ -51,22 +53,26 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   );
 
   return (
-    <div className={`drafts-container ${theme}`}>
-      <h2>My Drafts</h2>
-      <div className="search-bar-container">
-        <i className="fa fa-search search-icon"></i>
+    <div
+      className={`min-h-screen p-6 flex flex-col items-center ${theme} transition-all`}
+    >
+      <h2 className="text-xl font-bold mb-6">My Drafts</h2>
+
+      {/* Search Bar */}
+      <div className="relative w-full max-w-md mb-6">
+        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-bar-new ${theme}`}
+          className="w-full px-12 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
+
+      {/* Loading or Ideas */}
       {loading ? (
-        <div className={`loading-container ${theme}`}>
-          <p>Loading drafts...</p>
-        </div>
+        <div className="text-center text-gray-500 py-4">Loading drafts...</div>
       ) : draftIdeas.length > 0 ? (
         <IdeaList
           ideas={draftIdeas}
@@ -75,10 +81,10 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           userId={userId}
           isDraftPage={true}
           setDrafts={setDrafts}
-          isDarkMode={theme === 'dark'}
+          isDarkMode={theme === "dark"}
         />
       ) : (
-        <div className={`no-ideas-container ${theme}`}>
+        <div className="text-center bg-white p-4 rounded shadow">
           <p>No drafts found.</p>
         </div>
       )}

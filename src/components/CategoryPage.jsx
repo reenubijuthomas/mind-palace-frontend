@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import IdeaList from './IdeaList';
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import IdeaList from "./IdeaList";
 
 const CategoryPage = ({ theme }) => {
   const { categoryName, categoryID } = useParams();
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        const response = await fetch(`http://localhost:5050/api/groups/categories/${categoryID}`);
+        const response = await fetch(
+          `http://localhost:5050/api/groups/categories/${categoryID}`
+        );
         const data = await response.json();
         setIdeas(data);
       } catch (error) {
-        console.error('Error fetching ideas:', error);
+        console.error("Error fetching ideas:", error);
       } finally {
         setTimeout(() => setLoading(false), 0);
       }
@@ -32,30 +33,39 @@ const CategoryPage = ({ theme }) => {
   );
 
   return (
-    <div className={`category-page-container ${theme}`}>
-      <h2 className={`category-page-title ${theme}`}>Ideas in "{categoryName}"</h2>
-      <div className="search-bar-container">
-        <i className="fa fa-search search-icon"></i>
+    <div
+      className={`p-6 ${theme} min-h-screen flex flex-col items-center`}
+    >
+      <h2 className="text-2xl font-bold mb-6">
+        Ideas in <span className="text-indigo-500">"{categoryName}"</span>
+      </h2>
+
+      {/* Search Bar */}
+      <div className="relative max-w-md w-full mb-6">
+        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-bar-new ${theme}`}
+          className="w-full px-10 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-indigo-500"
         />
       </div>
+
+      {/* Idea List */}
       {loading ? (
-        <div className={`loading-message ${theme}`}>Loading ideas...</div>
+        <p className="text-center text-gray-500">Loading ideas...</p>
       ) : filteredIdeas.length > 0 ? (
-        <IdeaList
-          ideas={filteredIdeas}
-          isDarkMode={theme === 'dark'}
-        />
+        <IdeaList ideas={filteredIdeas} isDarkMode={theme === "dark"} />
       ) : (
-        <div className={`no-ideas-container ${theme}`}>
+        <div className="text-center bg-white p-4 rounded shadow">
           <p>No ideas found for this category.</p>
           <p>
-            Browse other <Link to="/groups">categories</Link>!
+            Browse other{" "}
+            <Link to="/groups" className="text-indigo-500 underline">
+              categories
+            </Link>
+            !
           </p>
         </div>
       )}

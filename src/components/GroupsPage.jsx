@@ -1,23 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './GroupsPage.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const GroupsPage = () => {
+const GroupsPage = ({ theme }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newCategory, setNewCategory] = useState('');
+  const [newCategory, setNewCategory] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5050/api/groups/categories');
+      const response = await fetch(
+        "http://localhost:5050/api/groups/categories"
+      );
       const data = await response.json();
       setCategories(data);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
       setLoading(false);
     }
   };
@@ -28,94 +29,118 @@ const GroupsPage = () => {
 
   const handleAddCategory = async () => {
     if (!newCategory.trim()) {
-      alert('Please enter a valid category name');
+      alert("Please enter a valid category name");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5050/api/groups/categories', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newCategory.trim() }),
-      });
+      const response = await fetch(
+        "http://localhost:5050/api/groups/categories",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: newCategory.trim() }),
+        }
+      );
 
       const result = await response.json();
       if (response.status === 201) {
         fetchCategories();
-
         setIsModalOpen(false);
-        setNewCategory('');
+        setNewCategory("");
       } else {
         alert(result.message);
       }
     } catch (error) {
-      console.error('Error adding category:', error);
-      alert('Failed to add category');
+      console.error("Error adding category:", error);
+      alert("Failed to add category");
     }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setNewCategory('');
+    setNewCategory("");
   };
 
   if (loading) {
-    return <div>Loading categories...</div>;
+    return <p className="text-center text-gray-500">Loading categories...</p>;
   }
 
-  const filteredCategories = categories.filter(
-    (category) =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="category-container">
-      <h2>Categories</h2>
-      <div className="search-bar-container">
-        <i className="fa fa-search search-icon"></i>
+    <div
+      className={`p-6 ${theme} min-h-screen flex flex-col items-center`}
+    >
+      <h2 className="text-2xl font-bold mb-6">Categories</h2>
+
+      {/* Search Bar */}
+      <div className="relative max-w-md w-full mb-6">
+        <i className="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
         <input
           type="text"
           placeholder="Search categories..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-bar-new"
+          className="w-full px-10 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-indigo-500"
         />
       </div>
-      <div className="category-list">
+
+      {/* Category Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
         {filteredCategories.length > 0 ? (
           filteredCategories.map((category, index) => (
             <div
               key={index}
-              className="category-tile"
-              onClick={() => navigate(`/groups/${category.name}/${category.id}`)}
+              className="card text-center cursor-pointer hover:scale-105 transition duration-300"
+              onClick={() =>
+                navigate(`/groups/${category.name}/${category.id}`)
+              }
             >
               {category.name}
             </div>
           ))
         ) : (
-          <div>No categories available.</div>
+          <p className="text-center text-gray-500">No categories available.</p>
         )}
 
+        {/* Add Category */}
         <div
-          className="category-tile add-category"
+          className="card text-center cursor-pointer hover:scale-105 transition duration-300"
           onClick={() => setIsModalOpen(true)}
         >
           + Add category...
         </div>
       </div>
 
+      {/* Modal */}
       {isModalOpen && (
-        <div className="modals">
-          <div className="modals-content">
-            <h3>Add a New Category</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <h3 className="text-lg font-bold mb-4">Add a New Category</h3>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="Enter category name"
+              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
             />
-            <button onClick={handleAddCategory}>Add</button>
-            <button onClick={closeModal}>Cancel</button>
+            <div className="flex gap-4 justify-center">
+              <button
+                className="button-primary"
+                onClick={handleAddCategory}
+              >
+                Add
+              </button>
+              <button
+                className="button-secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
