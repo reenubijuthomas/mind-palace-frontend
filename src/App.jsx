@@ -15,6 +15,7 @@ import Help from "./components/Help";
 import Settings from "./components/Settings";
 import "./index.css";
 import BASE_URL from "./config.jsx";
+import 'font-awesome/css/font-awesome.min.css';
 
 const App = () => {
   const [ideas, setIdeas] = useState([]);

@@ -12,9 +12,7 @@ const GroupsPage = ({ theme }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/groups/categories`
-      );
+      const response = await fetch(`${BASE_URL}/api/groups/categories`);
       const data = await response.json();
       setCategories(data);
       setLoading(false);
@@ -35,14 +33,11 @@ const GroupsPage = ({ theme }) => {
     }
 
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/groups/categories`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: newCategory.trim() }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/groups/categories`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory.trim() }),
+      });
 
       const result = await response.json();
       if (response.status === 201) {
@@ -79,52 +74,60 @@ const GroupsPage = ({ theme }) => {
           : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
       }`}
     >
-
       {/* Title Section */}
-<div className="pt-24 pb-8 text-center">
-  <h1
-    className={`
-      text-4xl font-extrabold tracking-wide
-      ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"}
-    `}
-  >
-    Categories
-  </h1>
-  <p
-    className={`
-      mt-4 text-lg font-medium
-      ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
-    `}
-  >
-    Explore and create categories to organize your ideas.
-  </p>
-</div>
-      
+      <div className="pt-24 pb-8 text-center">
+        <h1
+          className={`text-4xl font-extrabold tracking-wide ${
+            theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+          }`}
+        >
+          Categories
+        </h1>
+        <p
+          className={`mt-4 text-lg font-medium ${
+            theme === "dark" ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+          Explore and create categories to organize your ideas.
+        </p>
+      </div>
 
       {/* Search Bar */}
       <div className="search-bar mx-auto">
         <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search ideas..."
+          placeholder="Search categories..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
+          className={`search-input ${
+            theme === "dark" ? "dark-search-bar" : "light-search-bar"
+          }`}
         />
       </div>
 
       {/* Category Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-7xl justify-center">
         {filteredCategories.length > 0 ? (
           filteredCategories.map((category, index) => (
             <div
               key={index}
-              className="card text-center cursor-pointer hover:scale-105 transition duration-300"
+              className={`p-6 rounded-xl shadow-md cursor-pointer hover:scale-105 transition duration-300 flex flex-col items-center justify-center ${
+                theme === "dark"
+                  ? "bg-gray-800 text-gray-100 border border-gray-700"
+                  : "bg-white text-gray-900 border border-gray-200"
+              }`}
               onClick={() =>
                 navigate(`/groups/${category.name}/${category.id}`)
               }
+              style={{
+                minHeight: "200px", // Ensures a consistent height for each card
+                display: "flex",
+                alignItems: "center", // Vertically centers content inside cards
+                justifyContent: "center", // Horizontally centers content inside cards
+              }}
             >
-              {category.name}
+              <h3 className="text-lg font-bold">{category.name}</h3>
             </div>
           ))
         ) : (
@@ -133,10 +136,20 @@ const GroupsPage = ({ theme }) => {
 
         {/* Add Category */}
         <div
-          className="card text-center cursor-pointer hover:scale-105 transition duration-300"
+          className={`p-6 rounded-xl shadow-md cursor-pointer hover:scale-105 transition duration-300 flex flex-col items-center justify-center ${
+            theme === "dark"
+              ? "bg-gray-800 text-gray-100 border border-gray-700"
+              : "bg-white text-gray-900 border border-gray-200"
+          }`}
           onClick={() => setIsModalOpen(true)}
+          style={{
+            minHeight: "200px", // Ensures a consistent height for the "Add category" card
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          + Add category...
+          <span className="text-lg font-bold">+ Add category...</span>
         </div>
       </div>
 
@@ -154,13 +167,13 @@ const GroupsPage = ({ theme }) => {
             />
             <div className="flex gap-4 justify-center">
               <button
-                className="button-primary"
+                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
                 onClick={handleAddCategory}
               >
                 Add
               </button>
               <button
-                className="button-secondary"
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition"
                 onClick={closeModal}
               >
                 Cancel
