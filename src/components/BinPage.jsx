@@ -67,13 +67,13 @@ const BinPage = ({ userId, theme }) => {
       {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
         <h1
-          className={`text-4xl font-extrabold tracking-wide ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+          className={`text-4xl font-extrabold tracking-wide ${theme === 'dark' ? 'text-indigo-300' : 'text-indigo-700'
             }`}
         >
           Deleted Ideas
         </h1>
         <p
-          className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+          className={`mt-4 text-lg font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
             }`}
         >
           Manage and restore your ideas from the bin
@@ -92,28 +92,40 @@ const BinPage = ({ userId, theme }) => {
         />
       </div>
 
-
-      {filteredIdeas.length === 0 && !loading && (
-  <div
-    className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${
-      theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
-    }`}
-  >
-    <p className="text-lg font-medium">
-      {message || "No deleted ideas in the bin"}
-    </p>
-    <button
-      onClick={() => window.location.href = "/"} 
-      className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${
-        theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
-      }`}
-    >
-      Back to Homepage
-    </button>
-  </div>
-)}
-
-
+      {/* Loading, Ideas, or No Deleted Ideas */}
+      {loading ? (
+        <div className="text-center text-gray-500">Loading deleted ideas...</div>
+      ) : filteredIdeas.length > 0 ? (
+        <IdeaList
+          ideas={filteredIdeas}
+          handleDelete={handlePermanentDelete}
+          handleRestore={handleRestore}
+          userId={userId}
+          isBinPage={true} // Enables restore and permanent delete actions
+          setDeletedIdeas={setDeletedIdeas}
+          isDarkMode={theme === 'dark'}
+        />
+      ) : (
+        <div
+          className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === 'dark'
+            ? 'bg-gray-800 text-gray-200'
+            : 'bg-white text-gray-800'
+            }`}
+        >
+          <p className="text-lg font-medium">
+            {message || 'No deleted ideas in the bin'}
+          </p>
+          <button
+            onClick={() => window.location.href = '/'}
+            className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === 'dark'
+              ? 'bg-indigo-700'
+              : 'bg-indigo-500'
+              }`}
+          >
+            Back to Homepage
+          </button>
+        </div>
+      )}
     </div>
   );
 };

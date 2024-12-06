@@ -111,30 +111,40 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
         />
       </div>
 
-      {filteredDrafts.length === 0 && !loading && (
-  <div
-    className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${
-      theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
-    }`}
-  >
-    <p className="text-lg font-medium mb-2">No drafts found</p>
-    <p className="text-gray-400 mb-4">
-      You haven't created any drafts yet. Start by adding some ideas to save them as drafts
-    </p>
-    {/* Create New Idea Button */}
-    <button
-      onClick={() => window.location.href = "/"} // Navigate to homepage
-      className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${
-        theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
-      }`}
-    >
-      Create New Idea
-    </button>
-  </div>
-)}
-
-
-
+      {/* Loading or Ideas */}
+      {loading ? (
+        <div className="text-center text-gray-500">Loading drafts...</div>
+      ) : filteredDrafts.length > 0 ? (
+        <IdeaList
+          ideas={filteredDrafts}
+          handleDelete={handleDeleteIdea}
+          handleEdit={handleEditIdea}
+          userId={userId}
+          isDraftPage={true}
+          setDrafts={setDrafts}
+          isDarkMode={theme === "dark"}
+          submitDraft={submitDraft}
+        />
+      ) : (
+        <div
+          className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+            }`}
+        >
+          <p className="text-lg font-medium mb-2">No drafts found</p>
+          <p className="text-gray-400 mb-4">
+            You haven't created any drafts yet. Start by adding some ideas to save them as drafts.
+          </p>
+          {/* Create New Idea Button */}
+          <button
+            onClick={() => window.location.href = "/"} // Navigate to homepage
+            className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${
+              theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
+            }`}
+          >
+            Create New Idea
+          </button>
+        </div>
+      )}
     </div>
   );
 };
