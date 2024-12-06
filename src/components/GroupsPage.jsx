@@ -88,7 +88,7 @@ const GroupsPage = ({ theme }) => {
             theme === "dark" ? "text-gray-400" : "text-gray-600"
           }`}
         >
-          Explore and create categories to organize your ideas.
+          Explore and create categories to organize your ideas
         </p>
       </div>
 

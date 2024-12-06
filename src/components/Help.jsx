@@ -57,7 +57,7 @@ const Help = ({ theme }) => {
         <p
           className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
         >
-          Find answers to common questions and get assistance.
+          Find answers to common questions and get assistance
         </p>
       </div>
 

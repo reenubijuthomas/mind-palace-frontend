@@ -119,7 +119,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
   >
     <p className="text-lg font-medium mb-2">No drafts found</p>
     <p className="text-gray-400 mb-4">
-      You haven't created any drafts yet. Start by adding some ideas to save them as drafts.
+      You haven't created any drafts yet. Start by adding some ideas to save them as drafts
     </p>
     {/* Create New Idea Button */}
     <button

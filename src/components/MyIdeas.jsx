@@ -177,7 +177,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
                   }`}
               >
-                <p className="text-lg font-medium">No pending ideas found.</p>
+                <p className="text-lg font-medium">No pending ideas found</p>
                 <button
                   onClick={() => window.location.href = "/"} // Navigate to homepage
                   className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
@@ -206,7 +206,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
                   }`}
               >
-                <p className="text-lg font-medium">No approved ideas found.</p>
+                <p className="text-lg font-medium">No approved ideas found</p>
                 <button
                   onClick={() => window.location.href = "/"} // Navigate to homepage
                   className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
@@ -235,7 +235,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
                 className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
                   }`}
               >
-                <p className="text-lg font-medium">No rejected ideas found.</p>
+                <p className="text-lg font-medium">No rejected ideas found</p>
                 <button
                   onClick={() => window.location.href = "/"} // Navigate to homepage
                   className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"

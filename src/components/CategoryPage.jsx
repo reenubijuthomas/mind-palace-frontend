@@ -56,7 +56,7 @@ const CategoryPage = ({ theme }) => {
             theme === "dark" ? "text-gray-400" : "text-gray-600"
           }`}
         >
-          Browse and explore the ideas in this category.
+          Browse and explore the ideas in this category
         </p>
       </div>
 

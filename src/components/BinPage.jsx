@@ -76,7 +76,7 @@ const BinPage = ({ userId, theme }) => {
           className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
         >
-          Manage and restore your ideas from the bin.
+          Manage and restore your ideas from the bin
         </p>
       </div>
 
