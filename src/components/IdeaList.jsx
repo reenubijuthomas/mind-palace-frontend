@@ -221,6 +221,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               {new Date(idea.createdAt).toLocaleDateString()}
             </span>
           </div>
+
           <div className="flex flex-col overflow-hidden">
             <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
             <div
@@ -235,7 +236,8 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               dangerouslySetInnerHTML={{ __html: idea.description }}
             ></div>
           </div>
-          <div className="flex justify-between items-center mt-4">
+          {/* Approved status moved to the bottom right */}
+          <div className="absolute bottom-4 right-4">
             {(idea.isApproved === 1 || idea.isApproved === 2) && !isDraftPage && (
               <span
                 className={`px-3 py-1 rounded-md text-white font-semibold ${idea.isApproved === 1 ? "bg-green-600" : "bg-red-600"}`}
@@ -244,18 +246,27 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </span>
             )}
           </div>
+
           <div className="flex justify-between items-center mt-4">
-            {isDraftPage && (
-              <button
-                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  submitDraft(idea.id);
-                }}
-              >
-                Submit
-              </button>
-            )}
+          {isDraftPage && (
+        <div className="absolute bottom-4 right-4">
+          <button
+            className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              submitDraft(idea.id);
+            }}
+          >
+            Submit
+          </button>
+        </div>
+      )}
+
+            {/* Likes Section */}
+            <div className="flex items-center absolute bottom-4 left-4">
+              <FontAwesomeIcon icon={faThumbsUp} className="mr-1 text-black" />
+              <span className="text-sm text-black">{idea.likes}</span>
+            </div>
 
             {isBinPage && (
               <div className="flex space-x-2">
