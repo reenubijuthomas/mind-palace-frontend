@@ -75,29 +75,25 @@ const Login = ({ onLogin }) => {
       <div
         className={`rounded-3xl shadow-2xl w-full max-w-lg px-10 py-12 transition-colors ${
           isDarkMode
-            ? "bg-gray-800/80 border border-gray-700"
+            ? "bg-gray-800/90 border border-gray-800"
             : "bg-white/90 border border-gray-300 shadow-lg"
         }`}
       >
         <div className="flex flex-col items-center">
           {/* Logo */}
-          <div
-            className={`w-24 h-24 rounded-full shadow-lg flex items-center justify-center overflow-hidden ${
-              isDarkMode
-                ? "bg-gradient-to-r from-gray-600 to-gray-700"
-                : "bg-gradient-to-r from-blue-400 to-blue-600"
-            }`}
-          >
+          <div className="w-32 h-32 mb-6 overflow-hidden">
             <img
               src={logo}
               alt="Mind Palace Logo"
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover ${
+                isDarkMode ? "filter invert" : "" // Apply the invert filter in dark mode to make the logo white
+              }`}
             />
           </div>
 
           {/* Title */}
           <h1
-            className={`text-3xl font-extrabold mt-6 tracking-wide text-center ${
+            className={`text-3xl font-extrabold mt-2 tracking-wide text-center ${
               isDarkMode ? "text-gray-200" : "text-gray-800"
             }`}
           >
@@ -106,7 +102,7 @@ const Login = ({ onLogin }) => {
 
           {/* Subtitle */}
           <p
-            className={`mt-3 text-base text-center ${
+            className={`mt-3 text-lg text-center font-semibold ${
               isDarkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
@@ -170,7 +166,7 @@ const Login = ({ onLogin }) => {
             type="submit"
             className={`w-full py-4 text-lg font-semibold rounded-full text-white shadow-md transition-all ${
               isDarkMode
-                ? "bg-gray-700 hover:bg-gray-600"
+                ? "bg-blue-700 hover:bg-blue-600" // Updated dark mode button color
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
