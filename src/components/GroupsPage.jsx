@@ -203,14 +203,21 @@ const GroupsPage = ({ theme }) => {
       {/* Add Category Modal */}
       {isModalOpen && !categoryToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+          <div
+            className={`p-6 rounded-lg shadow-xl max-w-sm w-full text-center ${theme === "dark" ? "bg-gray-800 dark:text-gray-200" : "bg-white text-gray-900"
+              }`}
+          >
             <h3 className="text-lg font-bold mb-4">Add a New Category</h3>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="Enter category name"
-              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+              className={`w-full px-4 py-2 mb-4 border rounded focus:ring-2 focus:ring-indigo-500 ${
+                theme === "dark"
+                  ? "bg-gray-700 text-gray-200 border-gray-600"
+                  : "bg-white text-gray-900 border-gray-300"
+                }`}
             />
             <div className="flex gap-4 justify-center">
               <button
@@ -233,17 +240,20 @@ const GroupsPage = ({ theme }) => {
       {/* Delete Category Modal */}
       {categoryToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white dark:bg-gray-800 dark:text-gray-200 p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+          <div
+            className={`p-6 rounded-lg shadow-xl max-w-sm w-full text-center ${theme === "dark" ? "bg-gray-800 dark:text-gray-200" : "bg-white text-gray-900"
+              }`}
+          >
             <p className="mb-4">Are you sure you want to delete this category?</p>
             <div className="flex space-x-4 justify-center">
               <button
-                className="button-primary bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-                onClick={handleDeleteCategory} 
+                className="px-4 py-2 rounded-md text-white bg-red-500 hover:bg-red-600"
+                onClick={handleDeleteCategory}
               >
                 Yes
               </button>
               <button
-                className="button-secondary bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+                className="px-4 py-2 rounded-md bg-gray-300 text-gray-700 hover:bg-gray-400"
                 onClick={closeModal}
               >
                 No
