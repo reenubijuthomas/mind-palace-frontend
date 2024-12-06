@@ -33,20 +33,20 @@ const App = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    const storedSession = JSON.parse(sessionStorage.getItem("loginSession"));
-    if (storedSession) {
-      const { username, password, expiry } = storedSession;
-      if (new Date().getTime() < expiry) {
-        setIsAuthenticated(true);
-        setUsername(username);
-        setUserId(storedSession.userId); 
-        setRole(storedSession.roleId); 
-      } else {
-        sessionStorage.removeItem("loginSession");
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedSession = JSON.parse(sessionStorage.getItem("loginSession"));
+  //   if (storedSession) {
+  //     const { username, password, expiry } = storedSession;
+  //     if (new Date().getTime() < expiry) {
+  //       setIsAuthenticated(true);
+  //       setUsername(username);
+  //       setUserId(storedSession.userId); 
+  //       setRole(storedSession.roleId); 
+  //     } else {
+  //       sessionStorage.removeItem("loginSession");
+  //     }
+  //   }
+  // }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -129,21 +129,22 @@ const App = () => {
         setUsername(response.data.username);
         setRole(response.data.roleId);
 
-        const expiry = new Date().getTime() + 24 * 60 * 60 * 1000;
-        sessionStorage.setItem(
-          "loginSession",
-          JSON.stringify({
-            username: response.data.username,
-            password,
-            userId: response.data.userId,
-            roleId: response.data.roleId,
-            expiry,
-          })
-        );
+        // const expiry = new Date().getTime() + 24 * 60 * 60 * 1000;
+        // sessionStorage.setItem(
+        //   "loginSession",
+        //   JSON.stringify({
+        //     username: response.data.username,
+        //     password,
+        //     userId: response.data.userId,
+        //     roleId: response.data.roleId,
+        //     expiry,
+        //   })
+        // );
         return true;
-      } else {
-        return false;
       }
+      // } else {
+      //   return false;
+      // }
     } catch (error) {
       console.error("Error logging in:", error);
       return false;
@@ -168,7 +169,7 @@ const App = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem("loginSession");
+    // sessionStorage.removeItem("loginSession");
   };
 
   const toggleMenu = () => {
