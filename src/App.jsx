@@ -293,6 +293,7 @@ const App = () => {
                 <Route path="/groups" element={<GroupsPage theme={theme} />} />
                 <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage
                   theme={theme}
+                  userId={userId}
                   handleDelete={handleDelete}
                   handleEdit={handleUpdateIdea} 
                   handleLike={handleLike}

@@ -8,6 +8,7 @@ const CategoryPage = ({ theme, handleDelete, handleEdit, handleLike}) => {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,22 +39,22 @@ const CategoryPage = ({ theme, handleDelete, handleEdit, handleLike}) => {
     try {
       const savedIdea = await handleEdit(updatedIdea);
       if (savedIdea) {
-        setDrafts((prevIdeas) =>
+        setIdeas((prevIdeas) =>
           prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
         );
-        setMessage('Draft updated successfully!');
+        setMessage('Idea updated successfully!')
       }
     } catch (error) {
       console.error("Error editing idea:", error);
-      setMessage('Failed to update draft.');
+      setMessage('Failed to update idea')
     }
   };
 
   const handleDeleteIdea = async (id) => {
     try {
       await handleDelete(id);
-      setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
-      setMessage('Draft deleted successfully!');
+      setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+      setMessage('Idea deleted successfully!');
     } catch (error) {
       console.error("Error deleting idea:", error);
       setMessage('Failed to delete draft.');
@@ -112,7 +113,6 @@ const CategoryPage = ({ theme, handleDelete, handleEdit, handleLike}) => {
           isDarkMode={theme === 'dark'} 
           handleDelete={handleDeleteIdea}
           handleEdit={handleEditIdea}
-          handleLike={handleLike}
         />
       ) : (
         <div
