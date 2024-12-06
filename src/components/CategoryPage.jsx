@@ -106,33 +106,27 @@ const CategoryPage = ({ theme, handleDelete, handleEdit, handleLike}) => {
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500">Loading ideas...</p>
-      ) : filteredIdeas.length > 0 ? (
-        <IdeaList 
-          ideas={filteredIdeas} 
-          isDarkMode={theme === 'dark'} 
-          handleDelete={handleDeleteIdea}
-          handleEdit={handleEditIdea}
-        />
-      ) : (
-        <div
-          className={`text-center p-4 rounded shadow ${
-            theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-800'
-          }`}
-        >
-          <p>No ideas found for this category.</p>
-          <p>
-            Browse other{' '}
-            <span
-              className="text-indigo-500 underline cursor-pointer"
-              onClick={() => navigate('/groups')}
-            >
-              categories
-            </span>
-            !
-          </p>
-        </div>
-      )}
+  <p className="text-center text-gray-500">Loading ideas...</p>
+) : filteredIdeas.length > 0 ? (
+  <IdeaList 
+    ideas={filteredIdeas} 
+    isDarkMode={theme === 'dark'} 
+    handleDelete={handleDeleteIdea}
+    handleEdit={handleEditIdea}
+  />
+) : (
+  <div
+    className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === 'dark'
+      ? 'bg-gray-800 text-gray-200'
+      : 'bg-white text-gray-800'
+      }`}
+  >
+    <p className="text-lg font-medium">
+      {message || 'No ideas found for this category.'}
+    </p>
+  </div>
+)}
+
     </div>
   );
 };

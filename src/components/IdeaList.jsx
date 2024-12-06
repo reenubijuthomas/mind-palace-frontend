@@ -202,30 +202,30 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   return (
     <div className="flex flex-wrap justify-center gap-4">
-    {ideas.map((idea) => (
-      <div
-        key={idea.id}
-        className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
+      {ideas.map((idea) => (
+        <div
+          key={idea.id}
+          className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
           ${isDarkMode
-            ? "bg-gray-800 text-gray-100 border border-gray-700"
-            : "bg-white text-gray-900"
-          }`}
-        style={{ height: "280px", width: "280px" }}
-        onClick={() => openModal(idea)}
-      >
-        <div className="flex justify-between items-center mb-2">
-          <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <strong>By: {idea.username}</strong>
-          </span>
-          <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-            {new Date(idea.createdAt).toLocaleDateString()}
-          </span>
-        </div>
-        <div className="flex flex-col overflow-hidden">
+              ? "bg-gray-800 text-gray-100 border border-gray-700"
+              : "bg-white text-gray-900"
+            }`}
+          style={{ height: "280px", width: "280px" }}
+          onClick={() => openModal(idea)}
+        >
+          <div className="flex justify-between items-center mb-2">
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+              <strong>By: {idea.username}</strong>
+            </span>
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+              {new Date(idea.createdAt).toLocaleDateString()}
+            </span>
+          </div>
+          <div className="flex flex-col overflow-hidden">
             <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
-            <div 
+            <div
               className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
-              style={{ 
+              style={{
                 display: '-webkit-box',
                 WebkitLineClamp: 6,
                 WebkitBoxOrient: 'vertical',
@@ -347,7 +347,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   </span>
                 </div>
               )}
-
             </div>
 
             {isEditMode ? (
@@ -533,7 +532,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   </div>
                 ))}
               </div>
-
             )}
           </div>
         </div>
@@ -549,11 +547,20 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white dark:bg-gray-800 dark:text-gray-200 p-6 rounded-lg shadow-xl">
+          <div className={`p-6 rounded-lg shadow-xl 
+      ${isDarkMode
+              ? "bg-gray-800 text-gray-200"
+              : "bg-white text-gray-900"
+            }`}
+          >
             <p className="mb-4">Are you sure you want to delete this idea?</p>
             <div className="flex space-x-4">
               <button
-                className="button-primary bg-red-500 hover:bg-red-600"
+                className={`px-4 py-2 rounded-md text-white 
+            ${isDarkMode
+                    ? "bg-red-700 hover:bg-red-600"
+                    : "bg-red-500 hover:bg-red-600"
+                  }`}
                 onClick={() => {
                   if (isBinPage) {
                     permanentDelete(deleteIdeaId);
@@ -565,7 +572,11 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 Yes
               </button>
               <button
-                className="button-secondary"
+                className={`px-4 py-2 rounded-md 
+            ${isDarkMode
+                    ? "bg-gray-600 text-gray-200 hover:bg-gray-500"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                  }`}
                 onClick={cancelDelete}
               >
                 No
@@ -578,17 +589,30 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
       {/* Comment Delete Confirmation Modal */}
       {showDeleteCommentConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white dark:bg-gray-800 dark:text-gray-200 p-6 rounded-lg shadow-xl">
+          <div className={`p-6 rounded-lg shadow-xl 
+      ${isDarkMode
+              ? "bg-gray-800 text-gray-200"
+              : "bg-white text-gray-900"
+            }`}
+          >
             <p className="mb-4">Are you sure you want to delete this comment?</p>
             <div className="flex space-x-4">
               <button
-                className="button-primary bg-red-500 hover:bg-red-600"
+                className={`px-4 py-2 rounded-md text-white 
+            ${isDarkMode
+                    ? "bg-red-700 hover:bg-red-600"
+                    : "bg-red-500 hover:bg-red-600"
+                  }`}
                 onClick={handleDeleteComment}
               >
                 Yes
               </button>
               <button
-                className="button-secondary"
+                className={`px-4 py-2 rounded-md 
+            ${isDarkMode
+                    ? "bg-gray-600 text-gray-200 hover:bg-gray-500"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                  }`}
                 onClick={closeDeleteCommentConfirm}
               >
                 No

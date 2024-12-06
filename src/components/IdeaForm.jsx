@@ -106,8 +106,6 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
               }`}
           />
 
-          {/* Description Quill Editor */}
-          {/* Description Quill Editor */}
           <div className="relative">
             <ReactQuill
               value={description}
@@ -133,8 +131,6 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
               }}
             />
           </div>
-
-
 
           {error && (
             <p className="text-red-500 text-sm mt-2 pl-2 animate-pulse">
@@ -171,7 +167,6 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
             Save as Draft
           </button>
         </div>
-
       </form>
     </div>
   );
