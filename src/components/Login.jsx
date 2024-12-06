@@ -19,7 +19,6 @@ const Login = ({ onLogin }) => {
     } else {
       setIsDarkMode(systemPrefersDark);
     }
-
   }, []);
 
   const toggleTheme = () => {
@@ -75,8 +74,8 @@ const Login = ({ onLogin }) => {
       <div
         className={`rounded-3xl shadow-2xl w-full max-w-lg px-10 py-12 transition-colors ${
           isDarkMode
-            ? "bg-gray-800/90 border border-gray-800"
-            : "bg-white/90 border border-gray-300 shadow-lg"
+            ? "bg-gray-800/90 border-4 border-gray-700"
+            : "bg-white/90 border-4 border-gray-300 shadow-lg"
         }`}
       >
         <div className="flex flex-col items-center">

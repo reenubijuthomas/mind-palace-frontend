@@ -214,28 +214,28 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
           onClick={() => openModal(idea)}
         >
           <div className="flex justify-between items-center mb-2">
-  <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-    <strong>By: {idea.username}</strong>
-  </span>
-  <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-    {new Date(idea.createdAt).toLocaleDateString()}
-  </span>
-</div>
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+              <strong>By: {idea.username}</strong>
+            </span>
+            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+              {new Date(idea.createdAt).toLocaleDateString()}
+            </span>
+          </div>
 
-<div className="flex flex-col overflow-hidden min-h-[180px]">
-  <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
-  <div
-    className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
-    style={{
-      display: '-webkit-box',
-      WebkitLineClamp: 6,
-      WebkitBoxOrient: 'vertical',
-      wordWrap: 'break-word',
-      overflowWrap: 'break-word'
-    }}
-    dangerouslySetInnerHTML={{ __html: idea.description }}
-  ></div>
-</div>
+          <div className="flex flex-col overflow-hidden min-h-[180px]">
+            <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
+            <div
+              className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: 6,
+                WebkitBoxOrient: 'vertical',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word'
+              }}
+              dangerouslySetInnerHTML={{ __html: idea.description }}
+            ></div>
+          </div>
 
 
           {/* Like Button Outside the Modal but Inside the Card */}
@@ -346,80 +346,104 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </div>
 
               {/* Approval Status - Bottom Right (Only in Modal) */}
-{showModal && getApprovalStatus(showModal.isApproved) && !isBinPage && (
-  <div className="absolute bottom-4 right-4">
-    <span
-      className={`px-3 py-1 rounded-md font-semibold text-white 
-        ${showModal.isApproved === 1 
-          ? "bg-green-600" 
-          : "bg-red-600"
-        }`}
-    >
-      {showModal.isApproved === 1 ? "Approved" : "Rejected"}
-    </span>
-  </div>
-)}
+              {showModal && getApprovalStatus(showModal.isApproved) && !isBinPage && (
+                <div className="absolute bottom-4 right-4">
+                  <span
+                    className={`px-3 py-1 rounded-md font-semibold text-white 
+        ${showModal.isApproved === 1
+                        ? "bg-green-600"
+                        : "bg-red-600"
+                      }`}
+                  >
+                    {showModal.isApproved === 1 ? "Approved" : "Rejected"}
+                  </span>
+                </div>
+              )}
 
             </div>
 
             {isEditMode ? (
-              <div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2" htmlFor="editableTitle">Title:</label>
-                  <input
-                    id="editableTitle"
-                    type="text"
-                    value={editableTitle}
-                    onChange={(e) => setEditableTitle(e.target.value)}
-                    placeholder="Enter idea title"
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                </div>
+  <div>
+    <div className="mb-4">
+      <label
+        className={`block text-sm font-medium mb-2 ${
+          isDarkMode ? "text-gray-400" : "text-gray-800"
+        }`}
+        htmlFor="editableTitle"
+      >
+        Title:
+      </label>
+      <input
+        id="editableTitle"
+        type="text"
+        value={editableTitle}
+        onChange={(e) => setEditableTitle(e.target.value)}
+        placeholder="Enter idea title"
+        className={`w-full px-3 py-2 border rounded-md ${
+          isDarkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-800 border-gray-300"
+        }`}
+      />
+    </div>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">Description:</label>
-                  <ReactQuill
-                    value={editableDescription}
-                    onChange={setEditableDescription}
-                    placeholder="Enter idea description"
-                    modules={{
-                      toolbar: [
-                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        ['bold', 'italic', 'underline'],
-                        [{ 'align': [] }],
-                        ['link'],
-                        [{ 'color': [] }, { 'background': [] }],
-                        ['blockquote'],
-                        ['code-block'],
-                      ],
-                    }}
-                  />
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                    onClick={() => handleSave(showModal.id)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-                    onClick={() => setIsEditMode(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <h2 className="text-2xl font-bold mb-4">{showModal.title}</h2>
-                <div
-                  className="prose max-w-none mb-4"
-                  dangerouslySetInnerHTML={{ __html: showModal.description }}
-                ></div>
-              </>
-            )}
+    <div className="mb-4">
+      <label
+        className={`block text-sm font-medium mb-2 ${
+          isDarkMode ? "text-gray-400" : "text-gray-800"
+        }`}
+      >
+        Description:
+      </label>
+      <ReactQuill
+        value={editableDescription}
+        onChange={setEditableDescription}
+        placeholder="Enter idea description"
+        modules={{
+          toolbar: [
+            [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['bold', 'italic', 'underline'],
+            [{ 'align': [] }],
+            ['link'],
+            [{ 'color': [] }, { 'background': [] }],
+            ['blockquote'],
+            ['code-block'],
+          ],
+        }}
+        className={`react-quill ${isDarkMode ? "dark-react-quill" : "light-react-quill"}`}
+      />
+    </div>
+    <div className="flex space-x-2">
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        onClick={() => handleSave(showModal.id)}
+      >
+        Save
+      </button>
+      <button
+        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+        onClick={() => setIsEditMode(false)}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+) : (
+  <>
+    <h2
+      className={`text-2xl font-bold mb-4 ${
+        isDarkMode ? "text-gray-200" : "text-gray-800"
+      }`}
+    >
+      {showModal.title}
+    </h2>
+    <div
+      className="prose max-w-none mb-4"
+      dangerouslySetInnerHTML={{ __html: showModal.description }}
+    ></div>
+  </>
+)}
+
+
 
             {isBinPage && (
               <div className="absolute bottom-4 right-4 flex space-x-4">
