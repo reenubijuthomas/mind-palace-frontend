@@ -51,6 +51,7 @@ const App = () => {
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
   };
 
   useEffect(() => {
@@ -85,14 +86,37 @@ const App = () => {
     }
   };
 
+  const handleLike = async (id) => {
+    try {
+      await axios.post(`${BASE_URL}/api/ideas/${id}/like`);
+      const response = await axios.get(`${BASE_URL}/api/ideas/${id}`);
+      setIdeas((prevIdeas) =>
+        prevIdeas.map((idea) =>
+          idea.id === id ? { ...idea, ...response.data } : idea
+        )
+      );
+    } catch (error) {
+      console.error('Error liking idea:', error);
+    }
+  };
+
   const handleAddIdea = async (newIdea) => {
     try {
       const ideaWithCreator = { ...newIdea, createdBy: userId, username: username };
       const response = await axios.post(`${BASE_URL}/api/ideas`, ideaWithCreator);
       response.data.username = username;
       setIdeas((prevIdeas) => [response.data, ...prevIdeas]);
+      tagIdea(response.data.id);
     } catch (error) {
       console.error("Error adding new idea:", error);
+    }
+  };
+
+  const tagIdea = async (ideaId) => {
+    try {
+      axios.get(`${BASE_URL}/api/tags/updateTags/${ideaId}`);
+    } catch (error) {
+      console.error('Error tagging idea:', error);
     }
   };
 
@@ -102,6 +126,7 @@ const App = () => {
       const response = await axios.post(`${BASE_URL}/api/ideas`, draftWithCreator);
       response.data.username = username;
       setDrafts((prevDrafts) => [response.data, ...prevDrafts]);
+      tagIdea(response.data.id);
     } catch (error) {
       console.error("Error saving draft:", error);
     }
@@ -230,6 +255,7 @@ const App = () => {
                         ideas={filteredIdeas}
                         handleDelete={handleDelete}
                         handleEdit={handleUpdateIdea}
+                        handleLike={handleLike}
                         userId={userId}
                         username={username}
                         isDarkMode={theme === "dark"}
@@ -238,8 +264,31 @@ const App = () => {
                   }
                 />
                 <Route path="/approvals" element={<Approvals userId={userId} theme={theme} />} />
-                <Route path="/draft" element={<Drafts drafts={drafts} setDrafts={setDrafts} userId={userId} theme={theme} />} />
-                <Route path="/my-ideas" element={<MyIdeas userId={userId} theme={theme} />} />
+                <Route
+                  path="/draft"
+                  element={
+                    <Drafts
+                      drafts={drafts}
+                      setDrafts={setDrafts}
+                      userId={userId}
+                      username={username}
+                      handleDelete={handleDelete}
+                      handleEdit={handleUpdateIdea}
+                      theme={theme}
+                    />
+                  }
+                />
+                <Route
+                  path="/my-ideas"
+                  element={
+                    <MyIdeas
+                      userId={userId}
+                      handleDelete={handleDelete}
+                      handleEdit={handleUpdateIdea}
+                      theme={theme}
+                    />
+                  }
+                />
                 <Route path="/groups" element={<GroupsPage theme={theme} />} />
                 <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage theme={theme} />} />
                 <Route path="/bin" element={<BinPage userId={userId} theme={theme} />} />
