@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../config.jsx";
+import IdeaList from './IdeaList';
 
 const CategoryPage = ({ theme }) => {
   const { categoryName, categoryID } = useParams();
