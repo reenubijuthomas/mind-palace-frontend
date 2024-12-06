@@ -53,6 +53,30 @@ const GroupsPage = ({ theme }) => {
     }
   };
 
+  const handleDeleteCategory = async (categoryId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this category?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/groups/categories/${categoryId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setCategories(categories.filter((category) => category.id !== categoryId));
+      } else {
+        console.error("Failed to delete category");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setNewCategory("");
@@ -112,23 +136,48 @@ const GroupsPage = ({ theme }) => {
           filteredCategories.map((category, index) => (
             <div
               key={index}
-              className={`p-6 rounded-xl shadow-md cursor-pointer hover:scale-105 transition duration-300 flex flex-col items-center justify-center ${
+              className={`relative p-6 rounded-xl shadow-md cursor-pointer hover:scale-105 transition duration-300 flex flex-col items-center justify-center ${
                 theme === "dark"
                   ? "bg-gray-800 text-gray-100 border border-gray-700"
                   : "bg-white text-gray-900 border border-gray-200"
-              }`}
+                }`}
               onClick={() =>
                 navigate(`/groups/${category.name}/${category.id}`)
               }
               style={{
-                minHeight: "200px", // Ensures a consistent height for each card
+                minHeight: "200px",
                 display: "flex",
-                alignItems: "center", // Vertically centers content inside cards
-                justifyContent: "center", // Horizontally centers content inside cards
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
+              <button
+                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering onClick for the card
+                  handleDeleteCategory(category.id);
+                }}
+                title="Delete this category"
+              >
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  data-icon="trash"
+                  className="w-6 h-6" // Adjusted size for better visibility
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"
+                  ></path>
+                </svg>
+              </button>
               <h3 className="text-lg font-bold">{category.name}</h3>
             </div>
+
           ))
         ) : (
           <p className="text-center text-gray-500">No categories available.</p>
@@ -143,7 +192,7 @@ const GroupsPage = ({ theme }) => {
           }`}
           onClick={() => setIsModalOpen(true)}
           style={{
-            minHeight: "200px", // Ensures a consistent height for the "Add category" card
+            minHeight: "200px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
