@@ -19,6 +19,16 @@ const Login = ({ onLogin }) => {
     } else {
       setIsDarkMode(systemPrefersDark);
     }
+
+    const storedSession = JSON.parse(sessionStorage.getItem("loginSession"));
+    if (storedSession) {
+      const { username, password, expiry } = storedSession;
+      if (new Date().getTime() < expiry) {
+        setCredentials({ username, password });
+      } else {
+        sessionStorage.removeItem("loginSession");
+      }
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -42,7 +52,17 @@ const Login = ({ onLogin }) => {
     try {
       const isAuthenticated = await onLogin(credentials.username, credentials.password);
 
-      if (!isAuthenticated) {
+      if (isAuthenticated) {
+        const expiry = new Date().getTime() + 24 * 60 * 60 * 1000;
+        sessionStorage.setItem(
+          "loginSession",
+          JSON.stringify({
+            username: credentials.username,
+            password: credentials.password,
+            expiry,
+          })
+        );
+      } else {
         setError("Invalid credentials. Please try again.");
       }
     } catch (err) {
