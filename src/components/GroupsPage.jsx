@@ -7,6 +7,7 @@ const GroupsPage = ({ theme }) => {
   const [loading, setLoading] = useState(true);
   const [newCategory, setNewCategory] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -53,33 +54,30 @@ const GroupsPage = ({ theme }) => {
     }
   };
 
-  const handleDeleteCategory = async (categoryId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this category?"
-    );
-    if (!confirmDelete) return;
-
+  const handleDeleteCategory = async () => {
+    if (!categoryToDelete) return;
     try {
       const response = await fetch(
-        `${BASE_URL}/api/groups/categories/${categoryId}`,
-        {
-          method: "DELETE",
-        }
+        `${BASE_URL}/api/groups/categories/${categoryToDelete}`,
+        { method: "DELETE" }
       );
-
+  
       if (response.ok) {
-        setCategories(categories.filter((category) => category.id !== categoryId));
+        setCategories(categories.filter((category) => category.id !== categoryToDelete));
+        setIsModalOpen(false);
+        setCategoryToDelete(null); 
       } else {
         console.error("Failed to delete category");
       }
     } catch (error) {
       console.error("Error deleting category:", error);
     }
-  };
+  };  
 
   const closeModal = () => {
     setIsModalOpen(false);
     setNewCategory("");
+    setCategoryToDelete(null);
   };
 
   if (loading) {
@@ -154,8 +152,9 @@ const GroupsPage = ({ theme }) => {
               <button
                 className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent triggering onClick for the card
-                  handleDeleteCategory(category.id);
+                  e.stopPropagation(); 
+                  setCategoryToDelete(category.id); 
+                  setIsModalOpen(true); 
                 }}
                 title="Delete this category"
               >
@@ -164,7 +163,7 @@ const GroupsPage = ({ theme }) => {
                   focusable="false"
                   data-prefix="fas"
                   data-icon="trash"
-                  className="w-6 h-6" // Adjusted size for better visibility
+                  className="w-6 h-6"
                   role="img"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 448 512"
@@ -177,7 +176,6 @@ const GroupsPage = ({ theme }) => {
               </button>
               <h3 className="text-lg font-bold">{category.name}</h3>
             </div>
-
           ))
         ) : (
           <p className="text-center text-gray-500">No categories available.</p>
@@ -202,8 +200,8 @@ const GroupsPage = ({ theme }) => {
         </div>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
+      {/* Add Category Modal */}
+      {isModalOpen && !categoryToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
             <h3 className="text-lg font-bold mb-4">Add a New Category</h3>
@@ -226,6 +224,29 @@ const GroupsPage = ({ theme }) => {
                 onClick={closeModal}
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Category Modal */}
+      {categoryToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white dark:bg-gray-800 dark:text-gray-200 p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <p className="mb-4">Are you sure you want to delete this category?</p>
+            <div className="flex space-x-4 justify-center">
+              <button
+                className="button-primary bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+                onClick={handleDeleteCategory} 
+              >
+                Yes
+              </button>
+              <button
+                className="button-secondary bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+                onClick={closeModal}
+              >
+                No
               </button>
             </div>
           </div>
