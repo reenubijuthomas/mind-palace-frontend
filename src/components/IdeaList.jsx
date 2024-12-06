@@ -248,19 +248,19 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
           </div>
 
           <div className="flex justify-between items-center mt-4">
-          {isDraftPage && (
-        <div className="absolute bottom-4 right-4">
-          <button
-            className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            onClick={(e) => {
-              e.stopPropagation();
-              submitDraft(idea.id);
-            }}
-          >
-            Submit
-          </button>
-        </div>
-      )}
+            {isDraftPage && (
+              <div className="absolute bottom-4 right-4">
+                <button
+                  className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    submitDraft(idea.id);
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            )}
 
             {/* Likes Section */}
             <div className="flex items-center absolute bottom-4 left-4">
@@ -269,7 +269,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             </div>
 
             {isBinPage && (
-              <div className="flex space-x-2">
+              <div className="absolute bottom-4 right-4 flex space-x-2">
                 <button
                   className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
                   onClick={(e) => {
@@ -290,6 +290,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 </button>
               </div>
             )}
+
           </div>
         </div>
       ))}
@@ -408,7 +409,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             )}
 
             {isBinPage && (
-              <div className="flex justify-end space-x-4 mt-4">
+              <div className="absolute bottom-4 right-4 flex space-x-4">
                 <button
                   className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
                   onClick={() => {
@@ -429,6 +430,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 </button>
               </div>
             )}
+
 
             <div className="flex space-x-4 mt-4 items-center">
               <button
