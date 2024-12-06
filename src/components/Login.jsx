@@ -31,17 +31,25 @@ const Login = ({ onLogin }) => {
     const { name, value } = e.target;
     setCredentials((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value, 
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+  
+    const trimmedCredentials = {
+      username: credentials.username.trim(),
+      password: credentials.password.trim(),
+    };
+  
     try {
-      const isAuthenticated = await onLogin(credentials.username, credentials.password);
-
+      const isAuthenticated = await onLogin(
+        trimmedCredentials.username,
+        trimmedCredentials.password
+      );
+  
       if (!isAuthenticated) {
         setError("Invalid credentials. Please try again.");
       }
