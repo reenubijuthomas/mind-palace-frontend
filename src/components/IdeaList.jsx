@@ -237,21 +237,21 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             ></div>
           </div>
           <div className="absolute bottom-4 left-4 flex items-center space-x-2">
-  <button
-    className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
+            <button
+              className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
       ${isDarkMode
-      ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-      : "bg-blue-100 text-blue-800 hover:bg-blue-200"
-    }`}
-    onClick={(e) => {
-      e.stopPropagation(); // Prevent the modal from opening
-      handleLike(idea.id);
-    }} 
-  >
-    <FontAwesomeIcon icon={faThumbsUp} />
-    <span>({idea.likes})</span>
-  </button>
-</div>
+                  ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                  : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                }`}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent the modal from opening
+                handleLike(idea.id);
+              }}
+            >
+              <FontAwesomeIcon icon={faThumbsUp} />
+              <span>({idea.likes})</span>
+            </button>
+          </div>
 
           {/* Approved status moved to the bottom right */}
           <div className="absolute bottom-4 right-4">
@@ -512,22 +512,21 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               )}
             </div>
 
-            {/* Comments Section */}
             {showComments[showModal.id] && (
               <div className="mt-4">
-                <div className="mb-4">
+                <div className="flex space-x-2 mb-4">
                   <input
                     type="text"
                     placeholder="Add a comment..."
                     value={newComment[showModal.id] || ''}
                     onChange={(e) => setNewComment({ ...newComment, [showModal.id]: e.target.value })}
-                    className={`input-field w-full px-3 py-2 rounded-md border transition-all ${isDarkMode
+                    className={`flex-grow px-3 py-2 rounded-md border transition-all ${isDarkMode
                       ? "bg-gray-700 text-gray-200 border-gray-600 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
                       : "bg-gray-100 text-gray-900 border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500"
                       }`}
                   />
                   <button
-                    className={`button-primary mt-2 px-4 py-2 rounded-md ${isDarkMode
+                    className={`px-4 py-2 rounded-md whitespace-nowrap ${isDarkMode
                       ? "bg-indigo-600 text-gray-200 hover:bg-indigo-500"
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
                       }`}
@@ -537,34 +536,37 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   </button>
                 </div>
 
-                {commentData[showModal.id]?.generalComments?.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className={`p-3 rounded-md mb-2 flex justify-between items-center transition-all ${isDarkMode
-                      ? "bg-gray-800 text-gray-200 border border-gray-700"
-                      : "bg-gray-100 text-gray-900 border border-gray-300"
-                      }`}
-                  >
-                    <div>
-                      <strong className={`${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`}>
-                        {comment.username}
-                      </strong>
-                      : {comment.comment}
+                {/* Add space between comment input and comments list */}
+                <div className="space-y-2 mt-4">
+                  {commentData[showModal.id]?.generalComments?.map((comment) => (
+                    <div
+                      key={comment.id}
+                      className={`p-3 rounded-md flex justify-between items-center transition-all ${isDarkMode
+                        ? "bg-gray-800 text-gray-200 border border-gray-700"
+                        : "bg-gray-100 text-gray-900 border border-gray-300"
+                        }`}
+                    >
+                      <div>
+                        <strong className={`${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`}>
+                          {comment.username}
+                        </strong>
+                        : {comment.comment}
+                      </div>
+                      {userId === comment.commentedBy && !isBinPage && (
+                        <button
+                          className={`px-3 py-2 rounded-lg transition-all 
+                ${isDarkMode
+                              ? "bg-red-700 text-red-100 hover:bg-red-600"
+                              : "bg-red-100 text-red-800 hover:bg-red-200"
+                            }`}
+                          onClick={() => confirmDeleteComment(comment.id, showModal.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      )}
                     </div>
-                    {userId === comment.commentedBy && !isBinPage && (
-                      <button
-                        className={`px-3 py-2 rounded-lg transition-all 
-                  ${isDarkMode
-                            ? "bg-red-700 text-red-100 hover:bg-red-600"
-                            : "bg-red-100 text-red-800 hover:bg-red-200"
-                          }`}
-                        onClick={() => confirmDeleteComment(comment.id, showModal.id)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    )}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>
