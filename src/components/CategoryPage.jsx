@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../config.jsx";
 import IdeaList from './IdeaList';
 
-const CategoryPage = ({ theme }) => {
+const CategoryPage = ({ theme, handleDelete, handleEdit, handleLike}) => {
   const { categoryName, categoryID } = useParams();
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,33 +34,57 @@ const CategoryPage = ({ theme }) => {
       idea.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleEditIdea = async (updatedIdea) => {
+    try {
+      const savedIdea = await handleEdit(updatedIdea);
+      if (savedIdea) {
+        setDrafts((prevIdeas) =>
+          prevIdeas.map((idea) => (idea.id === savedIdea.id ? savedIdea : idea))
+        );
+        setMessage('Draft updated successfully!');
+      }
+    } catch (error) {
+      console.error("Error editing idea:", error);
+      setMessage('Failed to update draft.');
+    }
+  };
+
+  const handleDeleteIdea = async (id) => {
+    try {
+      await handleDelete(id);
+      setDrafts((prevIdeas) => prevIdeas.filter((idea) => idea.id !== id));
+      setMessage('Draft deleted successfully!');
+    } catch (error) {
+      console.error("Error deleting idea:", error);
+      setMessage('Failed to delete draft.');
+    }
+  };
+
   return (
     <div
       className={`p-6 min-h-screen flex flex-col items-center ${
-        theme === "dark"
-          ? "bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]"
-          : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
+        theme === 'dark'
+          ? 'bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]'
+          : 'bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]'
       }`}
     >
-      {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
         <h1
           className={`text-4xl font-extrabold tracking-wide ${
-            theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+            theme === 'dark' ? 'text-indigo-300' : 'text-indigo-700'
           }`}
         >
           Ideas in <span className="text-indigo-500">"{categoryName}"</span>
         </h1>
         <p
           className={`mt-4 text-lg font-medium ${
-            theme === "dark" ? "text-gray-400" : "text-gray-600"
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}
         >
           Browse and explore the ideas in this category
         </p>
       </div>
 
-      {/* Go Back Button */}
       <button
         onClick={() => navigate("/groups")}
         className="px-4 py-2 bg-indigo-500 text-white rounded-md mb-6 hover:bg-indigo-600 transition-all"
@@ -68,54 +92,47 @@ const CategoryPage = ({ theme }) => {
         Go Back to Categories
       </button>
 
-      {/* Search Bar */}
       <div className="search-bar mx-auto">
         <i className="fa fa-search search-icon"></i>
         <input
           type="text"
-          placeholder="Search categories..."
+          placeholder="Search draft ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
+          className={`search-input ${theme === "dark" ? "dark-search-bar" : "light-search-bar"
+            }`}
         />
       </div>
 
-      {/* Idea List */}
-      <div className="mt-8 w-full flex flex-wrap justify-center gap-6">
-        {loading ? (
-          <p className="text-center text-gray-500">Loading ideas...</p>
-        ) : filteredIdeas.length > 0 ? (
-          filteredIdeas.map((idea) => (
-            <div
-              key={idea.id}
-              className={`relative flex flex-col items-center justify-center p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 ${
-                theme === "dark"
-                  ? "bg-gray-800 text-gray-100 border border-gray-700"
-                  : "bg-white text-gray-900 border border-gray-200"
-              }`}
-              style={{ width: "260px", height: "160px" }}
+      {loading ? (
+        <p className="text-center text-gray-500">Loading ideas...</p>
+      ) : filteredIdeas.length > 0 ? (
+        <IdeaList 
+          ideas={filteredIdeas} 
+          isDarkMode={theme === 'dark'} 
+          handleDelete={handleDeleteIdea}
+          handleEdit={handleEditIdea}
+          handleLike={handleLike}
+        />
+      ) : (
+        <div
+          className={`text-center p-4 rounded shadow ${
+            theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-white text-gray-800'
+          }`}
+        >
+          <p>No ideas found for this category.</p>
+          <p>
+            Browse other{' '}
+            <span
+              className="text-indigo-500 underline cursor-pointer"
+              onClick={() => navigate('/groups')}
             >
-              <h3 className="text-lg font-bold mb-2">{idea.title}</h3>
-              <p className="text-sm text-center line-clamp-3">{idea.description}</p>
-            </div>
-          ))
-        ) : (
-          <div
-            className={`text-center p-4 rounded shadow ${
-              theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
-            }`}
-          >
-            <p>No ideas found for this category.</p>
-            <p>
-              Browse other{" "}
-              <Link to="/groups" className="text-indigo-500 underline">
-                categories
-              </Link>
-              !
-            </p>
-          </div>
-        )}
-      </div>
+              categories
+            </span>
+            !
+          </p>
+        </div>
+      )}
     </div>
   );
 };

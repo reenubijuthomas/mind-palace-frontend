@@ -291,7 +291,12 @@ const App = () => {
                   }
                 />
                 <Route path="/groups" element={<GroupsPage theme={theme} />} />
-                <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage theme={theme} />} />
+                <Route path="/groups/:categoryName/:categoryID" element={<CategoryPage
+                  theme={theme}
+                  handleDelete={handleDelete}
+                  handleEdit={handleUpdateIdea} 
+                  handleLike={handleLike}
+                  />} />
                 <Route path="/bin" element={<BinPage userId={userId} theme={theme} />} />
                 <Route path="/settings" element={<Settings theme={theme} toggleTheme={toggleTheme} />} />
                 <Route path="/help" element={<Help theme={theme} />} />
