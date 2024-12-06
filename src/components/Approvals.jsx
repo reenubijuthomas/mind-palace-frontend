@@ -430,23 +430,35 @@ const Approvals = ({ userId, theme }) => {
                     />
                   </div>
 
-                  {/* Approval Comment or Comments Section */}
                   {(showModal.isApproved === 1 || showModal.isApproved === 2) &&
-                    comments[showModal.id]?.approverComment?.comment && (
-                      <div
-                        className={`mb-6 p-4 rounded ${showModal.isApproved === 1
-                          ? "bg-green-100 dark:bg-green-900/20"
-                          : "bg-red-100 dark:bg-red-900/20"
-                          }`}
-                      >
-                        <div className="flex items-center">
-                          <p className="font-semibold mr-4">
-                            {showModal.isApproved === 1 ? "Approval" : "Rejection"} Comment:
-                          </p>
-                          <p className="mt-1">{comments[showModal.id]?.approverComment?.comment}</p>
-                        </div>
-                      </div>
-                    )}
+  comments[showModal.id]?.approverComment?.comment && (
+    <div
+      className={`mt-6 mb-2 p-6 rounded-lg shadow-md transition-all ${
+        showModal.isApproved === 1
+          ? "bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-200"
+          : "bg-red-100 text-red-900 dark:bg-red-900 dark:text-red-200"
+      }`}
+    >
+      <div className="flex items-start space-x-4">
+        <p
+          className={`font-semibold text-lg ${
+            showModal.isApproved === 1
+              ? "text-green-900 dark:text-green-200"
+              : "text-red-900 dark:text-red-200"
+          }`}
+        >
+          {showModal.isApproved === 1 ? "Approval" : "Rejection"} Comment:
+        </p>
+        <p className={`text-sm mt-1 ${
+          showModal.isApproved === 1
+            ? "text-green-800 dark:text-green-300"
+            : "text-red-800 dark:text-red-300"
+        }`}>
+          {comments[showModal.id]?.approverComment?.comment}
+        </p>
+      </div>
+    </div>
+  )}
 
                   {/* Approval comment input */}
                   {showModal.isApproved === 0 && (

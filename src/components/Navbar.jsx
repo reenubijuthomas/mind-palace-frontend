@@ -45,14 +45,15 @@ const Navbar = ({
           <FontAwesomeIcon icon={faBars} size="lg" />
         </button>
 
-        {/* Centered Title */}
         <h1
-          className={`text-2xl font-extrabold tracking-wide ${
-            theme === "light" ? "text-indigo-600" : "text-indigo-400"
-          }`}
-        >
-          Mind Palace
-        </h1>
+  className={`text-2xl font-extrabold tracking-wide ${
+    theme === "light" ? "text-indigo-600" : "text-indigo-400"
+  } ml-40`}
+>
+  Mind Palace
+</h1>
+
+
 
         {/* Right Side: Username & Theme Toggle */}
         <div className="flex items-center space-x-6">
