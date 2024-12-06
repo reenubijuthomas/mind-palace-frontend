@@ -236,22 +236,22 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               dangerouslySetInnerHTML={{ __html: idea.description }}
             ></div>
           </div>
-
-
-          {/* Like Button Outside the Modal but Inside the Card */}
           <div className="absolute bottom-4 left-4 flex items-center space-x-2">
-            <button
-              className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
+  <button
+    className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
       ${isDarkMode
-                  ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                  : "bg-blue-100 text-blue-800 hover:bg-blue-200"
-                }`}
-              disabled
-            >
-              <FontAwesomeIcon icon={faThumbsUp} />
-              <span>({idea.likes})</span>
-            </button>
-          </div>
+      ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+      : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+    }`}
+    onClick={(e) => {
+      e.stopPropagation(); // Prevent the modal from opening
+      handleLike(idea.id);
+    }} 
+  >
+    <FontAwesomeIcon icon={faThumbsUp} />
+    <span>({idea.likes})</span>
+  </button>
+</div>
 
           {/* Approved status moved to the bottom right */}
           <div className="absolute bottom-4 right-4">
@@ -363,87 +363,81 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             </div>
 
             {isEditMode ? (
-  <div>
-    <div className="mb-4">
-      <label
-        className={`block text-sm font-medium mb-2 ${
-          isDarkMode ? "text-gray-400" : "text-gray-800"
-        }`}
-        htmlFor="editableTitle"
-      >
-        Title:
-      </label>
-      <input
-        id="editableTitle"
-        type="text"
-        value={editableTitle}
-        onChange={(e) => setEditableTitle(e.target.value)}
-        placeholder="Enter idea title"
-        className={`w-full px-3 py-2 border rounded-md ${
-          isDarkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-800 border-gray-300"
-        }`}
-      />
-    </div>
+              <div>
+                <div className="mb-4">
+                  <label
+                    className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-400" : "text-gray-800"
+                      }`}
+                    htmlFor="editableTitle"
+                  >
+                    Title:
+                  </label>
+                  <input
+                    id="editableTitle"
+                    type="text"
+                    value={editableTitle}
+                    onChange={(e) => setEditableTitle(e.target.value)}
+                    placeholder="Enter idea title"
+                    className={`w-full px-3 py-2 border rounded-md ${isDarkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-800 border-gray-300"
+                      }`}
+                  />
+                </div>
 
-    <div className="mb-4">
-      <label
-        className={`block text-sm font-medium mb-2 ${
-          isDarkMode ? "text-gray-400" : "text-gray-800"
-        }`}
-      >
-        Description:
-      </label>
-      <ReactQuill
-        value={editableDescription}
-        onChange={setEditableDescription}
-        placeholder="Enter idea description"
-        modules={{
-          toolbar: [
-            [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['bold', 'italic', 'underline'],
-            [{ 'align': [] }],
-            ['link'],
-            [{ 'color': [] }, { 'background': [] }],
-            ['blockquote'],
-            ['code-block'],
-          ],
-        }}
-        className={`react-quill ${isDarkMode ? "dark-react-quill" : "light-react-quill"}`}
-      />
-    </div>
-    <div className="flex space-x-2">
-      <button
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        onClick={() => handleSave(showModal.id)}
-      >
-        Save
-      </button>
-      <button
-        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-        onClick={() => setIsEditMode(false)}
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-) : (
-  <>
-    <h2
-      className={`text-2xl font-bold mb-4 ${
-        isDarkMode ? "text-gray-200" : "text-gray-800"
-      }`}
-    >
-      {showModal.title}
-    </h2>
-    <div
-      className="prose max-w-none mb-4"
-      dangerouslySetInnerHTML={{ __html: showModal.description }}
-    ></div>
-  </>
-)}
-
-
+                <div className="mb-4">
+                  <label
+                    className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-400" : "text-gray-800"
+                      }`}
+                  >
+                    Description:
+                  </label>
+                  <ReactQuill
+                    value={editableDescription}
+                    onChange={setEditableDescription}
+                    placeholder="Enter idea description"
+                    modules={{
+                      toolbar: [
+                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['bold', 'italic', 'underline'],
+                        [{ 'align': [] }],
+                        ['link'],
+                        [{ 'color': [] }, { 'background': [] }],
+                        ['blockquote'],
+                        ['code-block'],
+                      ],
+                    }}
+                    className={`react-quill ${isDarkMode ? "dark-react-quill" : "light-react-quill"}`}
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                    onClick={() => handleSave(showModal.id)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                    onClick={() => setIsEditMode(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2
+                  className={`text-2xl font-bold mb-4 ${isDarkMode ? "text-gray-200" : "text-gray-800"
+                    }`}
+                >
+                  {showModal.title}
+                </h2>
+                <div
+                  className="prose max-w-none mb-4"
+                  dangerouslySetInnerHTML={{ __html: showModal.description }}
+                ></div>
+              </>
+            )}
 
             {isBinPage && (
               <div className="absolute bottom-4 right-4 flex space-x-4">
@@ -467,7 +461,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 </button>
               </div>
             )}
-
 
             <div className="flex space-x-4 mt-4 items-center">
               <button
