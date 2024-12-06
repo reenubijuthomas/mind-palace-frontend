@@ -72,8 +72,8 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
   // Custom Quill theme classes
   const quillThemeClasses =
     theme === "dark"
-      ? "bg-gray-800 text-gray-200 border-gray-700 [&_.ql-toolbar]:bg-gray-700 [&_.ql-editor]:bg-gray-800 [&_.ql-editor]:text-gray-200 [&_.ql-stroke]:stroke-gray-300 [&_.ql-fill]:fill-gray-300"
-      : "bg-white text-gray-800 border-gray-200 [&_.ql-toolbar]:bg-gray-100 [&_.ql-editor]:bg-white [&_.ql-editor]:text-gray-800";
+      ? "bg-gray-800 text-gray-200 border-gray-700 [&_.ql-toolbar]:bg-gray-700 [&_.ql-editor]:bg-gray-800 [&_.ql-editor]:text-gray-200 [&_.ql-stroke]:stroke-gray-300 [&_.ql-fill]:fill-gray-300 [&_.ql-editor]:h-40"
+      : "bg-white text-gray-800 border-gray-200 [&_.ql-toolbar]:bg-gray-100 [&_.ql-editor]:bg-white [&_.ql-editor]:text-gray-800 [&_.ql-editor]:h-40";
 
   return (
     <div className="container mx-auto px-4 py-4 pt-32 flex justify-center items-start"> {/* Changed min-h-screen to flex start */}
@@ -100,9 +100,9 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
             onChange={(e) => setTitle(e.target.value)}
             required
             className={`w-full px-4 py-3 rounded-xl transition-all duration-300 
-              ${theme === "dark"
-                ? "bg-gray-800 text-gray-200 border-2 border-gray-700 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
-                : "bg-gray-100 text-gray-900 border border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+    ${theme === "dark"
+                ? "bg-gray-800 text-gray-200 border-2 border-gray-700 placeholder-gray-500 focus:border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                : "bg-gray-100 text-gray-800 border border-gray-200 placeholder-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
               }`}
           />
 
