@@ -86,7 +86,7 @@ const Login = ({ onLogin }) => {
               src={logo}
               alt="Mind Palace Logo"
               className={`w-full h-full object-cover ${
-                isDarkMode ? "filter invert" : "" // Apply the invert filter in dark mode to make the logo white
+                isDarkMode ? "filter invert" : ""
               }`}
             />
           </div>

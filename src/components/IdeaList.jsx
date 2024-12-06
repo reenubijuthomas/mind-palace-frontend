@@ -206,7 +206,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
         <div
           key={idea.id}
           className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
-          ${isDarkMode
+      ${isDarkMode
               ? "bg-gray-800 text-gray-100 border border-gray-700"
               : "bg-white text-gray-900"
             }`}
@@ -214,28 +214,45 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
           onClick={() => openModal(idea)}
         >
           <div className="flex justify-between items-center mb-2">
-            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-              <strong>By: {idea.username}</strong>
-            </span>
-            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-              {new Date(idea.createdAt).toLocaleDateString()}
-            </span>
+  <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+    <strong>By: {idea.username}</strong>
+  </span>
+  <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+    {new Date(idea.createdAt).toLocaleDateString()}
+  </span>
+</div>
+
+<div className="flex flex-col overflow-hidden min-h-[180px]">
+  <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
+  <div
+    className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+    style={{
+      display: '-webkit-box',
+      WebkitLineClamp: 6,
+      WebkitBoxOrient: 'vertical',
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word'
+    }}
+    dangerouslySetInnerHTML={{ __html: idea.description }}
+  ></div>
+</div>
+
+
+          {/* Like Button Outside the Modal but Inside the Card */}
+          <div className="absolute bottom-4 left-4 flex items-center space-x-2">
+            <button
+              className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
+      ${isDarkMode
+                  ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                  : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                }`}
+              disabled
+            >
+              <FontAwesomeIcon icon={faThumbsUp} />
+              <span>({idea.likes})</span>
+            </button>
           </div>
 
-          <div className="flex flex-col overflow-hidden">
-            <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
-            <div
-              className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
-              style={{
-                display: '-webkit-box',
-                WebkitLineClamp: 6,
-                WebkitBoxOrient: 'vertical',
-                wordWrap: 'break-word',
-                overflowWrap: 'break-word'
-              }}
-              dangerouslySetInnerHTML={{ __html: idea.description }}
-            ></div>
-          </div>
           {/* Approved status moved to the bottom right */}
           <div className="absolute bottom-4 right-4">
             {(idea.isApproved === 1 || idea.isApproved === 2) && !isDraftPage && (
@@ -261,12 +278,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 </button>
               </div>
             )}
-
-            {/* Likes Section */}
-            <div className="flex items-center absolute bottom-4 left-4">
-              <FontAwesomeIcon icon={faThumbsUp} className="mr-1 text-black" />
-              <span className="text-sm text-black">{idea.likes}</span>
-            </div>
 
             {isBinPage && (
               <div className="absolute bottom-4 right-4 flex space-x-2">
@@ -335,18 +346,20 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </div>
 
               {/* Approval Status - Bottom Right (Only in Modal) */}
-              {showModal && getApprovalStatus(showModal.isApproved) && !isBinPage && (
-                <div className="absolute bottom-4 right-4">
-                  <span
-                    className={`px-3 py-1 rounded-md ${showModal.isApproved === 1
-                      ? "bg-green-600 text-white"
-                      : "bg-red-600 text-white"
-                      }`}
-                  >
-                    {getApprovalStatus(showModal.isApproved)}
-                  </span>
-                </div>
-              )}
+{showModal && getApprovalStatus(showModal.isApproved) && !isBinPage && (
+  <div className="absolute bottom-4 right-4">
+    <span
+      className={`px-3 py-1 rounded-md font-semibold text-white 
+        ${showModal.isApproved === 1 
+          ? "bg-green-600" 
+          : "bg-red-600"
+        }`}
+    >
+      {showModal.isApproved === 1 ? "Approved" : "Rejected"}
+    </span>
+  </div>
+)}
+
             </div>
 
             {isEditMode ? (
