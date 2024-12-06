@@ -77,25 +77,22 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
 
   return (
     <div
-      className={`min-h-screen py-10 px-6 ${
-        theme === "dark"
+      className={`min-h-screen py-10 px-6 ${theme === "dark"
           ? "bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]"
           : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"
-      }`}
+        }`}
     >
       {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
         <h1
-          className={`text-4xl font-extrabold tracking-wide ${
-            theme === "dark" ? "text-indigo-300" : "text-indigo-700"
-          }`}
+          className={`text-4xl font-extrabold tracking-wide ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"
+            }`}
         >
           My Drafts
         </h1>
         <p
-          className={`mt-4 text-lg font-medium ${
-            theme === "dark" ? "text-gray-400" : "text-gray-600"
-          }`}
+          className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"
+            }`}
         >
           Manage and finalize your draft ideas.
         </p>
@@ -109,35 +106,35 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           placeholder="Search draft ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`search-input ${
-            theme === "dark" ? "dark-search-bar" : "light-search-bar"
-          }`}
+          className={`search-input ${theme === "dark" ? "dark-search-bar" : "light-search-bar"
+            }`}
         />
       </div>
 
-      {/* Loading or Ideas */}
-      {loading ? (
-        <div className="text-center text-gray-500">Loading drafts...</div>
-      ) : filteredDrafts.length > 0 ? (
-        <IdeaList
-          ideas={filteredDrafts}
-          handleDelete={handleDeleteIdea}
-          handleEdit={handleEditIdea}
-          userId={userId}
-          isDraftPage={true}
-          setDrafts={setDrafts}
-          isDarkMode={theme === "dark"}
-          submitDraft={submitDraft}
-        />
-      ) : (
-        <div
-          className={`text-center p-4 rounded shadow ${
-            theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
-          }`}
-        >
-          <p>{message || "No drafts found."}</p>
-        </div>
-      )}
+      {filteredDrafts.length === 0 && !loading && (
+  <div
+    className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${
+      theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+    }`}
+  >
+    <p className="text-lg font-medium mb-2">No drafts found</p>
+    <p className="text-gray-400 mb-4">
+      You haven't created any drafts yet. Start by adding some ideas to save them as drafts.
+    </p>
+    {/* Create New Idea Button */}
+    <button
+      onClick={() => window.location.href = "/"} // Navigate to homepage
+      className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${
+        theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
+      }`}
+    >
+      Create New Idea
+    </button>
+  </div>
+)}
+
+
+
     </div>
   );
 };

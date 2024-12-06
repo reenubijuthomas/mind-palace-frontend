@@ -122,12 +122,12 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
             <button
               onClick={() => toggleSection("pending")}
               className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.pending
-                  ? theme === "dark"
-                    ? "bg-gray-800 text-indigo-400"
-                    : "bg-gray-200 text-indigo-600"
-                  : theme === "dark"
-                    ? "bg-gray-700 text-gray-400"
-                    : "bg-gray-100 text-gray-500"
+                ? theme === "dark"
+                  ? "bg-gray-800 text-indigo-400"
+                  : "bg-gray-200 text-indigo-600"
+                : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
                 }`}
             >
               Pending Approval
@@ -135,12 +135,12 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
             <button
               onClick={() => toggleSection("approved")}
               className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.approved
-                  ? theme === "dark"
-                    ? "bg-gray-800 text-indigo-400"
-                    : "bg-gray-200 text-indigo-600"
-                  : theme === "dark"
-                    ? "bg-gray-700 text-gray-400"
-                    : "bg-gray-100 text-gray-500"
+                ? theme === "dark"
+                  ? "bg-gray-800 text-indigo-400"
+                  : "bg-gray-200 text-indigo-600"
+                : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
                 }`}
             >
               Approved Ideas
@@ -148,12 +148,12 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
             <button
               onClick={() => toggleSection("rejected")}
               className={`px-4 py-2 rounded-md font-semibold transition-all duration-300 ${toggleSections.rejected
-                  ? theme === "dark"
-                    ? "bg-gray-800 text-indigo-400"
-                    : "bg-gray-200 text-indigo-600"
-                  : theme === "dark"
-                    ? "bg-gray-700 text-gray-400"
-                    : "bg-gray-100 text-gray-500"
+                ? theme === "dark"
+                  ? "bg-gray-800 text-indigo-400"
+                  : "bg-gray-200 text-indigo-600"
+                : theme === "dark"
+                  ? "bg-gray-700 text-gray-400"
+                  : "bg-gray-100 text-gray-500"
                 }`}
             >
               Rejected Ideas
@@ -161,53 +161,92 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
           </div>
 
           {/* Pending Ideas */}
-          {pendingIdeas.length > 0 && toggleSections.pending && (
-            <IdeaList
-              ideas={pendingIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"}
-            />
+          {toggleSections.pending && (
+            pendingIdeas.length > 0 ? (
+              <IdeaList
+                ideas={pendingIdeas}
+                handleDelete={handleDeleteIdea}
+                handleEdit={handleEditIdea}
+                handleLike={handleLike}
+                userId={userId}
+                openModal={openModal}
+                isDarkMode={theme === "dark"}
+              />
+            ) : (
+              <div
+                className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+                  }`}
+              >
+                <p className="text-lg font-medium">No pending ideas found.</p>
+                <button
+                  onClick={() => window.location.href = "/"} // Navigate to homepage
+                  className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
+                    }`}
+                >
+                  Back to Homepage
+                </button>
+              </div>
+            )
           )}
 
           {/* Approved Ideas */}
-          {approvedIdeas.length > 0 && toggleSections.approved && (
-            <IdeaList
-              ideas={approvedIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"}
-            />
+          {toggleSections.approved && (
+            approvedIdeas.length > 0 ? (
+              <IdeaList
+                ideas={approvedIdeas}
+                handleDelete={handleDeleteIdea}
+                handleEdit={handleEditIdea}
+                handleLike={handleLike}
+                userId={userId}
+                openModal={openModal}
+                isDarkMode={theme === "dark"}
+              />
+            ) : (
+              <div
+                className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+                  }`}
+              >
+                <p className="text-lg font-medium">No approved ideas found.</p>
+                <button
+                  onClick={() => window.location.href = "/"} // Navigate to homepage
+                  className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
+                    }`}
+                >
+                  Back to Homepage
+                </button>
+              </div>
+            )
           )}
 
           {/* Rejected Ideas */}
-          {rejectedIdeas.length > 0 && toggleSections.rejected && (
-            <IdeaList
-              ideas={rejectedIdeas}
-              handleDelete={handleDeleteIdea}
-              handleEdit={handleEditIdea}
-              handleLike={handleLike}
-              userId={userId}
-              openModal={openModal}
-              isDarkMode={theme === "dark"}
-            />
+          {toggleSections.rejected && (
+            rejectedIdeas.length > 0 ? (
+              <IdeaList
+                ideas={rejectedIdeas}
+                handleDelete={handleDeleteIdea}
+                handleEdit={handleEditIdea}
+                handleLike={handleLike}
+                userId={userId}
+                openModal={openModal}
+                isDarkMode={theme === "dark"}
+              />
+            ) : (
+              <div
+                className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-center mx-auto w-full max-w-md ${theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+                  }`}
+              >
+                <p className="text-lg font-medium">No rejected ideas found.</p>
+                <button
+                  onClick={() => window.location.href = "/"} // Navigate to homepage
+                  className={`mt-6 px-6 py-3 rounded-full text-white font-semibold hover:bg-indigo-600 transition ${theme === "dark" ? "bg-indigo-700" : "bg-indigo-500"
+                    }`}
+                >
+                  Back to Homepage
+                </button>
+              </div>
+            )
           )}
 
-          {/* No Ideas Found */}
-          {!loading && myIdeas.length === 0 && (
-            <div
-              className={`text-center p-4 rounded shadow ${theme === "dark" ? "bg-gray-800 text-gray-300" : "bg-white text-gray-800"
-                }`}
-            >
-              <p>No ideas found.</p>
-            </div>
-          )}
         </>
       )}
 
