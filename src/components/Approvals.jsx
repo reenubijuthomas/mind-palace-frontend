@@ -265,36 +265,57 @@ const Approvals = ({ userId, theme }) => {
       </div>
 
       {/* Title and Description Section */}
-      <div className="flex flex-col flex-grow overflow-hidden mb-2">
-        <h3 className={`font-bold mb-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+      <div className="flex flex-col overflow-hidden min-h-[205px]">
+        <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>
           {idea.title}
         </h3>
         <div
-          className={`flex-grow overflow-hidden text-sm ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+          className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 6,
+            WebkitBoxOrient: 'vertical',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word'
+          }}
           dangerouslySetInnerHTML={{ __html: idea.description }}
-        />
+        ></div>
       </div>
 
+
       {/* Footer Section */}
-      <div className="flex justify-between items-center mt-4">
-        {/* Like Section */}
-        <div className="flex items-center space-x-2 text-sm">
-          <FontAwesomeIcon icon={faThumbsUp} className={`${isDarkMode ? "text-gray-300" : "text-gray-800"}`} />
-          <span>{idea.likes}</span>
+      <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+        {/* Like Button */}
+        <div className="flex items-center space-x-2">
+          <button
+            className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-sm transition-all 
+        ${isDarkMode
+                ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+              }`}
+            disabled
+          >
+            <FontAwesomeIcon icon={faThumbsUp} />
+            <span>({idea.likes})</span>
+          </button>
         </div>
 
         {/* Status Section */}
-        <div
-          className={`px-3 py-1 rounded-md text-sm text-white ${idea.isApproved === 1
-            ? "bg-green-500"
-            : idea.isApproved === 2
-              ? "bg-red-500"
-              : "bg-yellow-500"
-            }`}
-        >
-          {getApprovalStatus(idea.isApproved)}
+        <div>
+          <span
+            className={`px-3 py-1 rounded-md text-sm font-semibold text-white 
+        ${idea.isApproved === 1
+                ? "bg-green-600"
+                : idea.isApproved === 2
+                  ? "bg-red-600"
+                  : "bg-yellow-600"
+              }`}
+          >
+            {getApprovalStatus(idea.isApproved)}
+          </span>
         </div>
       </div>
+
     </div>
   );
 
@@ -307,21 +328,19 @@ const Approvals = ({ userId, theme }) => {
           Approvals
         </h1>
         <p className={`mt-4 text-lg font-medium ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-          Manage and approve or reject ideas.
+          Manage and approve or reject ideas
         </p>
       </div>
 
       {/* Search Bar */}
-      <div className="w-full max-w-2xl mb-8">
+      <div className="search-bar mx-auto">
+        <i className="fa fa-search search-icon"></i>
         <input
           type="text"
           placeholder="Search ideas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className={`w-full p-4 rounded-lg shadow-sm border ${isDarkMode
-            ? 'bg-gray-800 border-gray-700 text-white'
-            : 'bg-white border-gray-200'
-            }`}
+          className={`search-input ${theme === 'dark' ? 'dark-search-bar' : 'light-search-bar'}`}
         />
       </div>
 
@@ -374,7 +393,7 @@ const Approvals = ({ userId, theme }) => {
                 onClick={closeModal}
               >
                 <div
-                  className={`relative w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto p-6 rounded-lg ${isDarkMode
+                  className={`relative w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto p-6 rounded-lg flex flex-col ${isDarkMode
                     ? "bg-gray-800 text-gray-100 border border-gray-700"
                     : "bg-white text-gray-900"
                     }`}
@@ -387,88 +406,109 @@ const Approvals = ({ userId, theme }) => {
                     &times;
                   </button>
 
-                  <div className="mb-4 flex justify-between items-center">
-                    <div>
+                  {/* Content Container - Aligned to Top */}
+                  <div className="flex flex-col items-start space-y-4">
+                    {/* Title Section */}
+                    <div className="mb-4">
                       <span className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
                         <strong>By: {showModal.username}</strong>
                       </span>
                       <span className={`ml-4 text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
-                        {new Date(showModal.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
+                        {new Date(showModal.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
                         })}
                       </span>
                     </div>
+
+                    <h2 className="text-2xl font-bold">{showModal.title}</h2>
+
+                    <div
+                      className="prose max-w-none mb-6"
+                      dangerouslySetInnerHTML={{ __html: showModal.description }}
+                    />
                   </div>
 
-                  <h2 className="text-2xl font-bold mb-4">{showModal.title}</h2>
-                  <div
-                    className="prose max-w-none mb-6"
-                    dangerouslySetInnerHTML={{ __html: showModal.description }}
-                  />
-
+                  {/* Approval Comment or Comments Section */}
                   {(showModal.isApproved === 1 || showModal.isApproved === 2) &&
                     comments[showModal.id]?.approverComment?.comment && (
-                      <div className={`mb-6 p-4 rounded ${showModal.isApproved === 1
-                        ? 'bg-green-100 dark:bg-green-900/20'
-                        : 'bg-red-100 dark:bg-red-900/20'
-                        }`}>
+                      <div
+                        className={`mb-6 p-4 rounded ${showModal.isApproved === 1
+                          ? "bg-green-100 dark:bg-green-900/20"
+                          : "bg-red-100 dark:bg-red-900/20"
+                          }`}
+                      >
                         <div className="flex items-center">
                           <p className="font-semibold mr-4">
-                            {showModal.isApproved === 1 ? 'Approval' : 'Rejection'} Comment:
+                            {showModal.isApproved === 1 ? "Approval" : "Rejection"} Comment:
                           </p>
                           <p className="mt-1">{comments[showModal.id]?.approverComment?.comment}</p>
                         </div>
                       </div>
                     )}
 
-
                   {/* Approval comment input */}
                   {showModal.isApproved === 0 && (
                     <div className="space-y-4 mb-6">
+                      <label
+                        htmlFor="approval-comment"
+                        className={`text-sm font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                      >
+
+                      </label>
                       <textarea
+                        id="approval-comment"
                         value={approvalComment}
                         onChange={(e) => setApprovalComment(e.target.value)}
-                        placeholder="Add a comment for approval/rejection"
-                        className={`w-full p-3 border rounded ${isDarkMode
-                          ? "bg-gray-700 border-gray-600 text-white"
-                          : "bg-white border-gray-300"
+                        placeholder="Add a comment for approval or rejection..."
+                        className={`w-full p-4 border-2 rounded-lg text-sm font-medium resize-none shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all
+        ${isDarkMode
+                            ? "bg-gray-700 border-gray-600 text-white placeholder-gray-500 focus:border-indigo-400"
+                            : "bg-white border-gray-300 text-gray-800 placeholder-gray-400 focus:border-indigo-500"
                           }`}
-                        rows="3"
+                        rows="4"
                       />
 
-                      <div className="flex justify-end space-x-4">
+                      <div className="flex justify-end space-x-6">
                         <button
-                          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                          onClick={() => openConfirmation(showModal, 'approve')}
+                          className={`px-4 py-2 rounded-md text-sm font-semibold text-white bg-green-600 hover:bg-green-700 transition-all`}
+                          onClick={() => openConfirmation(showModal, "approve")}
                         >
                           Approve
                         </button>
                         <button
-                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                          onClick={() => openConfirmation(showModal, 'reject')}
+                          className={`px-4 py-2 rounded-md text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition-all`}
+                          onClick={() => openConfirmation(showModal, "reject")}
                         >
                           Reject
                         </button>
                       </div>
+
                     </div>
                   )}
 
                   {/* Comments Section */}
-                  <div className="mt-4 border-t pt-4 flex justify-between items-center">
-                    {/* Likes Section moved to the left side, next to comments */}
-                    <div className="flex items-center space-x-2">
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        className={`text-xl ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
-                      />
-                      <span className="text-xl">{showModal.likes}</span>
-                    </div>
+                  <div className="mt-4 border-t pt-4 flex items-center space-x-4">
+                    <button
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all 
+      ${isDarkMode
+                          ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                          : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                        }`}
+                      onClick={() => handleLike(showModal.id)}
+                    >
+                      <FontAwesomeIcon icon={faThumbsUp} />
+                      <span>({showModal.likes})</span>
+                    </button>
 
                     <button
                       onClick={() => setIsCommentsOpen(!isCommentsOpen)} // Toggle comments visibility
-                      className="text-blue-500 hover:text-blue-700 flex items-center space-x-2"
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all 
+    ${isDarkMode
+                          ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                          : "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                        }`}
                     >
                       <FontAwesomeIcon
                         icon={faCommentDots} // Comment icon
@@ -476,6 +516,7 @@ const Approvals = ({ userId, theme }) => {
                       />
                       <span>{isCommentsOpen ? 'Hide Comments' : 'Comments'}</span>
                     </button>
+
                   </div>
 
                   {isCommentsOpen && comments[showModal.id]?.generalComments?.length > 0 && (
