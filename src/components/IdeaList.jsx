@@ -202,44 +202,50 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
 
   return (
     <div className="flex flex-wrap justify-center gap-4">
-      {ideas.map((idea) => (
-        <div
-          key={idea.id}
-          className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
-            ${isDarkMode
-              ? "bg-gray-800 text-gray-100 border border-gray-700"
-              : "bg-white text-gray-900"
-            }`}
-          style={{ height: "280px", width: "280px" }}
-          onClick={() => openModal(idea)}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-              <strong>By: {idea.username}</strong>
-            </span>
-            <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-              {new Date(idea.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-          <div className="flex flex-col">
-            <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"}`}>{idea.title}</h3>
-            <p
-              className={`card-description ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+    {ideas.map((idea) => (
+      <div
+        key={idea.id}
+        className={`relative flex flex-col justify-between p-4 rounded-lg shadow-lg transition-all hover:shadow-xl cursor-pointer card 
+          ${isDarkMode
+            ? "bg-gray-800 text-gray-100 border border-gray-700"
+            : "bg-white text-gray-900"
+          }`}
+        style={{ height: "280px", width: "280px" }}
+        onClick={() => openModal(idea)}
+      >
+        <div className="flex justify-between items-center mb-2">
+          <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+            <strong>By: {idea.username}</strong>
+          </span>
+          <span className={`card-metadata ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+            {new Date(idea.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+        <div className="flex flex-col overflow-hidden">
+            <h3 className={`card-title ${isDarkMode ? "text-white" : "text-gray-900"} truncate`}>{idea.title}</h3>
+            <div 
+              className={`card-description overflow-hidden line-clamp-6 ${isDarkMode ? "text-gray-300" : "text-gray-800"}`}
+              style={{ 
+                display: '-webkit-box',
+                WebkitLineClamp: 6,
+                WebkitBoxOrient: 'vertical',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word'
+              }}
               dangerouslySetInnerHTML={{ __html: idea.description }}
-            ></p>
+            ></div>
           </div>
           <div className="flex justify-between items-center mt-4">
-            {getApprovalStatus(idea.isApproved) && !isDraftPage && (
+            {(idea.isApproved === 1 || idea.isApproved === 2) && !isDraftPage && (
               <span
-                className={`px-3 py-1 rounded-md text-white font-semibold ${idea.isApproved === 1 ? "bg-green-600" : "bg-red-600"
-                  }`}
+                className={`px-3 py-1 rounded-md text-white font-semibold ${idea.isApproved === 1 ? "bg-green-600" : "bg-red-600"}`}
               >
-                {getApprovalStatus(idea.isApproved)}
+                {idea.isApproved === 1 ? "Approved" : "Rejected"}
               </span>
             )}
           </div>
           <div className="flex justify-between items-center mt-4">
-            {isDraftPage ? (
+            {isDraftPage && (
               <button
                 className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                 onClick={(e) => {
@@ -248,21 +254,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 }}
               >
                 Submit
-              </button>
-            ) : (
-              <button
-                className={`px-3 py-1 rounded-md text-white ${idea.isApproved === 1
-                  ? "bg-green-500"
-                  : idea.isApproved === 2
-                    ? "bg-red-500"
-                    : "bg-yellow-500"
-                  }`}
-              >
-                {idea.isApproved === 1
-                  ? "Approved"
-                  : idea.isApproved === 2
-                    ? "Rejected"
-                    : "Pending"}
               </button>
             )}
 
@@ -343,17 +334,20 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                 </span>
               </div>
 
-              {/* Approval Status Badge - Bottom Right */}
-              {!isBinPage && getApprovalStatus(showModal.isApproved) && (
+              {/* Approval Status - Bottom Right (Only in Modal) */}
+              {showModal && getApprovalStatus(showModal.isApproved) && !isBinPage && (
                 <div className="absolute bottom-4 right-4">
                   <span
-                    className={`px-3 py-1 rounded-md text-white font-semibold ${showModal.isApproved === 1 ? "bg-green-600" : "bg-red-600"
+                    className={`px-3 py-1 rounded-md ${showModal.isApproved === 1
+                      ? "bg-green-600 text-white"
+                      : "bg-red-600 text-white"
                       }`}
                   >
                     {getApprovalStatus(showModal.isApproved)}
                   </span>
                 </div>
               )}
+
             </div>
 
             {isEditMode ? (
@@ -491,59 +485,55 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             {/* Comments Section */}
             {showComments[showModal.id] && (
               <div className="mt-4">
-              <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Add a comment..."
-                  value={newComment[showModal.id] || ''}
-                  onChange={(e) => setNewComment({ ...newComment, [showModal.id]: e.target.value })}
-                  className={`input-field w-full px-3 py-2 rounded-md border transition-all ${
-                    isDarkMode
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={newComment[showModal.id] || ''}
+                    onChange={(e) => setNewComment({ ...newComment, [showModal.id]: e.target.value })}
+                    className={`input-field w-full px-3 py-2 rounded-md border transition-all ${isDarkMode
                       ? "bg-gray-700 text-gray-200 border-gray-600 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
                       : "bg-gray-100 text-gray-900 border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-indigo-500"
-                  }`}
-                />
-                <button
-                  className={`button-primary mt-2 px-4 py-2 rounded-md ${
-                    isDarkMode
+                      }`}
+                  />
+                  <button
+                    className={`button-primary mt-2 px-4 py-2 rounded-md ${isDarkMode
                       ? "bg-indigo-600 text-gray-200 hover:bg-indigo-500"
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
-                  }`}
-                  onClick={() => handleAddComment(showModal.id)}
-                >
-                  Add Comment
-                </button>
-              </div>
-            
-              {commentData[showModal.id]?.generalComments?.map((comment) => (
-                <div
-                  key={comment.id}
-                  className={`p-3 rounded-md mb-2 flex justify-between items-center transition-all ${
-                    isDarkMode
+                      }`}
+                    onClick={() => handleAddComment(showModal.id)}
+                  >
+                    Add Comment
+                  </button>
+                </div>
+
+                {commentData[showModal.id]?.generalComments?.map((comment) => (
+                  <div
+                    key={comment.id}
+                    className={`p-3 rounded-md mb-2 flex justify-between items-center transition-all ${isDarkMode
                       ? "bg-gray-800 text-gray-200 border border-gray-700"
                       : "bg-gray-100 text-gray-900 border border-gray-300"
-                  }`}
-                >
-                  <div>
-                    <strong className={`${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`}>
-                      {comment.username}
-                    </strong>
-                    : {comment.comment}
-                  </div>
-                  {userId === comment.commentedBy && !isBinPage && (
-                    <button
-                      className={`text-red-500 hover:text-red-700 ${
-                        isDarkMode ? "dark:hover:text-red-400" : ""
                       }`}
-                      onClick={() => confirmDeleteComment(comment.id, showModal.id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            
+                  >
+                    <div>
+                      <strong className={`${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`}>
+                        {comment.username}
+                      </strong>
+                      : {comment.comment}
+                    </div>
+                    {userId === comment.commentedBy && !isBinPage && (
+                      <button
+                        className={`text-red-500 hover:text-red-700 ${isDarkMode ? "dark:hover:text-red-400" : ""
+                          }`}
+                        onClick={() => confirmDeleteComment(comment.id, showModal.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+
             )}
           </div>
         </div>

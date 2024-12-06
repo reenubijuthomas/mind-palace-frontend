@@ -76,12 +76,13 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
       : "bg-white text-gray-800 border-gray-200 [&_.ql-toolbar]:bg-gray-100 [&_.ql-editor]:bg-white [&_.ql-editor]:text-gray-800";
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-32"> {/* Add pt-32 for spacing below navbar */}
+    <div className="container mx-auto px-4 py-8 pt-32 flex justify-center items-start"> {/* Changed min-h-screen to flex start */}
+
       <form
         onSubmit={handleSubmit}
-        className={`max-w-3xl mx-auto p-8 rounded-2xl shadow-xl transition-all duration-300 
-          ${theme === "dark" 
-            ? "bg-gray-900 border-2 border-gray-800 text-gray-100 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]" 
+        className={`w-full h-full max-w-full mx-auto p-8 rounded-2xl shadow-xl transition-all duration-300 
+          ${theme === "dark"
+            ? "bg-gray-900 border-2 border-gray-800 text-gray-100 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]"
             : "bg-white border border-gray-200 text-gray-900 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
           } space-y-6 transform hover:scale-[1.01]`}
       >
@@ -91,7 +92,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
           {editingIdea ? "Edit Your Idea" : "Share a New Idea"}
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-4 w-full"> {/* Full width form content */}
           <input
             type="text"
             placeholder="Give a title to your idea"
@@ -99,12 +100,14 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
             onChange={(e) => setTitle(e.target.value)}
             required
             className={`w-full px-4 py-3 rounded-xl transition-all duration-300 
-              ${theme === "dark" 
-                ? "bg-gray-800 text-gray-200 border-2 border-gray-700 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500" 
+              ${theme === "dark"
+                ? "bg-gray-800 text-gray-200 border-2 border-gray-700 placeholder-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
                 : "bg-gray-100 text-gray-900 border border-gray-300 placeholder-gray-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
               }`}
           />
 
+          {/* Description Quill Editor */}
+          {/* Description Quill Editor */}
           <div className="relative">
             <ReactQuill
               value={description}
@@ -123,8 +126,15 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
                 ],
               }}
               className={`rounded-xl overflow-hidden transition-all duration-300 ${quillThemeClasses}`}
+              style={{
+                height: "auto", // Let the height auto-adjust as you type
+                minHeight: "150px", // Set the initial minimum height
+                width: "auto", // Make the editor span the full width of the container
+              }}
             />
           </div>
+
+
 
           {error && (
             <p className="text-red-500 text-sm mt-2 pl-2 animate-pulse">
@@ -133,12 +143,12 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
           )}
         </div>
 
-        <div className="flex justify-end gap-4 mt-6">
+        <div className="flex justify-center gap-4 mt-6">
           <button
             type="submit"
             className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl 
-              transition-all duration-300 group 
-              ${theme === "dark"
+      transition-all duration-300 group 
+      ${theme === "dark"
                 ? "bg-indigo-700 text-gray-100 hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-500"
                 : "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500"
               } shadow-md hover:shadow-lg`}
@@ -151,8 +161,8 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
             type="button"
             onClick={handleSaveAsDraft}
             className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl 
-              transition-all duration-300 group 
-              ${theme === "dark"
+      transition-all duration-300 group 
+      ${theme === "dark"
                 ? "bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500"
                 : "bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500"
               } shadow-md hover:shadow-lg`}
@@ -161,6 +171,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
             Save as Draft
           </button>
         </div>
+
       </form>
     </div>
   );
