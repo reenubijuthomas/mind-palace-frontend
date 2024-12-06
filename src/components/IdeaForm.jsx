@@ -76,7 +76,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
       : "bg-white text-gray-800 border-gray-200 [&_.ql-toolbar]:bg-gray-100 [&_.ql-editor]:bg-white [&_.ql-editor]:text-gray-800";
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-32 flex justify-center items-start"> {/* Changed min-h-screen to flex start */}
+    <div className="container mx-auto px-4 py-4 pt-32 flex justify-center items-start"> {/* Changed min-h-screen to flex start */}
 
       <form
         onSubmit={handleSubmit}
@@ -139,7 +139,7 @@ const IdeaForm = ({ onAddIdea, onAddDraft, onUpdateIdea, editingIdea, theme }) =
           )}
         </div>
 
-        <div className="flex justify-center gap-4 mt-6">
+        <div className="flex justify-center gap-4 mt-4">
           <button
             type="submit"
             className={`flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl 

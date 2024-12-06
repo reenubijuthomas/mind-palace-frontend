@@ -94,7 +94,7 @@ const Drafts = ({ userId, handleDelete, handleEdit, theme }) => {
           className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
         >
-          Manage and finalize your draft ideas.
+          Manage and finalize your draft ideas
         </p>
       </div>
 

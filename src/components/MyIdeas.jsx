@@ -97,7 +97,7 @@ const MyIdeas = ({ userId, handleDelete, handleEdit, handleLike, theme }) => {
       ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
     `}
         >
-          Manage and track the progress of your ideas.
+          Manage and track the progress of your ideas
         </p>
       </div>
 

@@ -201,7 +201,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-4">
+    <div className="flex flex-wrap justify-center gap-4 pb-16">
       {ideas.map((idea) => (
         <div
           key={idea.id}
@@ -257,7 +257,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
               </button>
             )}
 
-            {isBinPage ? (
+            {isBinPage && (
               <div className="flex space-x-2">
                 <button
                   className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
@@ -278,18 +278,6 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                   Restore
                 </button>
               </div>
-            ) : (
-              !isDraftPage && userId === idea.createdBy && (
-                <button
-                  className="text-sm px-2 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClick(idea.id);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              )
             )}
           </div>
         </div>
@@ -522,7 +510,10 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
                     </div>
                     {userId === comment.commentedBy && !isBinPage && (
                       <button
-                        className={`text-red-500 hover:text-red-700 ${isDarkMode ? "dark:hover:text-red-400" : ""
+                        className={`px-3 py-2 rounded-lg transition-all 
+                  ${isDarkMode
+                            ? "bg-red-700 text-red-100 hover:bg-red-600"
+                            : "bg-red-100 text-red-800 hover:bg-red-200"
                           }`}
                         onClick={() => confirmDeleteComment(comment.id, showModal.id)}
                       >
@@ -554,7 +545,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             }`}
           >
             <p className="mb-4">Are you sure you want to delete this idea?</p>
-            <div className="flex space-x-4">
+            <div className="flex justify-center space-x-4"> {/* Updated to justify-center */}
               <button
                 className={`px-4 py-2 rounded-md text-white 
             ${isDarkMode
@@ -596,7 +587,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
             }`}
           >
             <p className="mb-4">Are you sure you want to delete this comment?</p>
-            <div className="flex space-x-4">
+            <div className="flex justify-center space-x-4"> {/* Updated to justify-center */}
               <button
                 className={`px-4 py-2 rounded-md text-white 
             ${isDarkMode
@@ -621,6 +612,7 @@ const IdeaList = ({ ideas, handleDelete, handleEdit, handleLike, userId, isBinPa
           </div>
         </div>
       )}
+
     </div>
   );
 };
