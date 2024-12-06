@@ -12,6 +12,7 @@ import {
   faQuestionCircle,
   faSignOutAlt,
   faBars,
+  faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sun, Moon } from "lucide-react";
 
@@ -53,17 +54,38 @@ const Navbar = ({
           Mind Palace
         </h1>
 
-        {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          className={`p-3 rounded-full shadow-lg transition ${
-            theme === "light"
-              ? "bg-gray-200 text-blue-600 hover:bg-gray-300"
-              : "bg-gray-700 text-yellow-400 hover:bg-gray-600"
-          }`}
-        >
-          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-        </button>
+        {/* Right Side: Username & Theme Toggle */}
+        <div className="flex items-center space-x-6">
+  {/* Username with Icon */}
+  <div className="flex items-center space-x-3">
+    <FontAwesomeIcon
+      icon={faUserCircle}
+      className={`text-3xl ${
+        theme === "light" ? "text-indigo-600" : "text-indigo-400"
+      }`}
+    />
+    <span
+      className={`text-lg font-semibold ${
+        theme === "light" ? "text-gray-800" : "text-gray-200"
+      }`}
+    >
+      {username}
+    </span>
+  </div>
+
+  {/* Theme Toggle */}
+  <button
+    onClick={toggleTheme}
+    className={`p-4 rounded-full shadow-lg transition ${
+      theme === "light"
+        ? "bg-gray-200 text-blue-600 hover:bg-gray-300"
+        : "bg-gray-700 text-yellow-400 hover:bg-gray-600"
+    }`}
+  >
+    {theme === "light" ? <Moon size={28} /> : <Sun size={28} />}
+  </button>
+</div>
+
       </div>
 
       {/* Sidebar */}
