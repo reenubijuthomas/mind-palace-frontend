@@ -195,7 +195,7 @@ const App = () => {
                   path="/"
                   element={
                     <>
-                      <div className="input-container p-6">
+                      <div className="input-container p-3">
                         <IdeaForm
                           onAddIdea={handleAddIdea}
                           onAddDraft={handleAddDraft}
@@ -205,14 +205,15 @@ const App = () => {
                         />
                       </div>
 
-                      {/* Title */}
-                      <h2
-                        className={`text-2xl font-semibold text-center mt-6 ${
-                          theme === "dark" ? "text-gray-200" : "text-gray-800"
-                        }`}
-                      >
-                        View Ideas
-                      </h2>
+                      {/* Title Section */}
+                      <div className="pt-12 pb-6 text-center"> {/* Reduced pt-24 to pt-12 */}
+                        <h1
+                          className={`text-3xl font-extrabold tracking-wide
+    ${theme === "dark" ? "text-indigo-300" : "text-indigo-700"}`}
+                        >
+                          View Ideas
+                        </h1>
+                      </div>
 
                       {/* Search Bar */}
                       <div className="search-bar mx-auto mt-4">

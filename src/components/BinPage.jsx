@@ -59,11 +59,10 @@ const BinPage = ({ userId, theme }) => {
 
   return (
     <div
-      className={`min-h-screen py-10 px-6 ${
-        theme === 'dark'
+      className={`min-h-screen py-10 px-6 ${theme === 'dark'
           ? 'bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]'
           : 'bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]'
-      }`}
+        }`}
     >
       {/* Title Section */}
       <div className="pt-24 pb-8 text-center">
@@ -74,7 +73,12 @@ const BinPage = ({ userId, theme }) => {
             <span className="text-indigo-600">Deleted Ideas</span>
           )}
         </h1>
-        <p className="mt-2 text-lg font-medium text-gray-500 dark:text-gray-300">
+        <p
+          className={`
+      mt-4 text-lg font-medium
+      ${theme === "dark" ? "text-gray-400" : "text-gray-600"}
+    `}
+        >
           Manage and restore your ideas from the bin.
         </p>
       </div>

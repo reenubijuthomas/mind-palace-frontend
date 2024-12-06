@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Help = () => {
+const Help = ({ theme }) => {
   const [faqOpen, setFaqOpen] = useState(null);
 
   const toggleFaq = (index) => {
@@ -24,73 +24,75 @@ const Help = () => {
       question: "How do I recover a deleted idea?",
       answer: "Go to the 'Bin' page and restore the idea from there.",
     },
+    {
+      question: "Can I edit my idea after submission?",
+      answer: "Yes, you can edit your idea until it is approved or deleted.",
+    },
+    {
+      question: "How do I delete my idea?",
+      answer: "Go to the 'Bin' page, where you can permanently delete your idea.",
+    },
+    {
+      question: "Who can see my idea?",
+      answer: "Your idea will be visible to other users once it is approved.",
+    },
   ];
 
   return (
-    <div className="px-6 py-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">Help & Support</h1>
+    <div
+      className={`min-h-screen px-6 py-8 ${theme === "dark"
+          ? "bg-gradient-to-b from-[#1e293b] via-[#151f2d] to-[#0f172a] text-[#e2e8f0]"
+          : "bg-gradient-to-b from-[#f3f8ff] via-[#d1e3ff] to-[#a9c9ff] text-[#2d3748]"}`
+      }
+    >
+      {/* Title Section */}
+      <div className="pt-24 pb-8 text-center">
+        <h1 className="text-4xl font-extrabold tracking-wide">
+          {theme === 'dark' ? (
+            <span className="text-indigo-400">Help & Support</span>
+          ) : (
+            <span className="text-indigo-600">Help & Support</span>
+          )}
+        </h1>
+        <p
+          className={`mt-4 text-lg font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
+        >
+          Find answers to common questions and get assistance.
+        </p>
+      </div>
 
       {/* FAQs Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold text-center mb-6">Frequently Asked Questions</h2>
-        <div>
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="mb-4">
+            <div
+              key={index}
+              className={`rounded-lg shadow-md border dark:border-gray-700 ${
+                theme === "dark" ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
+              }`}
+            >
               <div
-                className="font-bold bg-gray-100 px-4 py-2 rounded flex justify-between items-center cursor-pointer border border-gray-300"
+                className={`font-semibold px-6 py-4 rounded-t-lg flex justify-between items-center cursor-pointer ${
+                  theme === "dark" ? "bg-gray-700 text-white" : "bg-indigo-200 text-gray-800"
+                }`}
                 onClick={() => toggleFaq(index)}
               >
-                {faq.question}
+                <span>{faq.question}</span>
                 <span>{faqOpen === index ? "-" : "+"}</span>
               </div>
               {faqOpen === index && (
-                <div className="bg-blue-100 px-4 py-3 border-l-4 border-blue-500">
+                <div
+                  className={`px-6 py-4 border-t-2 rounded-b-lg ${
+                    theme === "dark" ? "bg-gray-900 text-gray-300" : "bg-blue-100 text-gray-800"
+                  }`}
+                >
                   {faq.answer}
                 </div>
               )}
             </div>
           ))}
         </div>
-      </section>
-
-      {/* User Guide Section */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-6">User Guide</h2>
-        <ul className="list-disc pl-6 space-y-2">
-          <li>Go to the 'Submit Idea' page to share your innovative ideas.</li>
-          <li>View pending approvals in the 'Approvals' section.</li>
-          <li>Check deleted ideas in the 'Bin' and restore them if needed.</li>
-        </ul>
-      </section>
-
-      {/* Troubleshooting Section */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-center mb-6">Troubleshooting</h2>
-        <p>If you're experiencing issues, try these steps:</p>
-        <ul className="list-disc pl-6 space-y-2">
-          <li>Ensure you are logged in to access all features.</li>
-          <li>Clear your browser cache if pages do not load correctly.</li>
-          <li>Contact support if problems persist.</li>
-        </ul>
-      </section>
-
-      {/* Feedback Section */}
-      <section>
-        <h2 className="text-2xl font-semibold text-center mb-6">Feedback</h2>
-        <p className="mb-4 text-center">Have suggestions or facing issues? Let us know below:</p>
-        <form className="flex flex-col space-y-4">
-          <textarea
-            placeholder="Write your feedback here..."
-            rows="4"
-            className="w-full p-4 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition"
-          >
-            Submit Feedback
-          </button>
-        </form>
       </section>
     </div>
   );
